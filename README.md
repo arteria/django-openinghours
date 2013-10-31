@@ -81,3 +81,7 @@ If you want to contribute to this project, please perform the following steps
     git add . && git commit
     git push -u origin feature_branch
     # Send us a pull request for your feature branch
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/philippeowagner/django-openinghours/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
