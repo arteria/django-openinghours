@@ -88,14 +88,6 @@ In the index.html (https://github.com/arteria/django-openinghours/blob/master/op
 
 ## Contribute
 
-
-Just send us your pull request. 
-=======
-    git co -b feature_branch master
-    # Implement your feature and tests
-    git add . && git commit
-    git push -u origin feature_branch
-    # Send us a pull request for your feature branch
-
-
+Just send us your pull request. Thanks. :)
+ 
  
