@@ -1,8 +1,9 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-WEEKDAYS = [
-    (1, _("Monday")),
+# isoweekday
+WEEKDAYS = [ 
+    (1, _("Monday")), 
     (2, _("Tuesday")),
     (3, _("Wednesday")),
     (4, _("Thursday")),
@@ -31,6 +32,9 @@ class OpeningHours(models.Model):
     fromHour = models.TimeField()
     toHour = models.TimeField()
 
+    def __unicode__(self):
+        return "%s %s (%s - %s)" % (self.company, self.weekday, self.fromHour, self.toHour)
+    
 
 class ClosingRules(models.Model):
     '''

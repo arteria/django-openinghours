@@ -1,0 +1,39 @@
+{% load i18n %}
+{% load openinghours_tags %}
+
+
+<h1>django-openinghours</h1>
+<p>
+	Covered use cases and examples for django-openinghours.
+</p>	
+
+<h2>Test is a company is currently open or not.</h2>
+
+{% verbatim %}
+<pre style="background-color: whiteSmoke; padding: 10px;">
+{% if 'company-ltd'|isCompanyCurrentlyOpen %}
+	Yes we're open!
+{% else %}
+	Sorry we're closed!
+{% endif %}
+</pre>
+{% endverbatim %}
+
+{% if 'company-ltd'|isCompanyCurrentlyOpen %}
+	Yes we're open!
+{% else %}
+	Sorry we're closed!
+{% endif %}
+
+
+<h2>List a company's opening hours</h2>
+
+{% verbatim %}
+<pre style="background-color: whiteSmoke; padding: 10px;">
+{{ 'company-ltd'|companyOpeningHoursList }}
+</pre>
+{% endverbatim %}
+
+{{ 'company-ltd'|companyOpeningHoursList }}
+
+

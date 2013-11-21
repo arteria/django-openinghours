@@ -1,15 +1,13 @@
 This Django app is in α state! Don't use it yet ...
-=================
 
 
-Django Opening Hours
-============
+
+#Django Opening Hours
 
 
 A reusable Django app to work with opening hours.
 
-Installation
-------------
+##Installation
 
 To get the latest stable release from PyPi
 
@@ -50,34 +48,37 @@ Before your tags/filters are available in your templates, load them by using
 	{% load openinghours_tags %}
 
 
-Don't forget to migrate your database
+Don't forget to create your tables
 
 .. code-block:: bash
 
-    ./manage.py migrate openinghours
+    ./manage.py syncdb openinghours
 
 
-Usage
------
+Don't forget to set 'TIME_ZONE' in your project settings.
+
+
+## Usage
 
 TODO: Describe usage or point to docs. Also describe available settings and
 templatetags.
+### Setup a company
+This app supports multiple company with multiple opening and closing hours. 
+
+### Setting up opening hours
+This is used to describe when sth. (eg. the shop) is open. This is done on a daily base (per day) by defining one or more 
+start and end times of opening slots.
+
+### Setting up closing rules
+This is used to describe when sth. (eg. the shop) is closed (eg. due holiday, 
+absences, sickness or whatever). Note that the closing hours overrules the opening hours!
 
 
-Contribute
-----------
+## TODO
+* Template support for template tags, remove ugly string concating stuff
+* Shortcut for everyday (1-7) = 0 in WEEKDAYS, or 8 = monday to friday, etc.
+* Global closing hours to overrule all companies. Use cases: close a complete shopping center
 
-If you want to contribute to this project, please perform the following steps
+## Contribute
 
-.. code-block:: bash
-
-    # Fork this repository
-    # Clone your fork
-    mkvirtualenv -p python2.7 django-openinghours
-    make develop
-
-    git co -b feature_branch master
-    # Implement your feature and tests
-    git add . && git commit
-    git push -u origin feature_branch
-    # Send us a pull request for your feature branch
+Just send us your pull request. 

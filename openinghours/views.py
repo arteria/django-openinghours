@@ -1,8 +1,6 @@
-"""Views for the openinghours app."""
-# from django.views.generic import TemplateView
-
-# from . import models
+from django.shortcuts import render_to_response
 
 
-# class YourView(TemplateView):
-#    template_name = 'openinghours/default.html'
+
+def currentOpenings(request):
+    return render_to_response('openinghours/index.html', {}) 
