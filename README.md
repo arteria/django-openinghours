@@ -72,9 +72,12 @@ This app supports multiple company with multiple opening and closing hours.
 This is used to describe when sth. (eg. the shop) is open. This is done on a daily base (per day) by defining one or more 
 start and end times of opening slots.
 
-### Setting up closing rules
-This is used to describe when sth. (eg. the shop) is closed (eg. due holiday, 
+### Optionally, setting up the closing hour rules NOT IMPLEMENTED YET!
+
+This is used to describe/define when sth. (eg. the shop) is closed (eg. due holiday, 
 absences, sickness or whatever). Note that the closing hours overrules the opening hours!
+
+
 
 In the index.html (https://github.com/arteria/django-openinghours/blob/master/openinghours/templates/openinghours/index.html) you will find a lot of examples how to use this app.
 
