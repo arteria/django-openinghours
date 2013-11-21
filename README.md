@@ -17,7 +17,7 @@ To get the latest stable release from PyPi
 To get the latest commit from GitHub
 
 
-    pip install -e git+git://github.com/arteria.ch/django-openinghours.git#egg=openinghours
+    pip install -e git+git://github.com/arteria.ch/django-openinghours.git#egg=openinghours-master
 
 TODO: Describe further installation steps (edit / remove the examples below):
 
@@ -71,10 +71,14 @@ absences, sickness or whatever). Note that the closing hours overrules the openi
 
 In the index.html (https://github.com/arteria/django-openinghours/blob/master/openinghours/templates/openinghours/index.html) you will find a lot of examples how to use this app.
 
-## TODO
-* Shortcut for everyday (1-7) = 0 in WEEKDAYS, or 8 = monday to friday, etc.
-* Global closing hours to overrule all companies. Use cases: close a complete shopping center
-* Implement closing hours, currently you can define them but, .. WIP
+## TODOs and planned Features
+Priority 1 = high/must have, 2 =  and 3 = low/nice to have
+
+* (1) Implement closing hours, currently you can define them but, .. WIP
+* (1) "Next time opened" function returning when (eg.) shop is open for the next time
+* (2) Handle midnight, allow hours like MON 21h00 to 01h00, used for Clubs, etc.
+* (3) Shortcut for everyday (1-7) = 0 in WEEKDAYS, or 8 = monday to friday, etc.
+* (3) Global closing hours to overrule all companies. Use cases: close a complete shopping center
 
 ## Contribute
 
