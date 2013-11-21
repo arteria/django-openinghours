@@ -59,7 +59,8 @@ Don't forget to create your tables
     ./manage.py syncdb openinghours
 
 
-Don't forget to set 'TIME_ZONE' in your project settings.
+
+Don't forget to set ``'TIME_ZONE'`` in your project settings.
 
 
 ## Usage
