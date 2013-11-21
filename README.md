@@ -5,7 +5,11 @@ This Django app is in α state! Don't use it yet ...
 #Django Opening Hours
 
 
-A reusable Django app to work with opening hours.
+A reusable Django app to work with opening hours. Currently the main two use cases are: 
+
+* to visualise if a company is currently open or not
+* to list the opening hours, eg. MON 9h00 to 17h00, etc.
+
 
 ##Installation
 
@@ -60,8 +64,6 @@ Don't forget to set 'TIME_ZONE' in your project settings.
 
 ## Usage
 
-TODO: Describe usage or point to docs. Also describe available settings and
-templatetags.
 ### Setup a company
 This app supports multiple company with multiple opening and closing hours. 
 
@@ -73,11 +75,12 @@ start and end times of opening slots.
 This is used to describe when sth. (eg. the shop) is closed (eg. due holiday, 
 absences, sickness or whatever). Note that the closing hours overrules the opening hours!
 
+In the index.html (https://github.com/arteria/django-openinghours/blob/master/openinghours/templates/openinghours/index.html) you will find a lot of examples how to use this app.
 
 ## TODO
-* Template support for template tags, remove ugly string concating stuff
 * Shortcut for everyday (1-7) = 0 in WEEKDAYS, or 8 = monday to friday, etc.
 * Global closing hours to overrule all companies. Use cases: close a complete shopping center
+* Implement closing hours, currently you can define them but, .. WIP
 
 ## Contribute
 
