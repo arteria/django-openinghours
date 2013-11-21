@@ -1,7 +1,3 @@
-This Django app is in α state! Don't use it yet ...
-
-
-
 #Django Opening Hours
 
 
@@ -15,13 +11,11 @@ A reusable Django app to work with opening hours. Currently the main two use cas
 
 To get the latest stable release from PyPi
 
-.. code-block:: bash
 
     pip install django-openinghours
 
 To get the latest commit from GitHub
 
-.. code-block:: bash
 
     pip install -e git+git://github.com/arteria.ch/django-openinghours.git#egg=openinghours
 
@@ -29,7 +23,6 @@ TODO: Describe further installation steps (edit / remove the examples below):
 
 Add ``openinghours`` to your ``INSTALLED_APPS``
 
-.. code-block:: python
 
     INSTALLED_APPS = (
         ...,
@@ -38,7 +31,6 @@ Add ``openinghours`` to your ``INSTALLED_APPS``
 
 Add the ``openinghours`` URLs to your ``urls.py``
 
-.. code-block:: python
 
     urlpatterns = patterns('',
         ...
@@ -47,14 +39,12 @@ Add the ``openinghours`` URLs to your ``urls.py``
 
 Before your tags/filters are available in your templates, load them by using
 
-.. code-block:: html
 
 	{% load openinghours_tags %}
 
 
 Don't forget to create your tables
 
-.. code-block:: bash
 
     ./manage.py syncdb openinghours
 
