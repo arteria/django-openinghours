@@ -13,17 +13,29 @@ register = template.Library()
 
 #TODO: https://docs.djangoproject.com/en/1.5/topics/i18n/timezones/#time-zones-in-templates
 
-@register.filter(expects_localtime=True)
-def isCompanyCurrentlyOpen(companySlug):
-    return isOpen(companySlug)
 
-@register.filter(expects_localtime=True) 
-def getCompanyNextOpeningHour(companySlug):
-    return nextTimeOpen(companySlug)
+
+@register.filter(expects_localtime=True)
+def isCompanyCurrentlyOpen(companySlug, attr=None):
+    obj = isOpen(companySlug)
+    if obj is False:
+        return False
+    return getattr(obj, attr, obj) 
     
 @register.filter(expects_localtime=True) 
-def hasCompanyClosingRuleForNow(companySlug):
-    return hasClosingRuleForNow(companySlug)
+def getCompanyNextOpeningHour(companySlug, attr=None):
+    obj = nextTimeOpen(companySlug)
+    if obj is False:
+        return False
+    return getattr(obj, attr, obj) 
+    
+@register.filter(expects_localtime=True) 
+def hasCompanyClosingRuleForNow(companySlug, attr=None):
+    obj = hasClosingRuleForNow(companySlug)
+    if obj is False:
+        return False
+    return getattr(obj, attr, obj) 
+        
     
 @register.filter
 def companyOpeningHoursList(companySlug):
@@ -31,7 +43,7 @@ def companyOpeningHoursList(companySlug):
     ''' 
     ans = []
     #tAns = ''
-    ohrs = OpeningHours.objects.filter(company__slug=companySlug).order_by('weekday','fromHour')
+    ohrs = OpeningHours.objects.filter(company__slug=companySlug).order_by('weekday', 'fromHour')
     for o in ohrs:
         lWD = ''
         for wd in WEEKDAYS: 

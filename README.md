@@ -86,6 +86,8 @@ In the index.html (https://github.com/arteria/django-openinghours/blob/master/op
 ### Latest/Development Version
 
 Please check the latest commits for development version.
+### 0.0.6
+* Added attribut access in template tags.
 
 ### 0.0.5
 * Returning the OpeningHours when company is open (instead of True).
