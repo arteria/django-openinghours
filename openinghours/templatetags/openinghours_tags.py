@@ -6,6 +6,7 @@ from django.template.loader import render_to_string
  
 import datetime
 from openinghours.models import *
+from openinghours.utils import *
 
 register = template.Library()
 
@@ -14,16 +15,7 @@ register = template.Library()
 
 @register.filter(expects_localtime=True)
 def isCompanyCurrentlyOpen(companySlug):
-    '''
-    Is the company currently open?
-    '''
-    now = datetime.datetime.now()
-    nowTime = datetime.time(datetime.datetime.now().hour,datetime.datetime.now().minute, datetime.datetime.now().second)
-    return bool(OpeningHours.objects.filter(company__slug=companySlug, 
-            weekday=now.isoweekday(), 
-            fromHour__lte=nowTime, 
-            toHour__gte=nowTime).count())
-    # TODO: closing hours!
+    return isOpen(companySlug)
     
     
 @register.filter

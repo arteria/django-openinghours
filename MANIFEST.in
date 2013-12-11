@@ -7,3 +7,5 @@ graft openinghours
 global-exclude *.orig *.pyc *.log *.swp
 prune openinghours/tests/coverage
 prune openinghours/.ropeproject
+recursive-include openinghours/templates *
+recursive-include docs *

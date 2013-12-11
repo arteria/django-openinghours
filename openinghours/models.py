@@ -47,4 +47,4 @@ class ClosingRules(models.Model):
     reason = models.TextField(null=True, blank=True)
 
     def __unicode__(self):
-        return "%s is closed from %s to %s due to %s" % (self.company.anme, str(self.start), str(self.end), self.reason)
+        return "%s is closed from %s to %s due to %s" % (self.company.name, str(self.start), str(self.end), self.reason)
