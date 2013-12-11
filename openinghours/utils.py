@@ -39,7 +39,7 @@ def isOpen(companySlug, now=None):
         is_open = False
         if (oh.weekday == now.isoweekday() and oh.fromHour <= nowTime and 
                 ((oh.toHour >= nowTime and oh.toHour <= datetime.time(23, 59, 59)) or 
-                ( oh.toHour >= datetime.time(0, 0, 0) and oh.toHour <= nowTime ) ) ):
+                ( oh.toHour >= datetime.time(0, 0, 0) and oh.toHour <= nowTime and oh.toHour < oh.fromHour) ) ):
             #print "regular case, same day between bounds", oh
             is_open = oh
             
