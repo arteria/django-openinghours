@@ -3,6 +3,9 @@ import datetime
 from .models import *
 
 def getClosingRuleForNow(companySlug, now=None):
+    '''
+    Access the closing rules for a company
+    '''
     if now is None:
         now = datetime.datetime.now()
     cr = ClosingRules.objects.filter(company__slug=companySlug, start__lte=now, end__gte=now)
@@ -10,43 +13,71 @@ def getClosingRuleForNow(companySlug, now=None):
     
     
 def hasClosingRuleForNow(companySlug, now=None):
+    '''
+    Has the company closing rules to evaluate?
+    '''
     cr = getClosingRuleForNow(companySlug, now)
     return cr.count()
     
     
-def isOpen(companySlug):
+def isOpen(companySlug, now=None):
     '''
-    Is the company currently open?
+    Is the company currently open? Pass "now" to test with a specific timestamp.
+    This method is used as stand alone and helper.
     '''
-    now = datetime.datetime.now()
+    if now is None:
+        now = datetime.datetime.now()
+    print "isOpen", now, now.isoweekday()
     
-    nowTime = datetime.time(datetime.datetime.now().hour, 
-            datetime.datetime.now().minute, 
-            datetime.datetime.now().second)
+    if hasClosingRuleForNow(companySlug, now):
+        return False
+        
+    nowTime = datetime.time(now.hour, now.minute, now.second)
     
-    # Regular case before midnight
-    matches = OpeningHours.objects.filter(company__slug=companySlug, 
-            weekday=now.isoweekday(), 
-            fromHour__lte=nowTime, 
-            toHour__gte=nowTime).count()
+    ohs = OpeningHours.objects.filter(company__slug=companySlug)
+    for oh in ohs:
+        is_open = False
+        if (oh.weekday == now.isoweekday() and oh.fromHour <= nowTime and 
+                ((oh.toHour >= nowTime and oh.toHour <= datetime.time(23, 59, 59)) or 
+                ( oh.toHour >= datetime.time(0, 0, 0) and oh.toHour <= nowTime ) ) ):
+            #print "regular case, same day between bounds", oh
+            is_open = True
+            
+        if (oh.weekday == (now.isoweekday()-1)%7 and oh.fromHour >= nowTime and oh.toHour >= nowTime and oh.toHour < oh.fromHour):
+            is_open = True
+            #print " 'Special' case after midnight", oh
+        
+        if is_open:
+            return True
+    return False
     
-    # "Special" case after midnight ( eg. Friday 22:00:00 .. 02:00:00)
-    matches += OpeningHours.objects.filter(company__slug=companySlug, 
-                weekday=(now.isoweekday()-1)%7, 
-                fromHour__gte=nowTime, 
-                toHour__gte=nowTime).count()
 
-    if matches:
-        if hasClosingRuleForNow(companySlug, now):
-            matches = 0
-    return bool(matches)
-
-
-def isClosed(companySlug):
+def isClosed(companySlug, now=None):
     ''' Inverse function for isOpen. '''
-    return not isOpen(companySlug)
+    return not isOpen(companySlug, now)
     
     
-def nextTimeOpen():
-    pass
-
+def nextTimeOpen(companySlug):
+    ''' 
+    Returns the next possible opening hours object ( aka when is the company open for the next time?).
+    '''
+    if isClosed(companySlug):
+        now = datetime.datetime.now()
+        nowTime = datetime.time(now.hour, now.minute, now.second)
+        foundOpeningHours = False
+        for i in range(8):
+            if i>0:
+                lWeekday = (now.isoweekday()+i)%7
+                print lWeekday, i
+                ohs = OpeningHours.objects.filter(company__slug=companySlug, weekday=lWeekday).order_by('weekday','fromHour')
+                if ohs.count():
+                    for oh in ohs:
+                        # we have a match
+                        futureNow = now + datetime.timedelta(days=i)
+                        tmpNow = datetime.datetime(futureNow.year, futureNow.month, futureNow.day, oh.fromHour.hour, oh.fromHour.minute, oh.fromHour.second)
+                        if isOpen(companySlug, now=tmpNow):
+                            foundOpeningHours = oh
+                            break
+                    if foundOpeningHours is not False:
+                        return foundOpeningHours
+    return False
