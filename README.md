@@ -87,10 +87,11 @@ In the index.html (https://github.com/arteria/django-openinghours/blob/master/op
 
 Please check the latest commits for development version.
 
-### 0.0.8
+### 0.0.8, 0.0.9,  0.0.10
 
-* Partial closing/opening
+* Partial closing/opening hours with overlapping support
 * Added template tag ``getCompanyClosingRuleForNow``.
+* Bugfix
 
 
 ### 0.0.7

@@ -46,11 +46,12 @@ def hasCompanyClosingRuleForNow(companySlug, attr=None):
 
 @register.filter(expects_localtime=True) 
 def getCompanyClosingRuleForNow(companySlug, attr=None):
+    ''' this only access the first! closing rule. because closed is closed. '''
     obj = getClosingRuleForNow(companySlug)
     if obj is False:
         return False
     if attr is not None:
-        return getattr(obj, attr) 
+        return getattr(obj[0], attr) 
     return obj
                
     

@@ -4,7 +4,7 @@ from .models import *
 
 def getClosingRuleForNow(companySlug, now=None):
     '''
-    Access the closing rules for a company
+    Access the all closing rules for a company
     '''
     if now is None:
         now = datetime.datetime.now()
