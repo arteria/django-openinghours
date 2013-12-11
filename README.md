@@ -8,7 +8,7 @@ A reusable Django app to work with opening hours that comes with the following f
 * Able to list the opening hours, eg. MON 9h00 to 17h00, etc. for one or more companies.
 * Posible to define opening hours that pass midnight.
 * Posible to define closing hours, eg. for holiday. 
-* 
+
 
 
 ##Installation
@@ -86,6 +86,9 @@ In the index.html (https://github.com/arteria/django-openinghours/blob/master/op
 ### Latest/Development Version
 
 Please check the latest commits for development version.
+
+### 0.0.4
+* Added some template tags: ``getCompanyNextOpeningHour`` and  ``hasCompanyClosingRuleForNow``.
 
 ### 0.0.3 
 * "Next time opened" function returning when (eg.) shop is open for the next time

@@ -16,7 +16,14 @@ register = template.Library()
 @register.filter(expects_localtime=True)
 def isCompanyCurrentlyOpen(companySlug):
     return isOpen(companySlug)
+
+@register.filter(expects_localtime=True) 
+def getCompanyNextOpeningHour(companySlug):
+    return nextTimeOpen(companySlug)
     
+@register.filter(expects_localtime=True) 
+def hasCompanyClosingRuleForNow(companySlug):
+    return hasClosingRuleForNow(companySlug)
     
 @register.filter
 def companyOpeningHoursList(companySlug):
