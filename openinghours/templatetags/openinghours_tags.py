@@ -2,6 +2,7 @@ from django import template
 from django.utils.safestring import mark_safe
 from django.utils.encoding import force_unicode 
 from django.template.loader import render_to_string
+from django.utils.translation import ugettext_lazy as _
 
  
 import datetime
@@ -14,6 +15,23 @@ register = template.Library()
 #TODO: https://docs.djangoproject.com/en/1.5/topics/i18n/timezones/#time-zones-in-templates
 
 
+@register.filter(expects_localtime=True)
+def isoDayToWeekday(d):
+    if int(d) == datetime.datetime.now().isoweekday():
+        return _("today")
+    for w in WEEKDAYS:
+        if w[0] == int(d):
+            return w[1]
+
+
+@register.filter(expects_localtime=True)
+def toWeekday(dateObjTpl):
+    oh, dateObj = dateObjTpl
+    if dateObj.isoweekday() == datetime.datetime.now().isoweekday() and (dateObj - datetime.datetime.now()).days == 0:
+        return _("today")
+    for w in WEEKDAYS:
+        if w[0] == int(dateObj.isoweekday()):
+            return w[1]
 
 @register.filter(expects_localtime=True)
 def isCompanyCurrentlyOpen(companySlug, attr=None):
@@ -27,12 +45,13 @@ def isCompanyCurrentlyOpen(companySlug, attr=None):
     
 @register.filter(expects_localtime=True) 
 def getCompanyNextOpeningHour(companySlug, attr=None):
-    obj = nextTimeOpen(companySlug)
+    ''' ''' 
+    obj, ts = nextTimeOpen(companySlug)
     if obj is False:
-        return False
-    if attr is not None:
+        return False 
+    elif attr is not None:
         return getattr(obj, attr) 
-    return obj
+    return obj, ts
     
     
 @register.filter(expects_localtime=True) 

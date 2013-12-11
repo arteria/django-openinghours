@@ -87,8 +87,9 @@ In the index.html (https://github.com/arteria/django-openinghours/blob/master/op
 
 Please check the latest commits for development version.
 
-### 0.0.8, 0.0.9,  0.0.10
-
+### 0.0.8 .. 0.0.26 
+* Added template tag ``isoDayToWeekday``, returns 'today' in case of today.
++ Added template tag ``toWeekday`` to handle next weeks 'today'.
 * Partial closing/opening hours with overlapping support
 * Added template tag ``getCompanyClosingRuleForNow``.
 * Bugfix

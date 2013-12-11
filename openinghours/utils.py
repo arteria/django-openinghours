@@ -37,12 +37,15 @@ def isOpen(companySlug, now=None):
     ohs = OpeningHours.objects.filter(company__slug=companySlug)
     for oh in ohs:
         is_open = False
-        if (oh.weekday == now.isoweekday() and oh.fromHour <= nowTime and 
-                ((oh.toHour >= nowTime and oh.toHour <= datetime.time(23, 59, 59)) or 
-                ( oh.toHour >= datetime.time(0, 0, 0) and oh.toHour <= nowTime and oh.toHour < oh.fromHour) ) ):
-            #print "regular case, same day between bounds", oh
+        # start and end is on the same day
+        if oh.weekday == now.isoweekday() and oh.fromHour <= nowTime and nowTime <= oh.toHour: 
+           is_open = oh
+        
+        # start and end are not on the same day and we test on the start day
+        if oh.weekday == now.isoweekday() and oh.fromHour <= nowTime and ((oh.toHour < oh.fromHour) and (nowTime < datetime.time(23, 59, 59))):
             is_open = oh
             
+        # start and end are not on the same day and we test on the end day
         if (oh.weekday == (now.isoweekday()-1)%7 and oh.fromHour >= nowTime and oh.toHour >= nowTime and oh.toHour < oh.fromHour):
             is_open = oh
             #print " 'Special' case after midnight", oh
@@ -66,18 +69,19 @@ def nextTimeOpen(companySlug):
         nowTime = datetime.time(now.hour, now.minute, now.second)
         foundOpeningHours = False
         for i in range(8):
-            if i>0:
-                lWeekday = (now.isoweekday()+i)%7
-                print lWeekday, i
-                ohs = OpeningHours.objects.filter(company__slug=companySlug, weekday=lWeekday).order_by('weekday','fromHour')
-                if ohs.count():
-                    for oh in ohs:
-                        # we have a match
-                        futureNow = now + datetime.timedelta(days=i)
-                        tmpNow = datetime.datetime(futureNow.year, futureNow.month, futureNow.day, oh.fromHour.hour, oh.fromHour.minute, oh.fromHour.second)
-                        if isOpen(companySlug, now=tmpNow):
-                            foundOpeningHours = oh
-                            break
-                    if foundOpeningHours is not False:
-                        return foundOpeningHours
-    return False
+            lWeekday = (now.isoweekday()+i)%7
+            ohs = OpeningHours.objects.filter(company__slug=companySlug, weekday=lWeekday).order_by('weekday','fromHour')
+            
+            if ohs.count():
+                for oh in ohs:
+                    futureNow = now + datetime.timedelta(days=i)
+                    # same day issue
+                    tmpNow = datetime.datetime(futureNow.year, futureNow.month, futureNow.day, oh.fromHour.hour, oh.fromHour.minute, oh.fromHour.second)
+                    if tmpNow < now:
+                        tmpNow = now # be sure to set the bound correctly...
+                    if isOpen(companySlug, now=tmpNow):
+                        foundOpeningHours = oh
+                        break
+                if foundOpeningHours is not False:
+                    return foundOpeningHours, tmpNow
+    return False, None
