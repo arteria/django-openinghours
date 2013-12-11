@@ -86,6 +86,16 @@ In the index.html (https://github.com/arteria/django-openinghours/blob/master/op
 ### Latest/Development Version
 
 Please check the latest commits for development version.
+
+### 0.0.8
+
+* Partial closing/opening
+* Added template tag ``getCompanyClosingRuleForNow``.
+
+
+### 0.0.7
+* Bugfix
+
 ### 0.0.6
 * Added attribut access in template tags.
 

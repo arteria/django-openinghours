@@ -20,22 +20,39 @@ def isCompanyCurrentlyOpen(companySlug, attr=None):
     obj = isOpen(companySlug)
     if obj is False:
         return False
-    return getattr(obj, attr, obj) 
+    if attr is not None:
+        return getattr(obj, attr) 
+    return obj
+    
     
 @register.filter(expects_localtime=True) 
 def getCompanyNextOpeningHour(companySlug, attr=None):
     obj = nextTimeOpen(companySlug)
     if obj is False:
         return False
-    return getattr(obj, attr, obj) 
+    if attr is not None:
+        return getattr(obj, attr) 
+    return obj
+    
     
 @register.filter(expects_localtime=True) 
 def hasCompanyClosingRuleForNow(companySlug, attr=None):
     obj = hasClosingRuleForNow(companySlug)
     if obj is False:
         return False
-    return getattr(obj, attr, obj) 
-        
+    if attr is not None:
+        return getattr(obj, attr) 
+    return obj
+
+@register.filter(expects_localtime=True) 
+def getCompanyClosingRuleForNow(companySlug, attr=None):
+    obj = getClosingRuleForNow(companySlug)
+    if obj is False:
+        return False
+    if attr is not None:
+        return getattr(obj, attr) 
+    return obj
+               
     
 @register.filter
 def companyOpeningHoursList(companySlug):
