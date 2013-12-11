@@ -87,6 +87,9 @@ In the index.html (https://github.com/arteria/django-openinghours/blob/master/op
 
 Please check the latest commits for development version.
 
+### 0.0.5
+* Returning the OpeningHours when company is open (instead of True).
+
 ### 0.0.4
 * Added some template tags: ``getCompanyNextOpeningHour`` and  ``hasCompanyClosingRuleForNow``.
 

@@ -41,14 +41,14 @@ def isOpen(companySlug, now=None):
                 ((oh.toHour >= nowTime and oh.toHour <= datetime.time(23, 59, 59)) or 
                 ( oh.toHour >= datetime.time(0, 0, 0) and oh.toHour <= nowTime ) ) ):
             #print "regular case, same day between bounds", oh
-            is_open = True
+            is_open = oh
             
         if (oh.weekday == (now.isoweekday()-1)%7 and oh.fromHour >= nowTime and oh.toHour >= nowTime and oh.toHour < oh.fromHour):
-            is_open = True
+            is_open = oh
             #print " 'Special' case after midnight", oh
         
-        if is_open:
-            return True
+        if is_open is not False:
+            return oh
     return False
     
 
