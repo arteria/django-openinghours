@@ -41,12 +41,13 @@ def hasClosingRuleForNow(companySlug):
     return cr.count()
     
     
-def isOpen(companySlug):
+def isOpen(companySlug, now=None):
     '''
     Is the company currently open? Pass "now" to test with a specific timestamp.
     This method is used as stand alone and helper.
     '''
-    now = getnow()
+    if now is None:
+        now = getnow()
     print "isOpen", now, now.isoweekday()
     
     if hasClosingRuleForNow(companySlug):
@@ -76,9 +77,9 @@ def isOpen(companySlug):
     return False
     
 
-def isClosed(companySlug):
+def isClosed(companySlug, now=None):
     ''' Inverse function for isOpen. '''
-    return not isOpen(companySlug)
+    return not isOpen(companySlug, now)
     
     
 def nextTimeOpen(companySlug):
