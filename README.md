@@ -87,13 +87,15 @@ In the index.html (https://github.com/arteria/django-openinghours/blob/master/op
 
 Please check the latest commits for development version.
 
+* Adding (django-threadlocals)[https://pypi.python.org/pypi/django-threadlocals/0.8] allows to do live testing of the rules defined.
+* Bugfix if closed on Sunday and open lated during the day. Next opening showed Monday.
+
 ### 0.0.8 .. 0.0.26 
 * Added template tag ``isoDayToWeekday``, returns 'today' in case of today.
 + Added template tag ``toWeekday`` to handle next weeks 'today'.
 * Partial closing/opening hours with overlapping support
 * Added template tag ``getCompanyClosingRuleForNow``.
 * Bugfix
-
 
 ### 0.0.7
 * Bugfix
@@ -122,11 +124,14 @@ Please check the latest commits for development version.
 ## TODOs and planned Features
 Priority 1 = high/must have, 2 =  and 3 = low/nice to have
 
+* (1) Migrate to Django's timezone
+* (1) Add tests
+* (2) Docus for live testing of defined rules
 * (3) Shortcut for everyday (1-7) = 0 in WEEKDAYS, or 8 = monday to friday, etc.
 * (3) Global closing hours to overrule all companies. Use cases: close a complete shopping center
 
 ## Contribute
 
-Just send us your pull request. Thanks. :)
+Just send us your pull request. File and issue. Use it. Talk about [django-openinghours](https://github.com/arteria/django-openinghours). Thanks. :)
  
  

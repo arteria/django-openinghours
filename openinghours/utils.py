@@ -1,35 +1,49 @@
 import datetime
+from django.conf import settings
 
-from .models import *
 
-def getClosingRuleForNow(companySlug, now=None):
+from openinghours.models import *
+
+def getnow():
+    ''' '''
+    now = datetime.datetime.now()
+    # Allow access global request and read a timestamp from query...
+    if 'threadlocals' in settings.INSTALLED_APPS:
+        _now = request.GET.get('openinghours-now', None)
+        if _now:
+            now = datetime.datetime.strptime(_now, '%Y%m%d%H%M%S') 
+    return now
+    
+
+
+def getClosingRuleForNow(companySlug):
     '''
     Access the all closing rules for a company
     '''
-    if now is None:
-        now = datetime.datetime.now()
+    now = getnow()
     cr = ClosingRules.objects.filter(company__slug=companySlug, start__lte=now, end__gte=now)
     return cr
     
     
-def hasClosingRuleForNow(companySlug, now=None):
+def hasClosingRuleForNow(companySlug):
     '''
     Has the company closing rules to evaluate?
     '''
-    cr = getClosingRuleForNow(companySlug, now)
+    now = getnow()
+    cr = getClosingRuleForNow(companySlug)
     return cr.count()
     
     
-def isOpen(companySlug, now=None):
+def isOpen(companySlug):
     '''
     Is the company currently open? Pass "now" to test with a specific timestamp.
     This method is used as stand alone and helper.
     '''
-    if now is None:
-        now = datetime.datetime.now()
+    now = getnow()
     print "isOpen", now, now.isoweekday()
     
-    if hasClosingRuleForNow(companySlug, now):
+    if hasClosingRuleForNow(companySlug):
+        print "hasNoClosingRule"
         return False
         
     nowTime = datetime.time(now.hour, now.minute, now.second)
@@ -55,7 +69,8 @@ def isOpen(companySlug, now=None):
     return False
     
 
-def isClosed(companySlug, now=None):
+def isClosed(companySlug):
+    now = getnow()
     ''' Inverse function for isOpen. '''
     return not isOpen(companySlug, now)
     
@@ -65,11 +80,11 @@ def nextTimeOpen(companySlug):
     Returns the next possible opening hours object ( aka when is the company open for the next time?).
     '''
     if isClosed(companySlug):
-        now = datetime.datetime.now()
+        now = getnow()
         nowTime = datetime.time(now.hour, now.minute, now.second)
         foundOpeningHours = False
         for i in range(8):
-            lWeekday = (now.isoweekday()+i)%7
+            lWeekday = (now.isoweekday()+i)%8
             ohs = OpeningHours.objects.filter(company__slug=companySlug, weekday=lWeekday).order_by('weekday','fromHour')
             
             if ohs.count():
