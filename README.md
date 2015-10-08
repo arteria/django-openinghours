@@ -87,6 +87,8 @@ In the [index.html](https://github.com/arteria/django-openinghours/blob/master/o
 
 Please check the latest commits for development version.
 
+### 0.0.27
+
 * Adding [django-threadlocals](https://pypi.python.org/pypi/django-threadlocals/0.8) allows to do live testing of the rules defined.
 * Bugfix if closed on Sunday and open lated during the day. Next opening showed Monday.
 

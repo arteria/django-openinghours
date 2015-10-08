@@ -2,13 +2,20 @@ import datetime
 from django.conf import settings
 
 
+try:
+    from threadlocals.threadlocals import get_current_request
+except ImportError:
+    get_current_request = None
+
+
 from openinghours.models import *
 
 def getnow():
     ''' '''
     now = datetime.datetime.now()
     # Allow access global request and read a timestamp from query...
-    if 'threadlocals' in settings.INSTALLED_APPS:
+    if 'get_current_request' is not None:
+        request = get_current_request()
         _now = request.GET.get('openinghours-now', None)
         if _now:
             now = datetime.datetime.strptime(_now, '%Y%m%d%H%M%S') 
