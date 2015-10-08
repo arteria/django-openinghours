@@ -74,7 +74,7 @@ absences, sickness or whatever). Note that the closing hours overrules the openi
 
 
 
-In the index.html (https://github.com/arteria/django-openinghours/blob/master/openinghours/templates/openinghours/index.html) you will find a lot of examples how to use this app.
+In the [index.html](https://github.com/arteria/django-openinghours/blob/master/openinghours/templates/openinghours/index.html) you will find a lot of examples how to use this app.
 
 ## Remarks 
 
@@ -87,7 +87,7 @@ In the index.html (https://github.com/arteria/django-openinghours/blob/master/op
 
 Please check the latest commits for development version.
 
-* Adding (django-threadlocals)[https://pypi.python.org/pypi/django-threadlocals/0.8] allows to do live testing of the rules defined.
+* Adding [django-threadlocals](https://pypi.python.org/pypi/django-threadlocals/0.8) allows to do live testing of the rules defined.
 * Bugfix if closed on Sunday and open lated during the day. Next opening showed Monday.
 
 ### 0.0.8 .. 0.0.26 
@@ -132,6 +132,6 @@ Priority 1 = high/must have, 2 =  and 3 = low/nice to have
 
 ## Contribute
 
-Just send us your pull request. File and issue. Use it. Talk about [django-openinghours](https://github.com/arteria/django-openinghours). Thanks. :)
+Just send us your pull request. File and issue. Use it. Talk about [it](https://github.com/arteria/django-openinghours). Thanks. :)
  
  
