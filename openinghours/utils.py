@@ -77,9 +77,8 @@ def isOpen(companySlug):
     
 
 def isClosed(companySlug):
-    now = getnow()
     ''' Inverse function for isOpen. '''
-    return not isOpen(companySlug, now)
+    return not isOpen(companySlug)
     
     
 def nextTimeOpen(companySlug):
