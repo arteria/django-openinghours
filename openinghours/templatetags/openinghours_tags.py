@@ -16,7 +16,7 @@ register = template.Library()
 
 @register.filter(expects_localtime=True)
 def isoDayToWeekday(d):
-    if int(d) == datetime.datetime.now().isoweekday():
+    if int(d) == getnow().isoweekday():
         return _("today")
     for w in WEEKDAYS:
         if w[0] == int(d):
@@ -26,7 +26,7 @@ def isoDayToWeekday(d):
 @register.filter(expects_localtime=True)
 def toWeekday(dateObjTpl):
     oh, dateObj = dateObjTpl
-    if dateObj.isoweekday() == datetime.datetime.now().isoweekday() and (dateObj - datetime.datetime.now()).days == 0:
+    if dateObj.isoweekday() == getnow().isoweekday() and (dateObj - getnow()).days == 0:
         return _("today")
     for w in WEEKDAYS:
         if w[0] == int(dateObj.isoweekday()):
