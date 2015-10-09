@@ -26,7 +26,8 @@ def isoDayToWeekday(d):
 @register.filter(expects_localtime=True)
 def toWeekday(dateObjTpl):
     oh, dateObj = dateObjTpl
-    if dateObj.isoweekday() == getnow().isoweekday() and (dateObj - getnow()).days == 0:
+    now = getnow()
+    if dateObj.isoweekday() == now.isoweekday() and (dateObj - now).days == 0:
         return _("today")
     for w in WEEKDAYS:
         if w[0] == int(dateObj.isoweekday()):
