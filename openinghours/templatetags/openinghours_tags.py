@@ -78,11 +78,11 @@ def getCompanyClosingRuleForNow(companySlug, attr=None):
     return obj
                
     
-@register.inclusion_tag('openinghours/companyOpeningHoursList.html')
-def companyOpeningHoursList(companySlug=None):
-    '''
-    ''' 
-    ans = []
+@register.simple_tag
+def companyOpeningHoursList(companySlug=None, concise=False):
+    ''' Creates a rendered listing of hours. ''' 
+    template_name = 'openinghours/companyOpeningHoursList.html'
+    days = [] # [{'hours': '9:00am to 5:00pm', 'name': u'Monday'}, {'hours': '9:00am to...
 
     #If a `companySlug` is not provided, choose the first company.
     if companySlug: 
@@ -93,15 +93,46 @@ def companyOpeningHoursList(companySlug=None):
     ohrs.order_by('weekday', 'fromHour')
 
     for o in ohrs:
-        lWD = ''
-        for wd in WEEKDAYS: 
-            print wd[0], o.weekday, wd[0] == o.weekday
-            if wd[0] == o.weekday:
-                lWD = wd[1]
-                print lWD
-                break
-        fromT = "%02d:%02d" % (o.fromHour.hour, o.fromHour.minute)
-        toT = "%02d:%02d" % (o.toHour.hour, o.toHour.minute)
-        ans.append([force_unicode(lWD), fromT, toT])
-         
-    return {'ohrs': ans}
+        days.append({
+            'name': o.get_weekday_display(),
+            'hours': '%s%s to %s%s' % (
+                o.fromHour.strftime('%I:%M').lstrip('0'), 
+                o.fromHour.strftime('%p').lower(),
+                o.toHour.strftime('%I:%M').lstrip('0'), 
+                o.toHour.strftime('%p').lower()
+            )
+        })
+    for day in WEEKDAYS:
+        if day[1] not in [open_day['name'] for open_day in days]:
+            days.append({
+                'name': str(day[1]),
+                'hours': 'Closed'
+            })
+
+    if concise:
+        # [{'hours': '9:00am to 5:00pm', 'day_names': u'Monday to Friday'}, {'hours':...
+        template_name = 'openinghours/companyOpeningHoursListConcise.html'
+        concise_days = []
+        current_set = {}
+        for day in days:
+            if 'hours' not in current_set.keys():
+                current_set = {'day_names': [day['name'],], 'hours': day['hours']}
+            elif day['hours'] != current_set['hours']:
+                concise_days.append(current_set)
+                current_set = {'day_names': [day['name'],], 'hours': day['hours']}
+            else:
+                current_set['day_names'].append(day['name'])
+        concise_days.append(current_set)
+
+        for day_set in concise_days:
+            if len(day_set['day_names']) > 2:
+                day_set['day_names'] = '%s to %s' % (day_set['day_names'][0], day_set['day_names'][-1])
+            elif len(day_set['day_names']) > 1:
+                day_set['day_names'] = '%s and %s' % (day_set['day_names'][0], day_set['day_names'][-1])
+        
+        days = concise_days
+
+    t = template.loader.get_template(template_name)
+    return t.render(template.Context({
+        'days': days
+    }))
