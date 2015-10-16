@@ -11,7 +11,8 @@
 
 {% verbatim %}
 <pre style="background-color: whiteSmoke; padding: 10px;">
-{% if 'company-ltd'|isCompanyCurrentlyOpen %}
+{% isCompanyCurrentlyOpen 'company-ltd' as company_open %}
+{% if company_open %}
 	Yes we're open!
 {% else %}
 	Sorry we're closed!
@@ -19,7 +20,8 @@
 </pre>
 {% endverbatim %}
 
-{% if 'company-ltd'|isCompanyCurrentlyOpen %}
+{% isCompanyCurrentlyOpen 'company-ltd' as company_open %}
+{% if company_open %}
 	Yes we're open!
 {% else %}
 	Sorry we're closed!
@@ -30,10 +32,10 @@
 
 {% verbatim %}
 <pre style="background-color: whiteSmoke; padding: 10px;">
-{{ 'company-ltd'|companyOpeningHoursList }}
+{% companyOpeningHoursList 'company-ltd' %}
 </pre>
 {% endverbatim %}
 
-{{ 'company-ltd'|companyOpeningHoursList }}
+{% companyOpeningHoursList 'company-ltd' %}
 
 

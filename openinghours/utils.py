@@ -14,13 +14,15 @@ def getnow():
     ''' '''
     now = datetime.datetime.now()
     # Allow access global request and read a timestamp from query...
+    # I'm not exactly sure what you were trying to do here so I left it. - JJ
     if 'get_current_request' is not None:
         request = get_current_request()
-        _now = request.GET.get('openinghours-now', None)
-        if _now:
-            now = datetime.datetime.strptime(_now, '%Y%m%d%H%M%S') 
+        try:
+            _now = request.GET.get('openinghours-now', None)
+            now = datetime.datetime.strptime(_now, '%Y%m%d%H%M%S')
+        except AttributeError:
+            pass  
     return now
-    
 
 
 def getClosingRuleForNow(companySlug):
@@ -28,7 +30,10 @@ def getClosingRuleForNow(companySlug):
     Access the all closing rules for a company
     '''
     now = getnow()
-    cr = ClosingRules.objects.filter(company__slug=companySlug, start__lte=now, end__gte=now)
+    if companySlug:
+        cr = ClosingRules.objects.filter(company__slug=companySlug, start__lte=now, end__gte=now)
+    else:
+        cr = Company.objects.first().closingrules_set.filter(start__lte=now, end__gte=now)
     return cr
     
     
@@ -56,7 +61,10 @@ def isOpen(companySlug, now=None):
         
     nowTime = datetime.time(now.hour, now.minute, now.second)
     
-    ohs = OpeningHours.objects.filter(company__slug=companySlug)
+    if companySlug:
+        ohs = OpeningHours.objects.filter(company__slug=companySlug)
+    else:
+        ohs = Company.objects.first().openinghours_set.all()
     for oh in ohs:
         is_open = False
         # start and end is on the same day

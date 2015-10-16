@@ -1,18 +1,17 @@
+import datetime
+
 from django import template
 from django.utils.safestring import mark_safe
 from django.utils.encoding import force_unicode 
 from django.template.loader import render_to_string
 from django.utils.translation import ugettext_lazy as _
 
- 
-import datetime
 from openinghours.models import *
 from openinghours.utils import *
 
+
 register = template.Library()
 
-
- 
 
 @register.filter(expects_localtime=True)
 def isoDayToWeekday(d):
@@ -33,16 +32,16 @@ def toWeekday(dateObjTpl):
         if w[0] == int(dateObj.isoweekday()):
             return w[1]
 
-@register.filter(expects_localtime=True)
-def isCompanyCurrentlyOpen(companySlug, attr=None):
-    
+
+@register.assignment_tag
+def isCompanyCurrentlyOpen(companySlug=None, attr=None):
     obj = isOpen(companySlug)
     if obj is False:
         return False
     if attr is not None:
         return getattr(obj, attr) 
     return obj
-    
+
     
 @register.filter(expects_localtime=True) 
 def getCompanyNextOpeningHour(companySlug, attr=None):
@@ -67,6 +66,7 @@ def hasCompanyClosingRuleForNow(companySlug, attr=None):
         return getattr(obj, attr) 
     return obj
 
+
 @register.filter(expects_localtime=True) 
 def getCompanyClosingRuleForNow(companySlug, attr=None):
     ''' this only access the first! closing rule. because closed is closed. '''
@@ -78,13 +78,20 @@ def getCompanyClosingRuleForNow(companySlug, attr=None):
     return obj
                
     
-@register.filter
-def companyOpeningHoursList(companySlug):
+@register.inclusion_tag('openinghours/companyOpeningHoursList.html')
+def companyOpeningHoursList(companySlug=None):
     '''
     ''' 
     ans = []
-    #tAns = ''
-    ohrs = OpeningHours.objects.filter(company__slug=companySlug).order_by('weekday', 'fromHour')
+
+    #If a `companySlug` is not provided, choose the first company.
+    if companySlug: 
+        ohrs = OpeningHours.objects.filter(company__slug=companySlug)
+    else:
+        ohrs = Company.objects.first().openinghours_set.all()
+
+    ohrs.order_by('weekday', 'fromHour')
+
     for o in ohrs:
         lWD = ''
         for wd in WEEKDAYS: 
@@ -97,5 +104,4 @@ def companyOpeningHoursList(companySlug):
         toT = "%02d:%02d" % (o.toHour.hour, o.toHour.minute)
         ans.append([force_unicode(lWD), fromT, toT])
          
-    
-    return mark_safe(render_to_string('openinghours/companyOpeningHoursList.html', {'ohrs':ans}))
+    return {'ohrs': ans}
