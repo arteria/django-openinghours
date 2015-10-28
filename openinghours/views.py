@@ -1,5 +1,6 @@
 from django.shortcuts import render_to_response
+from django.views.generic import TemplateView
 
 
-def current_openings(request):
-    return render_to_response('openinghours/index.html', {}) 
+class CurrentOpeningsView(TemplateView):
+    template_name = "openinghours/index.html"

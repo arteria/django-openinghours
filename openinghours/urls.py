@@ -1,6 +1,7 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import url
+from openinghours.views import CurrentOpeningsView
 
 
-urlpatterns = patterns(
-     'openinghours.views',    url(r'^$', 'current_openings', name='openinghours_current_openings'),
-)
+urlpatterns = [
+     url(r'^$', CurrentOpeningsView.as_view(), name='openinghours_current_openings'),
+]
