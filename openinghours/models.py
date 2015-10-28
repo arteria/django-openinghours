@@ -59,6 +59,7 @@ class ClosingRules(models.Model):
     class Meta:
         verbose_name = 'Closing Rule'
         verbose_name_plural = 'Closing Rules'
+        
     company = models.ForeignKey(Company)
     start = models.DateTimeField() 
     end = models.DateTimeField()

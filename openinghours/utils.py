@@ -14,17 +14,14 @@ from openinghours.models import OpeningHours, ClosingRules, Company
 
 def get_now():
     ''' '''
-    now = datetime.datetime.now()
     # Allow access global request and read a timestamp from query...
     # I'm not exactly sure what you were trying to do here so I left it. - JJ
     if 'get_current_request' is not None:
         request = get_current_request()
-        try:
-            _now = request.GET.get('openinghours-now', None)
-            now = datetime.datetime.strptime(_now, '%Y%m%d%H%M%S')
-        except AttributeError:
-            pass  
-    return now
+        openinghours_now = request.GET.get('openinghours-now')
+        if openinghours_now:
+            return datetime.datetime.strptime(openinghours_now, '%Y%m%d%H%M%S')
+    return datetime.datetime.now()
 
 
 def get_closing_rule_for_now(company_slug):
@@ -32,18 +29,17 @@ def get_closing_rule_for_now(company_slug):
     Access the all closing rules for a company
     '''
     now = get_now()
+
     if company_slug:
-        cr = ClosingRules.objects.filter(company__slug=company_slug, start__lte=now, end__gte=now)
-    else:
-        cr = Company.objects.first().closingrules_set.filter(start__lte=now, end__gte=now)
-    return cr
+        return ClosingRules.objects.filter(company__slug=company_slug, start__lte=now, end__gte=now)
+
+    return Company.objects.first().closingrules_set.filter(start__lte=now, end__gte=now)
     
     
 def has_closing_rule_for_now(company_slug):
     '''
     Has the company closing rules to evaluate?
     '''
-    now = get_now()
     cr = get_closing_rule_for_now(company_slug)
     return cr.count()
     
@@ -55,10 +51,8 @@ def is_open(company_slug, now=None):
     '''
     if now is None:
         now = get_now()
-    print "is_open", now, now.isoweekday()
-    
+  
     if has_closing_rule_for_now(company_slug):
-        print "has_no_closing_rule"
         return False
         
     now_time = datetime.time(now.hour, now.minute, now.second)
@@ -78,7 +72,7 @@ def is_open(company_slug, now=None):
             is_open = oh
             
         # start and end are not on the same day and we test on the end day
-        if (oh.weekday == (now.isoweekday()-1)%7 and oh.from_hour >= now_time and oh.to_hour >= now_time and oh.to_hour < oh.from_hour):
+        if (oh.weekday == (now.isoweekday() - 1) % 7 and oh.from_hour >= now_time and oh.to_hour >= now_time and oh.to_hour < oh.from_hour):
             is_open = oh
             #print " 'Special' case after midnight", oh
         
@@ -96,8 +90,8 @@ def next_time_open(company_slug):
         now_time = datetime.time(now.hour, now.minute, now.second)
         found_opening_hours = False
         for i in range(8):
-            lWeekday = (now.isoweekday()+i)%8
-            ohs = OpeningHours.objects.filter(company__slug=company_slug, weekday=lWeekday).order_by('weekday','from_hour')
+            l_weekday = (now.isoweekday() + i) % 8
+            ohs = OpeningHours.objects.filter(company__slug=company_slug, weekday=l_weekday).order_by('weekday','from_hour')
             
             if ohs.count():
                 for oh in ohs:
