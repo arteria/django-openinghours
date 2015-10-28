@@ -1,9 +1,9 @@
 <table>
-{% for o in ohrs %} 
-<tr>
-<td>{{ o.0 }}</td><td>{{ o.1 }}</td><td> - </td><td>{{ o.2 }}</td>
-</tr>
+{% for day in days %}
+	{% if day.hours != 'Closed' %}
+	<tr><td>{{ day.name }}</td><td>{{ day.hours }}</td></tr>
+	{% endif %}
 {% empty %}
-Sorry we're closed!
+	Sorry we're closed!
 {% endfor %}
 </table>
