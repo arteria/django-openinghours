@@ -1,6 +1,5 @@
 from django.shortcuts import render_to_response
 
 
-
-def currentOpenings(request):
+def current_openings(request):
     return render_to_response('openinghours/index.html', {}) 

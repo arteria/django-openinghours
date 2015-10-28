@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
+from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
-from django.db import models
+
 
 # isoweekday
 WEEKDAYS = [ 
@@ -31,6 +32,7 @@ class Company(models.Model):
     def __str__(self):
         return "%s (%s)" % (self.name, self.slug)
 
+
 @python_2_unicode_compatible
 class OpeningHours(models.Model):
     '''
@@ -41,12 +43,13 @@ class OpeningHours(models.Model):
         
     company = models.ForeignKey(Company)
     weekday = models.IntegerField(choices=WEEKDAYS)
-    fromHour = models.TimeField()
-    toHour = models.TimeField()
+    from_hour = models.TimeField()
+    to_hour = models.TimeField()
 
     def __str__(self):
-        return "%s %s (%s - %s)" % (self.company, self.weekday, self.fromHour, self.toHour)
+        return "%s %s (%s - %s)" % (self.company, self.weekday, self.from_hour, self.to_hour)
     
+
 @python_2_unicode_compatible
 class ClosingRules(models.Model):
     '''

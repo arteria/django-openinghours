@@ -15,7 +15,7 @@ register = template.Library()
 
 @register.filter(expects_localtime=True)
 def isoDayToWeekday(d):
-    if int(d) == getnow().isoweekday():
+    if int(d) == get_now().isoweekday():
         return _("today")
     for w in WEEKDAYS:
         if w[0] == int(d):
@@ -24,18 +24,18 @@ def isoDayToWeekday(d):
 
 @register.filter(expects_localtime=True)
 def toWeekday(dateObjTpl):
-    oh, dateObj = dateObjTpl
-    now = getnow()
-    if dateObj.isoweekday() == now.isoweekday() and (dateObj - now).days == 0:
+    oh, date_obj = dateObjTpl
+    now = get_now()
+    if date_obj.isoweekday() == now.isoweekday() and (date_obj - now).days == 0:
         return _("today")
     for w in WEEKDAYS:
-        if w[0] == int(dateObj.isoweekday()):
+        if w[0] == int(date_obj.isoweekday()):
             return w[1]
 
 
 @register.assignment_tag
-def isCompanyCurrentlyOpen(companySlug=None, attr=None):
-    obj = isOpen(companySlug)
+def isCompanyCurrentlyOpen(company_slug=None, attr=None):
+    obj = is_open(company_slug)
     if obj is False:
         return False
     if attr is not None:
@@ -44,12 +44,12 @@ def isCompanyCurrentlyOpen(companySlug=None, attr=None):
 
     
 @register.filter(expects_localtime=True) 
-def getCompanyNextOpeningHour(companySlug, attr=None):
+def getCompanyNextOpeningHour(company_slug, attr=None):
     ''' 
     `attr` allowes to acces to a attribute of the OpeningHours model. 
     This is handy to access the start time for example...
     ''' 
-    obj, ts = nextTimeOpen(companySlug)
+    obj, ts = next_time_open(company_slug)
     if obj is False:
         return False 
     elif attr is not None:
@@ -58,8 +58,8 @@ def getCompanyNextOpeningHour(companySlug, attr=None):
     
     
 @register.filter(expects_localtime=True) 
-def hasCompanyClosingRuleForNow(companySlug, attr=None):
-    obj = hasClosingRuleForNow(companySlug)
+def has_closing_rule_for_now(company_slug, attr=None):
+    obj = has_closing_rule_for_now(company_slug)
     if obj is False:
         return False
     if attr is not None:
@@ -68,9 +68,9 @@ def hasCompanyClosingRuleForNow(companySlug, attr=None):
 
 
 @register.filter(expects_localtime=True) 
-def getCompanyClosingRuleForNow(companySlug, attr=None):
+def getCompanyClosingRuleForNow(company_slug, attr=None):
     ''' this only access the first! closing rule. because closed is closed. '''
-    obj = getClosingRuleForNow(companySlug)
+    obj = get_closing_rule_for_now(company_slug)
     if obj is False:
         return False
     if attr is not None:
@@ -79,27 +79,27 @@ def getCompanyClosingRuleForNow(companySlug, attr=None):
                
     
 @register.simple_tag
-def companyOpeningHoursList(companySlug=None, concise=False):
+def companyOpeningHoursList(company_slug=None, concise=False):
     ''' Creates a rendered listing of hours. ''' 
     template_name = 'openinghours/companyOpeningHoursList.html'
     days = [] # [{'hours': '9:00am to 5:00pm', 'name': u'Monday'}, {'hours': '9:00am to...
 
-    #If a `companySlug` is not provided, choose the first company.
-    if companySlug: 
-        ohrs = OpeningHours.objects.filter(company__slug=companySlug)
+    #If a `company_slug` is not provided, choose the first company.
+    if company_slug: 
+        ohrs = OpeningHours.objects.filter(company__slug=company_slug)
     else:
         ohrs = Company.objects.first().openinghours_set.all()
 
-    ohrs.order_by('weekday', 'fromHour')
+    ohrs.order_by('weekday', 'from_hour')
 
     for o in ohrs:
         days.append({
             'name': o.get_weekday_display(),
             'hours': '%s%s to %s%s' % (
-                o.fromHour.strftime('%I:%M').lstrip('0'), 
-                o.fromHour.strftime('%p').lower(),
-                o.toHour.strftime('%I:%M').lstrip('0'), 
-                o.toHour.strftime('%p').lower()
+                o.from_hour.strftime('%I:%M').lstrip('0'), 
+                o.from_hour.strftime('%p').lower(),
+                o.to_hour.strftime('%I:%M').lstrip('0'), 
+                o.to_hour.strftime('%p').lower()
             )
         })
     for day in WEEKDAYS:
