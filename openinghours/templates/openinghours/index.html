@@ -18,6 +18,14 @@
 	Sorry we're closed!
 {% endif %}
 </pre>
+<p>In version 0.0.27 and earlier, it was done like this:</p>
+<pre style="background-color: whiteSmoke; padding: 10px;">
+{% if 'company-ltd'|isCompanyCurrentlyOpen %}
+	Yes we're open!
+{% else %}
+	Sorry we're closed!
+{% endif %}
+</pre>
 {% endverbatim %}
 
 {% isCompanyCurrentlyOpen 'company-ltd' as company_open %}
@@ -33,6 +41,10 @@
 {% verbatim %}
 <pre style="background-color: whiteSmoke; padding: 10px;">
 {% companyOpeningHoursList 'company-ltd' %}
+</pre>
+<p>In version 0.0.27 and earlier, it was done like this:</p>
+<pre style="background-color: whiteSmoke; padding: 10px;">
+{{ 'company-ltd'|companyOpeningHoursList }}
 </pre>
 {% endverbatim %}
 
