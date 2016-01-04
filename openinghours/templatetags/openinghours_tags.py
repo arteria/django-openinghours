@@ -88,7 +88,10 @@ def companyOpeningHoursList(company_slug=None, concise=False):
     if company_slug: 
         ohrs = OpeningHours.objects.filter(company__slug=company_slug)
     else:
-        ohrs = Company.objects.first().openinghours_set.all()
+        try:
+            ohrs = Company.objects.first().openinghours_set.all()
+        except AttributeError:
+            raise Exception("You must define some opening hours to use the opening hours tags.")
 
     ohrs.order_by('weekday', 'from_hour')
 

@@ -15,9 +15,8 @@ from openinghours.models import OpeningHours, ClosingRules, Company
 def get_now():
     ''' '''
     # Allow access global request and read a timestamp from query...
-    # I'm not exactly sure what you were trying to do here so I left it. - JJ
-    if 'get_current_request' is not None:
-        request = get_current_request()
+    request = get_current_request()
+    if request:
         openinghours_now = request.GET.get('openinghours-now')
         if openinghours_now:
             return datetime.datetime.strptime(openinghours_now, '%Y%m%d%H%M%S')
