@@ -32,7 +32,7 @@ class Company(models.Model):
     logo = models.FileField(_('Logo'), upload_to='logo', null=True, blank=True)
     
     def __str__(self):
-        return "%s (%s)" % (self.name, self.slug)
+        return self.name
 
 
 @python_2_unicode_compatible
@@ -49,7 +49,12 @@ class OpeningHours(models.Model):
     to_hour = models.TimeField(_('Closing'))
 
     def __str__(self):
-        return "%s %s (%s - %s)" % (self.company, self.weekday, self.from_hour, self.to_hour)
+        return _("%(premises)s %(weekday)s (%(from_hour)s - %(to_hour)s)") % {
+            premises: self.company,
+            weekday: self.weekday,
+            from_hour: self.from_hour,
+            to_hour: self.to_hour
+        }
     
 
 @python_2_unicode_compatible
@@ -68,4 +73,9 @@ class ClosingRules(models.Model):
     reason = models.TextField(_('Reason'), null=True, blank=True)
 
     def __str__(self):
-        return "%s is closed from %s to %s due to %s" % (self.company.name, str(self.start), str(self.end), self.reason)
+        return _("%(premises)s is closed from %(start)s to %(end)s due to %(reason)s") % {
+            'premises': self.company.name,
+            'start': str(self.start),
+            'end': str(self.end),
+            'reason': self.reason
+        }
