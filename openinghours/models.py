@@ -22,6 +22,8 @@ WEEKDAYS = [
 @python_2_unicode_compatible
 class Company(models.Model):
     """
+    Default model for company premises, which can be
+    replaced using OPENINGHOURS_PREMISES_MODEL.
     """
     class Meta:
         verbose_name = _('Company')
@@ -38,6 +40,9 @@ class Company(models.Model):
 @python_2_unicode_compatible
 class OpeningHours(models.Model):
     """
+    Store opening times of company premises,
+    defined on a daily basis (per day) using one or more 
+    start and end times of opening slots.
     """
     class Meta:
         verbose_name = _('Opening Hours') # plurale tantum

@@ -29,8 +29,9 @@ def get_premises_model():
 Company = get_premises_model()
 
 def get_now():
-    """ """
-    # Allow access global request and read a timestamp from query...
+    """
+    Allows to access global request and read a timestamp from query.
+    """
     request = get_current_request()
     if request:
         openinghours_now = request.GET.get('openinghours-now')
