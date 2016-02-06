@@ -25,8 +25,6 @@ To get the latest version from GitHub
 
     pip install -e git+git://github.com/arteria.ch/django-openinghours.git#egg=openinghours-master
 
-TODO: Describe further installation steps (edit / remove the examples below):
-
 Add ``openinghours`` to your ``INSTALLED_APPS``
 
 
@@ -66,16 +64,16 @@ Set ``'TIME_ZONE'`` in your project settings.
 ## Usage
 
 
-### Setup a company
+### Set up a company
 This app supports multiple companies (or your custom model) with multiple opening and closing hours. 
 
-### Setting up opening hours
-This is used to describe when premises are open. This is done on a daily basis (per day) by defining one or more 
+### Set up opening hours
+Used to describe when premises are open, defined on a daily basis (per day) by defining one or more 
 start and end times of opening slots.
 
-### Optionally, setting up the closing hour rules
+### Optionally, set up the closing hour rules
 
-This is used to describe/define when premises are closed (e.g. due to a holiday, 
+This is used to define when premises are closed (e.g. due to a holiday, 
 absences, sickness or similar). Please note that the closing hours override the opening hours.
 
 
@@ -84,7 +82,7 @@ In the [index.html](https://github.com/arteria/django-openinghours/blob/master/o
 
 ## Remarks 
 
-* Opening hours is build using datetime's isoweekday. This means Monday is represented by number 1 and Sunday by 7.
+Opening hours is built using datetime's isoweekday. This means Monday is represented by number 1 and Sunday by 7.
 
 
 ## History and Change Log
