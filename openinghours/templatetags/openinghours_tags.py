@@ -81,7 +81,7 @@ def getCompanyClosingRuleForNow(premises_pk, attr=None):
 @register.simple_tag
 def companyOpeningHoursList(premises_pk=None, concise=False):
     """ Creates a rendered listing of hours. """
-    template_name = 'openinghours/companyOpeningHoursList.html'
+    template_name = 'openinghours/opening_hours_list.html'
     days = [] # [{'hours': '9:00am to 5:00pm', 'name': u'Monday'}, {'hours': '9:00am to...
 
     #If a `premises_pk` is not provided, choose the first company.
@@ -114,7 +114,7 @@ def companyOpeningHoursList(premises_pk=None, concise=False):
 
     if concise:
         # [{'hours': '9:00am to 5:00pm', 'day_names': u'Monday to Friday'}, {'hours':...
-        template_name = 'openinghours/companyOpeningHoursListConcise.html'
+        template_name = 'openinghours/opening_hours_list_concise.html'
         concise_days = []
         current_set = {}
         for day in days:
