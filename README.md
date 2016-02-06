@@ -1,13 +1,15 @@
 #Django Opening Hours
 
 
-A reusable Django app to work with opening hours that comes with the following features:
+A reusable Django app to work with opening hours.
 
-* Multiple company(premises) support, customisable to directly plug in your own model.
-* Able to visualise if a company is currently open or not ("Yes, we're open!", "Sorry, we're closed.").
-* Able to list the opening hours, eg. MON 9h00 to 17h00, etc. for one or more companies.
-* Posible to define opening hours that pass midnight.
-* Posible to define closing hours, eg. for holiday. 
+Comes with the following features:
+
+* Multiple company (premises) support, customisable to directly plug in your own model.
+* Able to show if a company is currently open ("Come in, we're open!", "Sorry, we're closed.").
+* Able to list the opening hours, e.g. Monday 9am to 5pm, etc. for multiple company premises.
+* Possible to define opening hours passing midnight.
+* Possible to define closing hours, e.g. for holiday. 
 
 
 
@@ -18,7 +20,7 @@ To get the latest stable release from PyPi
 
     pip install django-openinghours
 
-To get the latest commit from GitHub
+To get the latest version from GitHub
 
 
     pip install -e git+git://github.com/arteria.ch/django-openinghours.git#egg=openinghours-master
@@ -40,49 +42,49 @@ You can use the company model provided or plug your own using settings.py:
 Add the ``openinghours`` URLs to your ``urls.py``
 
 
-    urlpatterns = patterns('',
+    urlpatterns = [
         ...
         url(r'^openinghours/', include('openinghours.urls')),
-    )
+    ]
 
-Before your tags/filters are available in your templates, load them by using
+Before your tags/filters are available in your templates, load them using
 
 
 	{% load openinghours_tags %}
 
 
-Don't forget to create your tables
+Create your tables
 
 
     ./manage.py migrate openinghours
 
 
 
-Don't forget to set ``'TIME_ZONE'`` in your project settings.
+Set ``'TIME_ZONE'`` in your project settings.
 
 
 ## Usage
 
 
 ### Setup a company
-This app supports multiple companies with multiple opening and closing hours. 
+This app supports multiple companies (or your custom model) with multiple opening and closing hours. 
 
 ### Setting up opening hours
-This is used to describe when sth. (eg. the shop) is open. This is done on a daily base (per day) by defining one or more 
+This is used to describe when premises are open. This is done on a daily basis (per day) by defining one or more 
 start and end times of opening slots.
 
 ### Optionally, setting up the closing hour rules
 
-This is used to describe/define when sth. (eg. the shop) is closed (eg. due holiday, 
-absences, sickness or whatever). Note that the closing hours overrules the opening hours!
+This is used to describe/define when premises are closed (e.g. due to a holiday, 
+absences, sickness or similar). Please note that the closing hours override the opening hours.
 
 
 
-In the [index.html](https://github.com/arteria/django-openinghours/blob/master/openinghours/templates/openinghours/index.html) you will find a lot of examples how to use this app.
+In the [index.html](https://github.com/arteria/django-openinghours/blob/master/openinghours/templates/openinghours/index.html) you will find a lot of examples of how to use this app.
 
 ## Remarks 
 
-* Opening hours is build using datetime's isoweekday. This means Monday is represented by 1 and Sunday by 7.
+* Opening hours is build using datetime's isoweekday. This means Monday is represented by number 1 and Sunday by 7.
 
 
 ## History and Change Log
@@ -93,8 +95,8 @@ Please check the latest commits for development version.
 
 ### 0.0.27
 
-* Adding [django-threadlocals](https://pypi.python.org/pypi/django-threadlocals/0.8) allows to do live testing of the rules defined.
-* Bugfix if closed on Sunday and open lated during the day. Next opening showed Monday.
+* Adding [django-threadlocals](https://pypi.python.org/pypi/django-threadlocals/0.8) allows for live testing of the rules defined.
+* Bugfix if closed on Sunday and open later during the day. Next opening showed Monday.
 
 ### 0.0.8 .. 0.0.26 
 * Added template tag ``isoDayToWeekday``, returns 'today' in case of today.
@@ -122,7 +124,6 @@ Please check the latest commits for development version.
 * Handle midnight, allow hours like MON 21h00 to 01h00. Eg. used for Night Clubs, etc.
 * Implemented closing hours.
 
-
 ### 0.0.1
 * Inital version
 
@@ -134,10 +135,10 @@ Priority 1 = high/must have, 2 =  and 3 = low/nice to have
 * (1) Add tests
 * (2) Docus for live testing of defined rules
 * (3) Shortcut for everyday (1-7) = 0 in WEEKDAYS, or 8 = monday to friday, etc.
-* (3) Global closing hours to overrule all companies. Use cases: close a complete shopping center
+* (3) Global closing hours to override all companies. Use cases: close a whole shopping centre
 
 ## Contribute
 
-Just send us your pull request. File and issue. Use it. Talk about [it](https://github.com/arteria/django-openinghours). Thanks. :)
+Just send us your pull request. File and issue. Use it. Talk about [it](https://github.com/arteria/django-openinghours). Thank you
  
  
