@@ -24,8 +24,8 @@ class Company(models.Model):
     """
     """
     class Meta:
-        verbose_name = 'Company'
-        verbose_name_plural = 'Companies'
+        verbose_name = _('Company')
+        verbose_name_plural = _('Companies')
     
     name = models.CharField(_('Name'), max_length=100)
     slug = models.SlugField(_('Slug'), unique=True)
