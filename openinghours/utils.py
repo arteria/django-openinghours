@@ -1,16 +1,32 @@
 import datetime
-
 from django.conf import settings
-
-
 try:
     from threadlocals.threadlocals import get_current_request
 except ImportError:
     get_current_request = None
+from openinghours.models import OpeningHours, ClosingRules, PREMISES_MODEL
+from django.apps import apps
+from django.core.exceptions import ImproperlyConfigured
 
 
-from openinghours.models import OpeningHours, ClosingRules, Company
+def get_premises_model():
+    '''
+    Support for custom company premises model
+    with developer friendly validation.
+    '''
+    try:
+        app_label, model_name = PREMISES_MODEL.split('.')
+    except ValueError:
+        raise ImproperlyConfigured("OPENINGHOURS_PREMISES_MODEL must be of the"
+                                   " form 'app_label.model_name'")
+    premises_model = apps.get_model(app_label=app_label, model_name=model_name)
+    if premises_model is None:
+        raise ImproperlyConfigured("OPENINGHOURS_PREMISES_MODEL refers to model"
+                                   " '%s' that has not been installed"
+                                   % PREMISES_MODEL)
+    return premises_model
 
+Company = get_premises_model()
 
 def get_now():
     ''' '''

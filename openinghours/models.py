@@ -3,11 +3,9 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
+from django.conf import settings
 
-try:
-    from django.conf.settings import OPENINGHOURS_PREMISES_MODEL
-except ImportError:
-    OPENINGHOURS_PREMISES_MODEL = 'openinghours.models.Company'
+PREMISES_MODEL = getattr(settings, 'OPENINGHOURS_PREMISES_MODEL', 'openinghours.Company')
 
 # isoweekday
 WEEKDAYS = [ 
@@ -45,7 +43,7 @@ class OpeningHours(models.Model):
         verbose_name = 'Opening Hour'
         verbose_name_plural = 'Opening Hours'
         
-    company = models.ForeignKey(OPENINGHOURS_PREMISES_MODEL)
+    company = models.ForeignKey(PREMISES_MODEL)
     weekday = models.IntegerField(choices=WEEKDAYS)
     from_hour = models.TimeField()
     to_hour = models.TimeField()
@@ -64,7 +62,7 @@ class ClosingRules(models.Model):
         verbose_name = 'Closing Rule'
         verbose_name_plural = 'Closing Rules'
         
-    company = models.ForeignKey(OPENINGHOURS_PREMISES_MODEL)
+    company = models.ForeignKey(PREMISES_MODEL)
     start = models.DateTimeField() 
     end = models.DateTimeField()
     reason = models.TextField(null=True, blank=True)

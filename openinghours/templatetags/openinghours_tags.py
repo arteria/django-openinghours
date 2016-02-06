@@ -89,7 +89,7 @@ def companyOpeningHoursList(company_slug=None, concise=False):
         ohrs = OpeningHours.objects.filter(company__slug=company_slug)
     else:
         try:
-            ohrs = Company.objects.first().openinghours_set.all()
+            ohrs = get_premises_model().objects.first().openinghours_set.all()
         except AttributeError:
             raise Exception("You must define some opening hours to use the opening hours tags.")
 
