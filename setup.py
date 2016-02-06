@@ -38,7 +38,6 @@ dev_requires = [
 
 install_requires = [
     'django',
-    'django-compat',
     'django-threadlocals',
 ]
 
