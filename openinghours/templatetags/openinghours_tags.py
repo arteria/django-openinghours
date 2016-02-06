@@ -2,7 +2,6 @@ import datetime
 
 from django import template
 from django.utils.safestring import mark_safe
-from django.utils.encoding import force_unicode 
 from django.template.loader import render_to_string
 from django.utils.translation import ugettext_lazy as _
 
