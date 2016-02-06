@@ -45,10 +45,10 @@ def isCompanyCurrentlyOpen(premises_pk=None, attr=None):
     
 @register.filter(expects_localtime=True) 
 def getCompanyNextOpeningHour(premises_pk, attr=None):
-    ''' 
+    """ 
     `attr` allowes to acces to a attribute of the OpeningHours model. 
     This is handy to access the start time for example...
-    ''' 
+    """ 
     obj, ts = next_time_open(premises_pk)
     if obj is False:
         return False 
@@ -69,7 +69,7 @@ def has_closing_rule_for_now(premises_pk, attr=None):
 
 @register.filter(expects_localtime=True) 
 def getCompanyClosingRuleForNow(premises_pk, attr=None):
-    ''' this only access the first! closing rule. because closed is closed. '''
+    """ Only accesses the *first* closing rule, because closed means closed. """
     obj = get_closing_rule_for_now(premises_pk)
     if obj is False:
         return False
@@ -80,7 +80,7 @@ def getCompanyClosingRuleForNow(premises_pk, attr=None):
     
 @register.simple_tag
 def companyOpeningHoursList(premises_pk=None, concise=False):
-    ''' Creates a rendered listing of hours. '''
+    """ Creates a rendered listing of hours. """
     template_name = 'openinghours/companyOpeningHoursList.html'
     days = [] # [{'hours': '9:00am to 5:00pm', 'name': u'Monday'}, {'hours': '9:00am to...
 

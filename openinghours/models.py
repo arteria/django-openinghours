@@ -21,8 +21,8 @@ WEEKDAYS = [
 
 @python_2_unicode_compatible
 class Company(models.Model):
-    '''
-    '''
+    """
+    """
     class Meta:
         verbose_name = 'Company'
         verbose_name_plural = 'Companies'
@@ -37,8 +37,8 @@ class Company(models.Model):
 
 @python_2_unicode_compatible
 class OpeningHours(models.Model):
-    '''
-    '''
+    """
+    """
     class Meta:
         verbose_name = 'Opening Hour'
         verbose_name_plural = 'Opening Hours'
@@ -54,10 +54,10 @@ class OpeningHours(models.Model):
 
 @python_2_unicode_compatible
 class ClosingRules(models.Model):
-    '''
+    """
     Used to overrule the OpeningHours. This will "close" the store due to 
     public holiday, annual closing or private party, etc.
-    '''
+    """
     class Meta:
         verbose_name = 'Closing Rule'
         verbose_name_plural = 'Closing Rules'

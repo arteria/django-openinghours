@@ -10,10 +10,10 @@ from django.core.exceptions import ImproperlyConfigured
 
 
 def get_premises_model():
-    '''
+    """
     Support for custom company premises model
     with developer friendly validation.
-    '''
+    """
     try:
         app_label, model_name = PREMISES_MODEL.split('.')
     except ValueError:
@@ -29,7 +29,7 @@ def get_premises_model():
 Company = get_premises_model()
 
 def get_now():
-    ''' '''
+    """ """
     # Allow access global request and read a timestamp from query...
     request = get_current_request()
     if request:
@@ -40,9 +40,9 @@ def get_now():
 
 
 def get_closing_rule_for_now(premises_pk):
-    '''
-    Access the all closing rules for a company
-    '''
+    """
+    Access all the closing rules for a company
+    """
     now = get_now()
 
     if premises_pk:
@@ -52,18 +52,18 @@ def get_closing_rule_for_now(premises_pk):
     
     
 def has_closing_rule_for_now(premises_pk):
-    '''
-    Has the company closing rules to evaluate?
-    '''
+    """
+    Does the company have closing rules to evaluate?
+    """
     cr = get_closing_rule_for_now(premises_pk)
     return cr.count()
     
     
 def is_open(premises_pk, now=None):
-    '''
+    """
     Is the company currently open? Pass "now" to test with a specific timestamp.
     This method is used as stand alone and helper.
-    '''
+    """
     if now is None:
         now = get_now()
   
@@ -97,9 +97,10 @@ def is_open(premises_pk, now=None):
     
     
 def next_time_open(premises_pk):
-    ''' 
-    Returns the next possible opening hours object ( aka when is the company open for the next time?).
-    '''
+    """ 
+    Returns the next possible opening hours object.
+    I.e. when is the company open for the next time?
+    """
     if not is_open(premises_pk):
         now = get_now()
         now_time = datetime.time(now.hour, now.minute, now.second)
