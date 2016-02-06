@@ -35,7 +35,7 @@ Add ``openinghours`` to your ``INSTALLED_APPS``
 
 You can use the company model provided or plug your own using settings.py:
 
-    CUSTOM_OPENINGHOURS_PREMISES = 'yourcastleapp.models.Castle'
+    OPENINGHOURS_PREMISES_MODEL = 'yourcastleapp.models.Castle'
 
 Add the ``openinghours`` URLs to your ``urls.py``
 
