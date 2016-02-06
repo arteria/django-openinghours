@@ -76,8 +76,6 @@ start and end times of opening slots.
 This is used to define when premises are closed (e.g. due to a holiday, 
 absences, sickness or similar). Please note that the closing hours override the opening hours.
 
-
-
 In the [index.html](https://github.com/arteria/django-openinghours/blob/master/openinghours/templates/openinghours/index.html) you will find a lot of examples of how to use this app.
 
 ## Remarks 
@@ -85,48 +83,7 @@ In the [index.html](https://github.com/arteria/django-openinghours/blob/master/o
 Opening hours is built using datetime's isoweekday. This means Monday is represented by number 1 and Sunday by 7.
 
 
-## History and Change Log
-
-### Latest/Development Version
-
-Please check the latest commits for development version.
-
-### 0.0.27
-
-* Adding [django-threadlocals](https://pypi.python.org/pypi/django-threadlocals/0.8) allows for live testing of the rules defined.
-* Bugfix if closed on Sunday and open later during the day. Next opening showed Monday.
-
-### 0.0.8 .. 0.0.26 
-* Added template tag ``isoDayToWeekday``, returns 'today' in case of today.
-+ Added template tag ``toWeekday`` to handle next weeks 'today'.
-* Partial closing/opening hours with overlapping support
-* Added template tag ``getCompanyClosingRuleForNow``.
-* Bugfix
-
-### 0.0.7
-* Bugfix
-
-### 0.0.6
-* Added attribut access in template tags.
-
-### 0.0.5
-* Returning the OpeningHours when company is open (instead of True).
-
-### 0.0.4
-* Added some template tags: ``getCompanyNextOpeningHour`` and  ``hasCompanyClosingRuleForNow``.
-
-### 0.0.3 
-* "Next time opened" function returning when (eg.) shop is open for the next time
-
-### 0.0.2
-* Handle midnight, allow hours like MON 21h00 to 01h00. Eg. used for Night Clubs, etc.
-* Implemented closing hours.
-
-### 0.0.1
-* Inital version
-
-
-## TODOs and planned Features
+## Planned features
 Priority 1 = high/must have, 2 =  and 3 = low/nice to have
 
 * (1) Migrate to Django's timezone
@@ -134,6 +91,8 @@ Priority 1 = high/must have, 2 =  and 3 = low/nice to have
 * (2) Docus for live testing of defined rules
 * (3) Shortcut for everyday (1-7) = 0 in WEEKDAYS, or 8 = monday to friday, etc.
 * (3) Global closing hours to override all companies. Use cases: close a whole shopping centre
+
+See also [CHANGELOG](https://github.com/arteria/django-openinghours/CHANGELOG.txt)
 
 ## Contribute
 

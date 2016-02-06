@@ -1,23 +1,32 @@
 === (ongoing) ===
-- Initial commit
+Please check the latest commits for development version.
 
+=== 0.0.27 ===
+- Adding [django-threadlocals](https://pypi.python.org/pypi/django-threadlocals/0.8) allows for live testing of the rules defined.
+- Bugfix if closed on Sunday and open later during the day. Next opening showed Monday.
 
-# Suggested file syntax:
-#
-# === (ongoing) ===
-# - this is always on top of the file
-# - when you release a new version, you rename the last `(ongoing)` to the new
-#   version and add a new `=== (ongoing) ===` to the top of the file
-#
-# === 1.0 ===
-# - a major version is created when the software reached a milestone and is 
-#   feature complete
-#
-# === 0.2 ===
-# - a minor version is created when new features or significant changes have
-#   been made to the software.
-#
-# === 0.1.1 ==
-# - for bugfix releases, fixing typos in the docs, restructuring things, simply
-#   anything that doesn't really change the behaviour of the software you
-#   might use the third digit which is also sometimes called the build number.
+=== 0.0.7 .. 0.0.26 ===
+- Added template tag ``isoDayToWeekday``, returns 'today' in case of today.
+- Added template tag ``toWeekday`` to handle next weeks 'today'.
+- Partial closing/opening hours with overlapping support
+- Added template tag ``getCompanyClosingRuleForNow``.
+- Bugfix
+
+=== 0.0.6 ===
+- Added attribut access in template tags.
+
+=== 0.0.5 ===
+- Returning the OpeningHours when company is open (instead of True).
+
+=== 0.0.4 ===
+- Added some template tags: ``getCompanyNextOpeningHour`` and  ``hasCompanyClosingRuleForNow``.
+
+=== 0.0.3 ===
+- "Next time opened" function returning when (eg.) shop is open for the next time
+
+=== 0.0.2 ===
+- Handle midnight, allow hours like MON 21h00 to 01h00. Eg. used for Night Clubs, etc.
+- Implemented closing hours.
+
+=== 0.0.1 ===
+- Inital version
