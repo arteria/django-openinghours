@@ -39,27 +39,27 @@ def get_now():
     return datetime.datetime.now()
 
 
-def get_closing_rule_for_now(company_slug):
+def get_closing_rule_for_now(premises_pk):
     '''
     Access the all closing rules for a company
     '''
     now = get_now()
 
-    if company_slug:
-        return ClosingRules.objects.filter(company__slug=company_slug, start__lte=now, end__gte=now)
+    if premises_pk:
+        return ClosingRules.objects.filter(company__pk=premises_pk, start__lte=now, end__gte=now)
 
     return Company.objects.first().closingrules_set.filter(start__lte=now, end__gte=now)
     
     
-def has_closing_rule_for_now(company_slug):
+def has_closing_rule_for_now(premises_pk):
     '''
     Has the company closing rules to evaluate?
     '''
-    cr = get_closing_rule_for_now(company_slug)
+    cr = get_closing_rule_for_now(premises_pk)
     return cr.count()
     
     
-def is_open(company_slug, now=None):
+def is_open(premises_pk, now=None):
     '''
     Is the company currently open? Pass "now" to test with a specific timestamp.
     This method is used as stand alone and helper.
@@ -67,13 +67,13 @@ def is_open(company_slug, now=None):
     if now is None:
         now = get_now()
   
-    if has_closing_rule_for_now(company_slug):
+    if has_closing_rule_for_now(premises_pk):
         return False
         
     now_time = datetime.time(now.hour, now.minute, now.second)
     
-    if company_slug:
-        ohs = OpeningHours.objects.filter(company__slug=company_slug)
+    if premises_pk:
+        ohs = OpeningHours.objects.filter(company__pk=premises_pk)
     else:
         ohs = Company.objects.first().openinghours_set.all()
     for oh in ohs:
@@ -96,17 +96,17 @@ def is_open(company_slug, now=None):
     return False
     
     
-def next_time_open(company_slug):
+def next_time_open(premises_pk):
     ''' 
     Returns the next possible opening hours object ( aka when is the company open for the next time?).
     '''
-    if not is_open(company_slug):
+    if not is_open(premises_pk):
         now = get_now()
         now_time = datetime.time(now.hour, now.minute, now.second)
         found_opening_hours = False
         for i in range(8):
             l_weekday = (now.isoweekday() + i) % 8
-            ohs = OpeningHours.objects.filter(company__slug=company_slug, weekday=l_weekday).order_by('weekday','from_hour')
+            ohs = OpeningHours.objects.filter(company__pk=premises_pk, weekday=l_weekday).order_by('weekday','from_hour')
             
             if ohs.count():
                 for oh in ohs:
@@ -115,7 +115,7 @@ def next_time_open(company_slug):
                     tmp_now = datetime.datetime(future_now.year, future_now.month, future_now.day, oh.from_hour.hour, oh.from_hour.minute, oh.from_hour.second)
                     if tmp_now < now:
                         tmp_now = now # be sure to set the bound correctly...
-                    if is_open(company_slug, now=tmp_now):
+                    if is_open(premises_pk, now=tmp_now):
                         found_opening_hours = oh
                         break
                 if found_opening_hours is not False:

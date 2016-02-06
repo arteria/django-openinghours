@@ -34,8 +34,8 @@ def toWeekday(dateObjTpl):
 
 
 @register.assignment_tag
-def isCompanyCurrentlyOpen(company_slug=None, attr=None):
-    obj = is_open(company_slug)
+def isCompanyCurrentlyOpen(premises_pk=None, attr=None):
+    obj = is_open(premises_pk)
     if obj is False:
         return False
     if attr is not None:
@@ -44,12 +44,12 @@ def isCompanyCurrentlyOpen(company_slug=None, attr=None):
 
     
 @register.filter(expects_localtime=True) 
-def getCompanyNextOpeningHour(company_slug, attr=None):
+def getCompanyNextOpeningHour(premises_pk, attr=None):
     ''' 
     `attr` allowes to acces to a attribute of the OpeningHours model. 
     This is handy to access the start time for example...
     ''' 
-    obj, ts = next_time_open(company_slug)
+    obj, ts = next_time_open(premises_pk)
     if obj is False:
         return False 
     elif attr is not None:
@@ -58,8 +58,8 @@ def getCompanyNextOpeningHour(company_slug, attr=None):
     
     
 @register.filter(expects_localtime=True) 
-def has_closing_rule_for_now(company_slug, attr=None):
-    obj = has_closing_rule_for_now(company_slug)
+def has_closing_rule_for_now(premises_pk, attr=None):
+    obj = has_closing_rule_for_now(premises_pk)
     if obj is False:
         return False
     if attr is not None:
@@ -68,9 +68,9 @@ def has_closing_rule_for_now(company_slug, attr=None):
 
 
 @register.filter(expects_localtime=True) 
-def getCompanyClosingRuleForNow(company_slug, attr=None):
+def getCompanyClosingRuleForNow(premises_pk, attr=None):
     ''' this only access the first! closing rule. because closed is closed. '''
-    obj = get_closing_rule_for_now(company_slug)
+    obj = get_closing_rule_for_now(premises_pk)
     if obj is False:
         return False
     if attr is not None:
@@ -79,14 +79,14 @@ def getCompanyClosingRuleForNow(company_slug, attr=None):
                
     
 @register.simple_tag
-def companyOpeningHoursList(company_slug=None, concise=False):
-    ''' Creates a rendered listing of hours. ''' 
+def companyOpeningHoursList(premises_pk=None, concise=False):
+    ''' Creates a rendered listing of hours. '''
     template_name = 'openinghours/companyOpeningHoursList.html'
     days = [] # [{'hours': '9:00am to 5:00pm', 'name': u'Monday'}, {'hours': '9:00am to...
 
-    #If a `company_slug` is not provided, choose the first company.
-    if company_slug: 
-        ohrs = OpeningHours.objects.filter(company__slug=company_slug)
+    #If a `premises_pk` is not provided, choose the first company.
+    if premises_pk: 
+        ohrs = OpeningHours.objects.filter(company__pk=premises_pk)
     else:
         try:
             ohrs = get_premises_model().objects.first().openinghours_set.all()
