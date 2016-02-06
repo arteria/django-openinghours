@@ -3,7 +3,7 @@
 
 A reusable Django app to work with opening hours that comes with the following features:
 
-* Multiple company support.
+* Multiple company(premises) support, customisable to directly plug in your own model.
 * Able to visualise if a company is currently open or not ("Yes, we're open!", "Sorry, we're closed.").
 * Able to list the opening hours, eg. MON 9h00 to 17h00, etc. for one or more companies.
 * Posible to define opening hours that pass midnight.
@@ -32,6 +32,10 @@ Add ``openinghours`` to your ``INSTALLED_APPS``
         ...,
         'openinghours',
     )
+
+You can use the company model provided or plug your own using settings.py:
+
+    CUSTOM_OPENINGHOURS_PREMISES = 'yourcastleapp.models.Castle'
 
 Add the ``openinghours`` URLs to your ``urls.py``
 
