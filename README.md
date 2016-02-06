@@ -54,7 +54,7 @@ Before your tags/filters are available in your templates, load them by using
 Don't forget to create your tables
 
 
-    ./manage.py syncdb openinghours
+    ./manage.py migrate openinghours
 
 
 
