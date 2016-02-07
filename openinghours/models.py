@@ -3,9 +3,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
-from django.conf import settings
-
-PREMISES_MODEL = getattr(settings, 'OPENINGHOURS_PREMISES_MODEL', 'openinghours.Company')
+from openinghours.app_settings import PREMISES_MODEL
 
 # isoweekday
 WEEKDAYS = [ 
