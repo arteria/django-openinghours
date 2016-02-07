@@ -53,10 +53,10 @@ class OpeningHours(models.Model):
 
     def __str__(self):
         return _("%(premises)s %(weekday)s (%(from_hour)s - %(to_hour)s)") % {
-            premises: self.company,
-            weekday: self.weekday,
-            from_hour: self.from_hour,
-            to_hour: self.to_hour
+            'premises': self.company,
+            'weekday': self.weekday,
+            'from_hour': self.from_hour,
+            'to_hour': self.to_hour
         }
     
 
