@@ -76,7 +76,7 @@ start and end times of opening slots.
 This is used to define when premises are closed (e.g. due to a holiday, 
 absences, sickness or similar). Please note that the closing hours override the opening hours.
 
-In the [index.html](https://github.com/arteria/django-openinghours/blob/master/openinghours/templates/openinghours/index.html) you will find a lot of examples of how to use this app.
+In the [index.html](templates/openinghours/index.html) you will find a lot of examples of how to use this app.
 
 ## Remarks 
 
@@ -92,7 +92,7 @@ Priority 1 = high/must have, 2 =  and 3 = low/nice to have
 * (3) Shortcut for everyday (1-7) = 0 in WEEKDAYS, or 8 = monday to friday, etc.
 * (3) Global closing hours to override all companies. Use cases: close a whole shopping centre
 
-See also [CHANGELOG](https://github.com/arteria/django-openinghours/CHANGELOG.txt)
+See also [CHANGELOG](CHANGELOG.txt)
 
 ## Contribute
 
