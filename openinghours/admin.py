@@ -1,6 +1,6 @@
 from django.contrib import admin
 from openinghours.models import OpeningHours, ClosingRules, Company
-from app_settings import PREMISES_MODEL
+from openinghours.app_settings import PREMISES_MODEL
 
 class OpeningHoursInline(admin.TabularInline):
     model = OpeningHours
