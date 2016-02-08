@@ -76,7 +76,7 @@ start and end times of opening slots.
 This is used to define when premises are closed (e.g. due to a holiday, 
 absences, sickness or similar). Please note that the closing hours override the opening hours.
 
-In the [index.html](templates/openinghours/index.html) you will find a lot of examples of how to use this app.
+In the [index.html](openinghours/templates/openinghours/index.html) you will find a lot of examples of how to use this app.
 
 ## Remarks 
 
