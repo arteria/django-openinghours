@@ -1,53 +1,49 @@
 {% load i18n %}
 {% load openinghours_tags %}
 
-
 <h1>django-openinghours</h1>
-<p>
-	Covered use cases and examples for django-openinghours.
-</p>	
+<p>Covered use cases and examples for django-openinghours.
 
-<h2>Test is a company is currently open or not.</h2>
+<h2>Test whether a company is currently open</h2>
 
 {% verbatim %}
-<pre style="background-color: whiteSmoke; padding: 10px;">
+<pre>
 {% isCompanyCurrentlyOpen 'company-ltd' as company_open %}
 {% if company_open %}
-	Yes we're open!
+	Come in, we're open!
 {% else %}
-	Sorry we're closed!
+	Sorry, we're closed.
 {% endif %}
 </pre>
+
 <p>In version 0.0.27 and earlier, it was done like this:</p>
-<pre style="background-color: whiteSmoke; padding: 10px;">
+<pre>
 {% if 'company-ltd'|isCompanyCurrentlyOpen %}
-	Yes we're open!
+	Come in, we're open!
 {% else %}
-	Sorry we're closed!
+	Sorry, we're closed.
 {% endif %}
 </pre>
 {% endverbatim %}
 
 {% isCompanyCurrentlyOpen 'company-ltd' as company_open %}
 {% if company_open %}
-	Yes we're open!
+	Come in, we're open!
 {% else %}
-	Sorry we're closed!
+	Sorry, we're closed.
 {% endif %}
 
-
-<h2>List a company's opening hours</h2>
+<h2>List company's opening hours</h2>
 
 {% verbatim %}
-<pre style="background-color: whiteSmoke; padding: 10px;">
-{% companyOpeningHoursList 'company-ltd' %}
-</pre>
+<pre>{% companyOpeningHoursList 'company-ltd' %}</pre>
+
 <p>In version 0.0.27 and earlier, it was done like this:</p>
-<pre style="background-color: whiteSmoke; padding: 10px;">
-{{ 'company-ltd'|companyOpeningHoursList }}
-</pre>
+<pre>{{ 'company-ltd'|companyOpeningHoursList }}</pre>
 {% endverbatim %}
 
 {% companyOpeningHoursList 'company-ltd' %}
 
-
+<style>
+pre{background:whiteSmoke;padding:10px}
+</style>
