@@ -94,6 +94,8 @@ def companyOpeningHoursList(company_slug=None, concise=False):
     for o in ohrs:
         days.append({
             'name': o.get_weekday_display(),
+            'from_hour': from_hour,
+            'to_hour': to_hour,
             'hours': '%s%s to %s%s' % (
                 o.from_hour.strftime('%I:%M').lstrip('0'),
                 o.from_hour.strftime('%p').lower(),
