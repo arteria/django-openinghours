@@ -1,14 +1,9 @@
-import datetime
-
 # -*- coding: utf-8 -*-
 from django import template
-from django.utils.safestring import mark_safe
-from django.utils.encoding import force_unicode 
-from django.template.loader import render_to_string
 from django.utils.translation import ugettext_lazy as _
 
-from openinghours.models import *
-from openinghours.utils import *
+from openinghours.models import Company, OpeningHours, WEEKDAYS
+from openinghours.utils import get_now, is_open, next_time_open, get_closing_rule_for_now
 
 
 register = template.Library()
@@ -40,53 +35,53 @@ def isCompanyCurrentlyOpen(company_slug=None, attr=None):
     if obj is False:
         return False
     if attr is not None:
-        return getattr(obj, attr) 
+        return getattr(obj, attr)
     return obj
 
-    
-@register.filter(expects_localtime=True) 
+
+@register.filter(expects_localtime=True)
 def getCompanyNextOpeningHour(company_slug, attr=None):
-    ''' 
-    `attr` allowes to acces to a attribute of the OpeningHours model. 
+    '''
+    `attr` allowes to acces to a attribute of the OpeningHours model.
     This is handy to access the start time for example...
-    ''' 
+    '''
     obj, ts = next_time_open(company_slug)
     if obj is False:
-        return False 
+        return False
     elif attr is not None:
-        return getattr(obj, attr) 
+        return getattr(obj, attr)
     return obj, ts
-    
-    
-@register.filter(expects_localtime=True) 
+
+
+@register.filter(expects_localtime=True)
 def has_closing_rule_for_now(company_slug, attr=None):
     obj = has_closing_rule_for_now(company_slug)
     if obj is False:
         return False
     if attr is not None:
-        return getattr(obj, attr) 
+        return getattr(obj, attr)
     return obj
 
 
-@register.filter(expects_localtime=True) 
+@register.filter(expects_localtime=True)
 def getCompanyClosingRuleForNow(company_slug, attr=None):
     ''' this only access the first! closing rule. because closed is closed. '''
     obj = get_closing_rule_for_now(company_slug)
     if obj is False:
         return False
     if attr is not None:
-        return getattr(obj[0], attr) 
+        return getattr(obj[0], attr)
     return obj
-               
-    
+
+
 @register.simple_tag
 def companyOpeningHoursList(company_slug=None, concise=False):
-    ''' Creates a rendered listing of hours. ''' 
+    ''' Creates a rendered listing of hours. '''
     template_name = 'openinghours/companyOpeningHoursList.html'
-    days = [] # [{'hours': '9:00am to 5:00pm', 'name': u'Monday'}, {'hours': '9:00am to...
+    days = []  # [{'hours': '9:00am to 5:00pm', 'name': u'Monday'}, {'hours': '9:00am to...
 
-    #If a `company_slug` is not provided, choose the first company.
-    if company_slug: 
+    # If a `company_slug` is not provided, choose the first company.
+    if company_slug:
         ohrs = OpeningHours.objects.filter(company__slug=company_slug)
     else:
         try:
@@ -100,9 +95,9 @@ def companyOpeningHoursList(company_slug=None, concise=False):
         days.append({
             'name': o.get_weekday_display(),
             'hours': '%s%s to %s%s' % (
-                o.from_hour.strftime('%I:%M').lstrip('0'), 
+                o.from_hour.strftime('%I:%M').lstrip('0'),
                 o.from_hour.strftime('%p').lower(),
-                o.to_hour.strftime('%I:%M').lstrip('0'), 
+                o.to_hour.strftime('%I:%M').lstrip('0'),
                 o.to_hour.strftime('%p').lower()
             )
         })
@@ -120,10 +115,10 @@ def companyOpeningHoursList(company_slug=None, concise=False):
         current_set = {}
         for day in days:
             if 'hours' not in current_set.keys():
-                current_set = {'day_names': [day['name'],], 'hours': day['hours']}
+                current_set = {'day_names': [day['name'], ], 'hours': day['hours']}
             elif day['hours'] != current_set['hours']:
                 concise_days.append(current_set)
-                current_set = {'day_names': [day['name'],], 'hours': day['hours']}
+                current_set = {'day_names': [day['name'], ], 'hours': day['hours']}
             else:
                 current_set['day_names'].append(day['name'])
         concise_days.append(current_set)
@@ -135,7 +130,7 @@ def companyOpeningHoursList(company_slug=None, concise=False):
                 day_set['day_names'] = '%s and %s' % (day_set['day_names'][0], day_set['day_names'][-1])
             else:
                 day_set['day_names'] = '%s' % day_set['day_names'][0]
-        
+
         days = concise_days
 
     t = template.loader.get_template(template_name)

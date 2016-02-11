@@ -4,5 +4,5 @@ from openinghours.views import CurrentOpeningsView
 
 
 urlpatterns = [
-     url(r'^$', CurrentOpeningsView.as_view(), name='openinghours_current_openings'),
+    url(r'^$', CurrentOpeningsView.as_view(), name='openinghours_current_openings'),
 ]
