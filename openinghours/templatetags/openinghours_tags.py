@@ -89,8 +89,6 @@ def companyOpeningHoursList(company_slug=None, concise=False):
         except AttributeError:
             raise Exception("You must define some opening hours to use the opening hours tags.")
 
-    ohrs.order_by('weekday', 'from_hour')
-
     for o in ohrs:
         days.append({
             'name': o.get_weekday_display(),
