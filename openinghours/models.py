@@ -39,6 +39,7 @@ class OpeningHours(models.Model):
     class Meta:
         verbose_name = 'Opening Hour'
         verbose_name_plural = 'Opening Hours'
+        ordering = ['company', 'weekday', 'from_hour']
 
     company = models.ForeignKey(Company)
     weekday = models.IntegerField(choices=WEEKDAYS)
