@@ -32,6 +32,8 @@ def get_now():
     """
     Allows to access global request and read a timestamp from query.
     """
+    if not get_current_request:
+        return datetime.datetime.now()
     request = get_current_request()
     if request:
         openinghours_now = request.GET.get('openinghours-now')
