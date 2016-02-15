@@ -1,6 +1,12 @@
 === (ongoing) ===
 Please check the latest commits for development version.
 
+=== 0.1 ===
+- Custom company/location/premises model
+- Cleaner tag names and API with upgrading docs
+- Front-end grade editing form UI inspired by Google Local
+- Tests
+
 === 0.0.27 ===
 - Adding [django-threadlocals](https://pypi.python.org/pypi/django-threadlocals/0.8) allows for live testing of the rules defined.
 - Bugfix if closed on Sunday and open later during the day. Next opening showed Monday.
