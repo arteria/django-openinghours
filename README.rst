@@ -104,11 +104,11 @@ Planned features
 
 Priority 1 = high/must have, 2 = and 3 = low/nice to have
 
-- (1) Migrate to Django’s timezone
-- (2) Docs for live testing of defined rules
-- (3) Shortcut for everyday (1-7) = 0 in WEEKDAYS, or 8 = monday to
+- **1** Migrate to Django’s timezone
+- **2** Docs for live testing of defined rules
+- **3** Shortcut for everyday (1-7) = 0 in WEEKDAYS, or 8 = monday to
   friday, etc.
-- (3) Global closing hours to override all companies. Use cases: close
+- **3** Global closing hours to override all companies. Use cases: close
   a whole shopping centre
 
 See also `CHANGELOG`_ and `UPGRADING`_ docs.
