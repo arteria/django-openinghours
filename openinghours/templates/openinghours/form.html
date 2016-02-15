@@ -48,7 +48,7 @@ form{padding-top:2em}
 {% endblock %}
 
 {% block content %}
-<form method="POST" action=".">
+<form method="POST" action="#">
     {% for day in week %}
     <div class="day">
         <span class="set1">
@@ -70,6 +70,7 @@ form{padding-top:2em}
         There are 2 sets of hours for 1 day.</label>
     <p>
         <button class="btn btn-primary">Apply</button>
-        <button class="btn btn-default">Cancel</button>
+        <a href="../" class="btn btn-default">Cancel</a>
+    {% csrf_token %}
 </form>
 {% endblock %}

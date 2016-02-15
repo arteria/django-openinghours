@@ -1,24 +1,28 @@
 from openinghours.models import OpeningHours, WEEKDAYS
-from openinghours.forms import Slot, time_to_str
-from django.shortcuts import render
+from openinghours.forms import Slot, time_to_str, str_to_time
+from openinghours import utils
+from django.shortcuts import render, get_object_or_404
 
 
-def edit(request):
+def edit(request, pk):
     """Crowd facing editing UI supporting one or two time slots (sets) per day.
 
     Models still support more slots via shell or admin UI.
     """
+    Location = utils.get_premises_model()
+    location = get_object_or_404(Location, pk=pk)
+    
     # build a lookup dictionary to populate the form slots
     # day numbers are keys, list of opening hours for that day are values
     hours = {}
-    for o in OpeningHours.objects.filter(company_id=1):
+    for o in OpeningHours.objects.filter(company=location):
         hours.setdefault(o.weekday, []).append(o)
 
     two_sets = False
     week = []
     for day in WEEKDAYS:
         day_n = day[0]
-        # Here, we generate form initails for the 2 slots.
+        # Here, we generate form initials for the 2 slots.
         if day_n not in hours.keys():
             closed = True
             ini1, ini2 = [None, None]
