@@ -24,5 +24,5 @@ make sure to pass the company or premisses object to the tag instead of a slug.
 | ``{% isCompanyCurrentlyOpen 'company-ltd' as open %}`` becomes
 | ``{% is_open location as open %}``
 
-.. _README: ./README.rst
-.. _CHANGELOG: ./CHANGELOG.txt
+.. _README: ../README.rst
+.. _CHANGELOG: ../CHANGELOG.txt
