@@ -1,7 +1,7 @@
 from openinghours.models import OpeningHours, WEEKDAYS
 from openinghours.forms import Slot, time_to_str, str_to_time
 from openinghours import utils
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 
 
 def edit(request, pk):
@@ -62,6 +62,7 @@ def edit(request, pk):
                     weekday   = day_n
                 )
                 oh.save()
+            return redirect(request.path_info)
         
 
     return render(request, "openinghours/form.html", {
