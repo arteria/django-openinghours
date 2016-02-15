@@ -46,6 +46,7 @@ def edit(request, pk):
         })
 
     if request.method == 'POST':
+        # TODO: test and write tests
         day_forms = []
         for day in WEEKDAYS:
             day_n = day[0]
@@ -55,10 +56,10 @@ def edit(request, pk):
             OpeningHours.objects.filter(company=location).delete()
             for day_n, slot in day_forms:
                 oh = OpeningHours(
-                    from_hour=str_to_time(slot.cleaned_data['opens']),
-                    to_hour=str_to_time(slot.cleaned_data['shuts']),
-                    company=location,
-                    weekday=day_n
+                    from_hour = str_to_time(slot.cleaned_data['opens']),
+                    to_hour   = str_to_time(slot.cleaned_data['shuts']),
+                    company   = location,
+                    weekday   = day_n
                 )
                 oh.save()
         
