@@ -91,8 +91,7 @@ This is used to define when premises are closed (e.g. due to a holiday,
 absences, sickness or similar). Please note that the closing hours
 override the opening hours.
 
-In the `index.html`_ you will find a lot of examples of how to use this
-app.
+You can find examples of how to use this app in our `templates`_.
 
 Remarks
 -------
@@ -105,14 +104,14 @@ Planned features
 
 Priority 1 = high/must have, 2 = and 3 = low/nice to have
 
-- (1) Migrate to Django’s timezone
-- (2) Docs for live testing of defined rules
-- (3) Shortcut for everyday (1-7) = 0 in WEEKDAYS, or 8 = monday to
+- **1** Migrate to Django’s timezone
+- **2** Docs for live testing of defined rules
+- **3** Shortcut for everyday (1-7) = 0 in WEEKDAYS, or 8 = monday to
   friday, etc.
-- (3) Global closing hours to override all companies. Use cases: close
+- **3** Global closing hours to override all companies. Use cases: close
   a whole shopping centre
 
-See also `CHANGELOG`_
+See also `CHANGELOG`_ and `UPGRADING`_ docs.
 
 Contribute
 ----------
@@ -120,6 +119,7 @@ Contribute
 Just send us your pull request. File and issue. Use it. Talk about
 `it`_. Thank you
 
-.. _index.html: openinghours/templates/openinghours/index.html
+.. _templates: openinghours/templates/openinghours/index.html
 .. _CHANGELOG: CHANGELOG.txt
+.. _UPGRADING: docs/UPGRADING.rst
 .. _it: https://github.com/arteria/django-openinghours
