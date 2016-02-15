@@ -112,7 +112,7 @@ Priority 1 = high/must have, 2 = and 3 = low/nice to have
 - (3) Global closing hours to override all companies. Use cases: close
   a whole shopping centre
 
-See also `CHANGELOG`_
+See also `CHANGELOG`_ and `UPGRADING`_ docs.
 
 Contribute
 ----------
@@ -122,4 +122,5 @@ Just send us your pull request. File and issue. Use it. Talk about
 
 .. _index.html: openinghours/templates/openinghours/index.html
 .. _CHANGELOG: CHANGELOG.txt
+.. _UPGRADING: docs/UPGRADING.rst
 .. _it: https://github.com/arteria/django-openinghours
