@@ -11,9 +11,25 @@ def edit(request, pk):
     """
     Location = utils.get_premises_model()
     location = get_object_or_404(Location, pk=pk)
-    
+
     def prefix(day_n, slot_n): return "day%s_%s" % (day_n, slot_n)
-    
+
+    if request.method == 'POST':
+        # TODO: write tests
+        day_forms = []
+        for day, day_name in WEEKDAYS:
+            for s in (1, 2):
+                day_forms += [[day, Slot(request.POST, prefix=prefix(day, s))]]
+        if all([form.is_valid() for day, form in day_forms]):
+            OpeningHours.objects.filter(company=location).delete()
+            for day, slot in day_forms:
+                opens, shuts = [str_to_time(slot.cleaned_data[x])
+                                for x in ('opens', 'shuts')]
+                if opens != shuts:
+                    OpeningHours(from_hour=opens, to_hour=shuts,
+                                 company=location, weekday=day).save()
+            return redirect(request.path_info)
+
     # build a lookup dictionary to populate the form slots
     # day numbers are keys, list of opening hours for that day are values
     hours = {}
@@ -44,23 +60,6 @@ def edit(request, pk):
             'slot2': Slot(prefix=prefix(day_n, 2), initial=ini2),
             'closed': closed
         })
-
-    if request.method == 'POST':
-        # TODO: write tests
-        day_forms = []
-        for day, day_name in WEEKDAYS:
-            for s in (1, 2):
-                day_forms += [[day, Slot(request.POST, prefix=prefix(day, s))]]
-        if all([form.is_valid() for day, form in day_forms]):
-            OpeningHours.objects.filter(company=location).delete()
-            for day, slot in day_forms:
-                opens, shuts = [str_to_time(slot.cleaned_data[x])
-                                for x in ('opens', 'shuts')]
-                if opens != shuts:
-                    OpeningHours(from_hour=opens, to_hour=shuts, 
-                                 company=location, weekday=day).save()
-            return redirect(request.path_info)
-
     return render(request, "openinghours/form.html", {
         'week': week,
         'two_sets': two_sets
