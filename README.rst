@@ -91,8 +91,7 @@ This is used to define when premises are closed (e.g. due to a holiday,
 absences, sickness or similar). Please note that the closing hours
 override the opening hours.
 
-In the `index.html`_ you will find a lot of examples of how to use this
-app.
+You can find examples of how to use this app in our `templates`_.
 
 Remarks
 -------
@@ -120,7 +119,7 @@ Contribute
 Just send us your pull request. File and issue. Use it. Talk about
 `it`_. Thank you
 
-.. _index.html: openinghours/templates/openinghours/index.html
+.. _templates: openinghours/templates/openinghours/index.html
 .. _CHANGELOG: CHANGELOG.txt
 .. _UPGRADING: docs/UPGRADING.rst
 .. _it: https://github.com/arteria/django-openinghours
