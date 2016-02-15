@@ -6,89 +6,75 @@ from django.template.loader import render_to_string
 from django.utils.translation import ugettext_lazy as _
 
 from openinghours.models import *
-from openinghours.utils import *
+from openinghours import utils
 
 
 register = template.Library()
 
 
 @register.filter(expects_localtime=True)
-def isoDayToWeekday(d):
+def iso_day_to_weekday(d):
     if int(d) == get_now().isoweekday():
         return _("today")
     for w in WEEKDAYS:
         if w[0] == int(d):
             return w[1]
 
-
 @register.filter(expects_localtime=True)
-def toWeekday(dateObjTpl):
-    oh, date_obj = dateObjTpl
-    now = get_now()
+def to_weekday(date_obj_tpl):
+    oh, date_obj = date_obj_tpl
+    now = utils.get_now()
     if date_obj.isoweekday() == now.isoweekday() and (date_obj - now).days == 0:
         return _("today")
     for w in WEEKDAYS:
         if w[0] == int(date_obj.isoweekday()):
             return w[1]
 
-
 @register.assignment_tag
-def isCompanyCurrentlyOpen(premises_pk=None, attr=None):
-    obj = is_open(premises_pk)
+def is_open(location=None, attr=None):
+    obj = utils.is_open(location)
+    if obj is False:
+        return False
+    if attr is not None:
+        return getattr(obj, attr) 
+    return obj
+    
+@register.assignment_tag
+def next_time_open(location):
+    obj, ts = utils.next_time_open(location)
+    return obj
+
+@register.filter(expects_localtime=True) 
+def has_closing_rule_for_now(location, attr=None):
+    obj = utils.has_closing_rule_for_now(location)
     if obj is False:
         return False
     if attr is not None:
         return getattr(obj, attr) 
     return obj
 
-    
 @register.filter(expects_localtime=True) 
-def getCompanyNextOpeningHour(premises_pk, attr=None):
-    """ 
-    `attr` allowes to acces to a attribute of the OpeningHours model. 
-    This is handy to access the start time for example...
-    """ 
-    obj, ts = next_time_open(premises_pk)
-    if obj is False:
-        return False 
-    elif attr is not None:
-        return getattr(obj, attr) 
-    return obj, ts
-    
-    
-@register.filter(expects_localtime=True) 
-def has_closing_rule_for_now(premises_pk, attr=None):
-    obj = has_closing_rule_for_now(premises_pk)
-    if obj is False:
-        return False
-    if attr is not None:
-        return getattr(obj, attr) 
-    return obj
-
-
-@register.filter(expects_localtime=True) 
-def getCompanyClosingRuleForNow(premises_pk, attr=None):
+def get_closing_rule_for_now(location, attr=None):
     """ Only accesses the *first* closing rule, because closed means closed. """
-    obj = get_closing_rule_for_now(premises_pk)
+    obj = utils.get_closing_rule_for_now(location)
     if obj is False:
         return False
     if attr is not None:
         return getattr(obj[0], attr) 
     return obj
-               
     
 @register.simple_tag
-def companyOpeningHoursList(premises_pk=None, concise=False):
+def opening_hours(location=None, concise=False):
     """ Creates a rendered listing of hours. """
     template_name = 'openinghours/opening_hours_list.html'
     days = [] # [{'hours': '9:00am to 5:00pm', 'name': u'Monday'}, {'hours': '9:00am to...
 
-    #If a `premises_pk` is not provided, choose the first company.
-    if premises_pk: 
-        ohrs = OpeningHours.objects.filter(company__pk=premises_pk)
+    # Without `location`, choose the first company.
+    if location: 
+        ohrs = OpeningHours.objects.filter(company=location)
     else:
         try:
-            ohrs = get_premises_model().objects.first().openinghours_set.all()
+            ohrs = utils.get_premises_model().objects.first().openinghours_set.all()
         except AttributeError:
             raise Exception("You must define some opening hours to use the opening hours tags.")
 
@@ -137,6 +123,6 @@ def companyOpeningHoursList(premises_pk=None, concise=False):
         days = concise_days
 
     t = template.loader.get_template(template_name)
-    return t.render(template.Context({
+    return t.render({
         'days': days
-    }))
+    })

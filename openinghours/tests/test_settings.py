@@ -8,7 +8,6 @@ SITE_ID = 1
 APP_ROOT = os.path.abspath(
     os.path.join(os.path.dirname(__file__), '..'))
 
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -16,7 +15,7 @@ DATABASES = {
     }
 }
 
-ROOT_URLCONF = 'openinghours.tests.urls'
+ROOT_URLCONF = 'openinghours.urls'
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(APP_ROOT, '../app_static')
@@ -47,13 +46,6 @@ TEMPLATES = [
     },
 ]
 
-COVERAGE_REPORT_HTML_OUTPUT_DIR = os.path.join(
-    os.path.join(APP_ROOT, 'tests/coverage'))
-COVERAGE_MODULE_EXCLUDES = [
-    'tests$', 'settings$', 'urls$', 'locale$',
-    'migrations', 'fixtures', 'admin$', 'django_extensions',
-]
-
 EXTERNAL_APPS = [
     'django.contrib.admin',
     'django.contrib.admindocs',
@@ -64,16 +56,16 @@ EXTERNAL_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sitemaps',
     'django.contrib.sites',
-    'django_jasmine',
-    'django_nose',
 ]
 
 INTERNAL_APPS = [
     'openinghours',
-    'openinghours.tests.test_app',
 ]
 
 INSTALLED_APPS = EXTERNAL_APPS + INTERNAL_APPS
-COVERAGE_MODULE_EXCLUDES += EXTERNAL_APPS
+
+# run coverage with
+# coverage run --source='.' manage.py test openinghours
+# coverage report
 
 SECRET_KEY = 'foobar'

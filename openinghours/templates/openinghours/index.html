@@ -1,49 +1,49 @@
+{% extends "openinghours/base.html" %}
 {% load i18n %}
 {% load openinghours_tags %}
 
-<h1>django-openinghours</h1>
-<p>Covered use cases and examples for django-openinghours.
+{% block content %}
 
-<h2>Test whether a company is currently open</h2>
+<h2>Check current situation</h2>
 
 {% verbatim %}
 <pre>
-{% isCompanyCurrentlyOpen 'company-ltd' as company_open %}
-{% if company_open %}
-	Come in, we're open!
+{% is_open location as open %}
+{% if open %}
+    Come in, we're open!
 {% else %}
-	Sorry, we're closed.
-{% endif %}
-</pre>
-
-<p>In version 0.0.27 and earlier, it was done like this:</p>
-<pre>
-{% if 'company-ltd'|isCompanyCurrentlyOpen %}
-	Come in, we're open!
-{% else %}
-	Sorry, we're closed.
+    Sorry, we're closed.
+    Reopening
+    {% next_time_open location as next %}
+    {{ next.get_weekday_display }} {{ next.from_hour }}
 {% endif %}
 </pre>
 {% endverbatim %}
 
-{% isCompanyCurrentlyOpen 'company-ltd' as company_open %}
-{% if company_open %}
-	Come in, we're open!
+{% is_open location as open %}
+{% if open %}
+	<div class="alert alert-success">Come in, we're open!</div>
 {% else %}
-	Sorry, we're closed.
+	<div class="alert alert-warning">Sorry, we're closed.
+        Reopening
+        {% next_time_open location as next %}
+        {{ next.get_weekday_display }} {{ next.from_hour }}
+    </div>
 {% endif %}
 
-<h2>List company's opening hours</h2>
+<h2>Display opening hours</h2>
 
 {% verbatim %}
-<pre>{% companyOpeningHoursList 'company-ltd' %}</pre>
-
-<p>In version 0.0.27 and earlier, it was done like this:</p>
-<pre>{{ 'company-ltd'|companyOpeningHoursList }}</pre>
+<pre>{% opening_hours location %}</pre>
 {% endverbatim %}
 
-{% companyOpeningHoursList 'company-ltd' %}
+{% opening_hours location %}
+<hr>
+<p>Concise opening hours:</p>
+{% verbatim %}
+<pre>{% opening_hours location concise=1 %}</pre>
+{% endverbatim %}
 
-<style>
-pre{background:whiteSmoke;padding:10px}
-</style>
+{% opening_hours location concise=1 %}
+
+{% endblock %}

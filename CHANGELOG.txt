@@ -6,26 +6,20 @@ Please check the latest commits for development version.
 - Bugfix if closed on Sunday and open later during the day. Next opening showed Monday.
 
 === 0.0.7 .. 0.0.26 ===
-- Added template tag ``isoDayToWeekday``, returns 'today' in case of today.
-- Added template tag ``toWeekday`` to handle next weeks 'today'.
+- Added template tag ``iso_day_to_weekday``, returns 'today' in case of today.
+- Added template tag ``to_weekday`` to handle next weeks 'today'.
 - Partial closing/opening hours with overlapping support
-- Added template tag ``getCompanyClosingRuleForNow``.
+- Added template tag ``get_closing_rule_for_now``.
 - Bugfix
 
-=== 0.0.6 ===
-- Added attribut access in template tags.
-
-=== 0.0.5 ===
+=== 0.0.3 .. 0.0.6 ===
+- Added attribute access in template tags.
 - Returning the OpeningHours when company is open (instead of True).
-
-=== 0.0.4 ===
-- Added some template tags: ``getCompanyNextOpeningHour`` and  ``hasCompanyClosingRuleForNow``.
-
-=== 0.0.3 ===
-- "Next time opened" function returning when (eg.) shop is open for the next time
+- Added some template tags: ``next_time_open`` and  ``has_closing_rule_for_now``.
+- "Next time open" function returns closest next opening time
 
 === 0.0.2 ===
-- Handle midnight, allow hours like MON 21h00 to 01h00. Eg. used for Night Clubs, etc.
+- Handle midnight, allow hours like Monday 9:00pm to 1:00am e.g. for night clubs, etc.
 - Implemented closing hours.
 
 === 0.0.1 ===
