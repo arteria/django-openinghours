@@ -15,17 +15,17 @@ $(function(){
         e.preventDefault();
         $(this).addClass('disabled');
         // get monday values
-        var opens  = $('#id_day1_1-from_hour option:selected').val();
-        var shuts  = $('#id_day1_1-to_hour   option:selected').val();
-        var opens2 = $('#id_day1_2-from_hour option:selected').val();
-        var shuts2 = $('#id_day1_2-to_hour   option:selected').val();
+        var opens  = $('#id_day1_1-opens option:selected').val();
+        var shuts  = $('#id_day1_1-shuts option:selected').val();
+        var opens2 = $('#id_day1_2-opens option:selected').val();
+        var shuts2 = $('#id_day1_2-shuts option:selected').val();
         // apply to rest of week
         $('.day').each(function(index, element){
             var i = index + 1;
-            $('#id_day'+i+'_1-from_hour').val(opens);
-            $('#id_day'+i+'_1-to_hour'  ).val(shuts);
-            $('#id_day'+i+'_2-from_hour').val(opens2);
-            $('#id_day'+i+'_2-to_hour'  ).val(shuts2);
+            $('#id_day'+i+'_1-opens').val(opens);
+            $('#id_day'+i+'_1-shuts').val(shuts);
+            $('#id_day'+i+'_2-opens').val(opens2);
+            $('#id_day'+i+'_2-shuts').val(shuts2);
         });
     });
     $('select').on('click', function(){
@@ -51,18 +51,22 @@ form{padding-top:2em}
 <form method="POST" action=".">
     {% for day in week %}
     <div class="day">
-        <span class="set1"><span class="weekday text-muted text-right">{{ day.weekday.1 }}</span>
-            {{ day.slot1.from_hour }} - {{ day.slot1.to_hour }}</span>
+        <span class="set1">
+            <span class="weekday text-muted text-right">
+            {{ day.weekday.1 }}</span>
+            {{ day.slot1.opens }} - {{ day.slot1.shuts }}</span>
         <span class="set2"><span class="small text-muted">and</span>  
-            {{ day.slot2.from_hour }} - {{ day.slot2.to_hour }}</span>
-        <label><input type="checkbox" class="closed" id="closed{{ day.weekday.0 }}"
+            {{ day.slot2.opens }} - {{ day.slot2.shuts }}</span>
+        <label><input type="checkbox" class="closed"
+            id="closed{{ day.weekday.0 }}"
             {% if day.closed %}checked{% endif %}> Closed</label>
         {% if forloop.first %}
             <button class="btn btn-default btn-xs" id="repeat">Apply to all days</button>
         {% endif %}
     </div>
     {% endfor %}
-    <p><label><input type="checkbox" id="two_sets" {% if two_sets %}checked{% endif %}>
+    <p><label><input type="checkbox" id="two_sets"
+        {% if two_sets %}checked{% endif %}>
         There are 2 sets of hours for 1 day.</label>
     <p>
         <button class="btn btn-primary">Apply</button>
