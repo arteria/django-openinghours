@@ -9,6 +9,14 @@ nine till five, closed for lunch, open till late, saturday morning-closed on sun
 from django import forms
 from datetime import time
 
+def str_to_time(s):
+    """ Turns strings like '08:30' to time objects """
+    return time(*[int(x) for x in s.split(':')])
+
+def time_to_str(t):
+    """ Turns time objects to strings like '08:30' """
+    return t.strftime('%H:%M')
+
 def time_choices():
     """Return digital time choices every half hour from 00:00 to 23:30."""
     hours = list(range(0,24))

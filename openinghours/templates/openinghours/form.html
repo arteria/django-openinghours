@@ -5,7 +5,7 @@
 <script>
 $(function(){
     // Toggle display for 2nd set of hours
-    $('.set2').hide();
+    $('.set2').toggle($('#two_sets').is(':checked'));
     $('#two_sets').on('click', function(){
         $('.set2').toggle();
     });
@@ -33,9 +33,11 @@ $(function(){
     });
     
     // Disable time selection for a day if closed
-    $('.closed').on('click', function(){
-        $(this).parents('.day').find('select').prop('disabled', this.checked);
-    });
+    var closed = function(e){
+        $(e).parents('.day').find('select').prop('disabled', e.checked);
+    }
+    $('.closed').each(function(){ closed(this); });
+    $('.closed').on('click', function(){ closed(this); });
 })
 </script>
 <style>
@@ -53,13 +55,15 @@ form{padding-top:2em}
             {{ day.slot1.from_hour }} - {{ day.slot1.to_hour }}</span>
         <span class="set2"><span class="small text-muted">and</span>  
             {{ day.slot2.from_hour }} - {{ day.slot2.to_hour }}</span>
-        <label><input type="checkbox" class="closed" id="closed{{ day.weekday.0 }}"> Closed</label>
+        <label><input type="checkbox" class="closed" id="closed{{ day.weekday.0 }}"
+            {% if day.closed %}checked{% endif %}> Closed</label>
         {% if forloop.first %}
             <button class="btn btn-default btn-xs" id="repeat">Apply to all days</button>
         {% endif %}
     </div>
     {% endfor %}
-    <p><label><input type="checkbox" id="two_sets"> There are 2 sets of hours for 1 day.</label>
+    <p><label><input type="checkbox" id="two_sets" {% if two_sets %}checked{% endif %}>
+        There are 2 sets of hours for 1 day.</label>
     <p>
         <button class="btn btn-primary">Apply</button>
         <button class="btn btn-default">Cancel</button>

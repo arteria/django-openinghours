@@ -45,6 +45,7 @@ class OpeningHours(models.Model):
     class Meta:
         verbose_name = _('Opening Hours') # plurale tantum
         verbose_name_plural = _('Opening Hours')
+        ordering = ['weekday']
         
     company = models.ForeignKey(PREMISES_MODEL, verbose_name=_('Company'))
     weekday = models.IntegerField(_('Weekday'), choices=WEEKDAYS)
@@ -69,6 +70,7 @@ class ClosingRules(models.Model):
     class Meta:
         verbose_name = _('Closing Rule')
         verbose_name_plural = _('Closing Rules')
+        ordering = ['start']
         
     company = models.ForeignKey(PREMISES_MODEL, verbose_name=_('Company'))
     start = models.DateTimeField(_('Start')) 
