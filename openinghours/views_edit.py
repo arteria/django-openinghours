@@ -46,21 +46,22 @@ def edit(request, pk):
         })
 
     if request.method == 'POST':
-        # low level processing of the raw POST data
-        post = dict(request.POST)
-        data = []
-        for k,v in post.items():
-            if not k.startswith('day'):
-                continue
-            day_id, time_id = k.split('_')
-            day_n = int(day_id[-1])   # 1 for Monday, 2 for Tuesday, 3 for ...
-            slot_n = int(time_id[0])  # 1 for morning slot, 2 for afternoon
-            open_shut = time_id[2:]   # string 'opens' or 'shuts'
-            time = str_to_time(v[0])  # time object: time(15, 30)
-            data.append((day_n, slot_n, time, open_shut))
-        data = sorted(data)
-        from pprint import pprint
-        pprint(data)
+        day_forms = []
+        for day in WEEKDAYS:
+            day_n = day[0]
+            for slot_n in (1, 2):
+                day_forms += [[day_n, Slot(request.POST, prefix=prefix(day_n, slot_n))]]
+        if all([form.is_valid() for day_n, form in day_forms]):
+            OpeningHours.objects.filter(company=location).delete()
+            for day_n, slot in day_forms:
+                oh = OpeningHours(
+                    from_hour=str_to_time(slot.cleaned_data['opens']),
+                    to_hour=str_to_time(slot.cleaned_data['shuts']),
+                    company=location,
+                    weekday=day_n
+                )
+                oh.save()
+        
 
     return render(request, "openinghours/form.html", {
         'week': week,
