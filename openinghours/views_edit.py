@@ -46,24 +46,20 @@ def edit(request, pk):
         })
 
     if request.method == 'POST':
-        # TODO: test and write tests
+        # TODO: write tests
         day_forms = []
-        for day in WEEKDAYS:
-            day_n = day[0]
-            for slot_n in (1, 2):
-                day_forms += [[day_n, Slot(request.POST, prefix=prefix(day_n, slot_n))]]
-        if all([form.is_valid() for day_n, form in day_forms]):
+        for day, day_name in WEEKDAYS:
+            for s in (1, 2):
+                day_forms += [[day, Slot(request.POST, prefix=prefix(day, s))]]
+        if all([form.is_valid() for day, form in day_forms]):
             OpeningHours.objects.filter(company=location).delete()
-            for day_n, slot in day_forms:
-                oh = OpeningHours(
-                    from_hour = str_to_time(slot.cleaned_data['opens']),
-                    to_hour   = str_to_time(slot.cleaned_data['shuts']),
-                    company   = location,
-                    weekday   = day_n
-                )
-                oh.save()
+            for day, slot in day_forms:
+                opens, shuts = [str_to_time(slot.cleaned_data[x])
+                                for x in ('opens', 'shuts')]
+                if opens != shuts:
+                    OpeningHours(from_hour=opens, to_hour=shuts, 
+                                 company=location, weekday=day).save()
             return redirect(request.path_info)
-        
 
     return render(request, "openinghours/form.html", {
         'week': week,
