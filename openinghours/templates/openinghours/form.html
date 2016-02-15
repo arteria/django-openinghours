@@ -1,0 +1,67 @@
+{% extends "openinghours/base.html" %}
+{% block title %}Opening hours{% endblock %}
+{% block js %}
+<script src="//code.jquery.com/jquery.min.js"></script>
+<script>
+$(function(){
+    // Toggle display for 2nd set of hours
+    $('.set2').hide();
+    $('#two_sets').on('click', function(){
+        $('.set2').toggle();
+    });
+    
+    // Shortcut to repeat Monday's hours for rest of the week
+    $('#repeat').on('click', function(e){
+        e.preventDefault();
+        $(this).addClass('disabled');
+        // get monday values
+        var opens  = $('#id_day1_1-from_hour option:selected').val();
+        var shuts  = $('#id_day1_1-to_hour   option:selected').val();
+        var opens2 = $('#id_day1_2-from_hour option:selected').val();
+        var shuts2 = $('#id_day1_2-to_hour   option:selected').val();
+        // apply to rest of week
+        $('.day').each(function(index, element){
+            var i = index + 1;
+            $('#id_day'+i+'_1-from_hour').val(opens);
+            $('#id_day'+i+'_1-to_hour'  ).val(shuts);
+            $('#id_day'+i+'_2-from_hour').val(opens2);
+            $('#id_day'+i+'_2-to_hour'  ).val(shuts2);
+        });
+    });
+    $('select').on('click', function(){
+        $('#repeat').removeClass('disabled');
+    });
+    
+    // Disable time selection for a day if closed
+    $('.closed').on('click', function(){
+        $(this).parents('.day').find('select').prop('disabled', this.checked);
+    });
+})
+</script>
+<style>
+.weekday{display:inline-block;width:6em}
+label{font-weight:normal}
+form{padding-top:2em}
+</style>
+{% endblock %}
+
+{% block content %}
+<form method="POST" action=".">
+    {% for day in week %}
+    <div class="day">
+        <span class="set1"><span class="weekday text-muted text-right">{{ day.weekday.1 }}</span>
+            {{ day.slot1.from_hour }} - {{ day.slot1.to_hour }}</span>
+        <span class="set2"><span class="small text-muted">and</span>  
+            {{ day.slot2.from_hour }} - {{ day.slot2.to_hour }}</span>
+        <label><input type="checkbox" class="closed" id="closed{{ day.weekday.0 }}"> Closed</label>
+        {% if forloop.first %}
+            <button class="btn btn-default btn-xs" id="repeat">Apply to all days</button>
+        {% endif %}
+    </div>
+    {% endfor %}
+    <p><label><input type="checkbox" id="two_sets"> There are 2 sets of hours for 1 day.</label>
+    <p>
+        <button class="btn btn-primary">Apply</button>
+        <button class="btn btn-default">Cancel</button>
+</form>
+{% endblock %}
