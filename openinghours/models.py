@@ -45,7 +45,7 @@ class OpeningHours(models.Model):
     class Meta:
         verbose_name = _('Opening Hours')  # plurale tantum
         verbose_name_plural = _('Opening Hours')
-        ordering = ['weekday']
+        ordering = ['company', 'weekday', 'from_hour']
 
     company = models.ForeignKey(PREMISES_MODEL, verbose_name=_('Company'))
     weekday = models.IntegerField(_('Weekday'), choices=WEEKDAYS)
