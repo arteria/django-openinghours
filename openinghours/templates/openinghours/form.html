@@ -10,16 +10,18 @@ $(function(){
         $('.set2').toggle();
     });
     
+    
     // Shortcut to repeat Monday's hours for rest of the week
     $('#repeat').on('click', function(e){
         e.preventDefault();
+        // Disable until needed
         $(this).addClass('disabled');
-        // get monday values
+        // Get Monday values
         var opens  = $('#id_day1_1-opens option:selected').val();
         var shuts  = $('#id_day1_1-shuts option:selected').val();
         var opens2 = $('#id_day1_2-opens option:selected').val();
         var shuts2 = $('#id_day1_2-shuts option:selected').val();
-        // apply to rest of week
+        // Apply to rest of week
         $('.day').each(function(index, element){
             var i = index + 1;
             $('#id_day'+i+'_1-opens').val(opens);
@@ -28,9 +30,11 @@ $(function(){
             $('#id_day'+i+'_2-shuts').val(shuts2);
         });
     });
+    // Enable repeat shortcut now a time is selected
     $('select').on('click', function(){
         $('#repeat').removeClass('disabled');
     });
+    
     
     // Disable time selection for a day if closed
     var closed = function(e){
