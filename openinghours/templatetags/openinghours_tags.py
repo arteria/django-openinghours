@@ -91,6 +91,7 @@ def opening_hours(location=None, concise=False):
 
     for o in ohrs:
         days.append({
+            'day_number': o.weekday,
             'name': o.get_weekday_display(),
             'from_hour': o.from_hour,
             'to_hour': o.to_hour,
@@ -101,12 +102,16 @@ def opening_hours(location=None, concise=False):
                 o.to_hour.strftime('%p').lower()
             )
         })
-    for day in WEEKDAYS:
-        if day[1] not in [open_day['name'] for open_day in days]:
+
+    open_days = [o.weekday for o in ohrs]
+    for day_number, day_name in WEEKDAYS:
+        if day_number not in open_days:
             days.append({
-                'name': str(day[1]),
+                'day_number': day_number,
+                'name': day_name,
                 'hours': 'Closed'
             })
+    days = sorted(days, key=lambda k: k['day_number'])
 
     if concise:
         # [{'hours': '9:00am to 5:00pm', 'day_names': u'Monday to Friday'},
