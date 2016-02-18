@@ -1,7 +1,3 @@
-{% extends "openinghours/base.html" %}
-{% block title %}Opening hours{% endblock %}
-{% block js %}
-<script src="//code.jquery.com/jquery.min.js"></script>
 <script>
 $(function(){
     // Toggle display for 2nd set of hours
@@ -9,8 +5,8 @@ $(function(){
     $('#two_sets').on('click', function(){
         $('.set2').toggle();
     });
-    
-    
+
+
     // Shortcut to repeat Monday's hours for rest of the week
     $('#repeat').on('click', function(e){
         e.preventDefault();
@@ -34,8 +30,8 @@ $(function(){
     $('select').on('click', function(){
         $('#repeat').removeClass('disabled');
     });
-    
-    
+
+
     // Disable time selection for a day if closed
     var closed = function(e){
         $(e).parents('.day').find('select').prop('disabled', e.checked);
@@ -44,28 +40,28 @@ $(function(){
     $('.closed').on('click', function(){ closed(this); });
 })
 </script>
+
 <style>
 .weekday{display:inline-block;width:6em}
 label{font-weight:normal}
 form{padding-top:2em}
 </style>
-{% endblock %}
 
-{% block content %}
 <form method="POST" action="#">
-    {% for day in week %}
+    {% for day in days %}
     <div class="day">
         <span class="set1">
             <span class="weekday text-muted text-right">
-            {{ day.weekday.1 }}</span>
+            {{ day.name }}</span>
             {{ day.slot1.opens }} - {{ day.slot1.shuts }}</span>
         <span class="set2"><span class="small text-muted">and</span>  
             {{ day.slot2.opens }} - {{ day.slot2.shuts }}</span>
         <label><input type="checkbox" class="closed"
-            id="closed{{ day.weekday.0 }}"
+            id="closed{{ day.number }}"
             {% if day.closed %}checked{% endif %}> Closed</label>
         {% if forloop.first %}
-            <button class="btn btn-default btn-xs" id="repeat">Apply to all days</button>
+            <button class="btn btn-default btn-xs" id="repeat">
+                Apply to all days</button>
         {% endif %}
     </div>
     {% endfor %}
@@ -77,4 +73,3 @@ form{padding-top:2em}
         <a href="../" class="btn btn-default">Cancel</a>
     {% csrf_token %}
 </form>
-{% endblock %}

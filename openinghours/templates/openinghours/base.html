@@ -11,9 +11,9 @@
 <h1><i class="glyphicon glyphicon-time"></i> Opening hours</h1>
 <p>Use cases and examples for django-openinghours.
 <ul class="nav nav-tabs">
-<li{% if not week %} class="active"{% endif %}>
+<li{% if not days %} class="active"{% endif %}>
     <a href="/">template tags</a></li>
-<li{% if week %} class="active"{% endif %}>
+<li{% if days %} class="active"{% endif %}>
     <a href="/edit/1">editing form</a></li>
 </ul>
 {% block content %}
