@@ -11,6 +11,8 @@ class OpeningHoursEditView(DetailView):
 
     Models still support more slots via shell or admin UI.
     This UI will delete and not recreate anything above 2 daily slots.
+    
+    Inspired by Google local opening hours UI and earlier works.
     """
     model = get_premises_model()
     template_name = "openinghours/edit_base.html"
