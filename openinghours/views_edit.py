@@ -10,6 +10,7 @@ class OpeningHoursEditView(DetailView):
     """Powers editing UI supporting up to 2 time slots (sets) per day.
 
     Models still support more slots via shell or admin UI.
+    This UI will delete and not recreate anything above 2 daily slots.
     """
     model = get_premises_model()
     template_name = "openinghours/edit_base.html"
@@ -27,12 +28,13 @@ class OpeningHoursEditView(DetailView):
         Old opening hours are purged before new ones are saved.
         """
         location = self.get_object()
+        # open days, disabled widget data won't make it into request.POST
         present_prefixes = [x.split('-')[0] for x in request.POST.keys()]
         day_forms = OrderedDict()
         for day_no, day_name in WEEKDAYS:
             for slot_no in (1, 2):
                 prefix = self.form_prefix(day_no, slot_no)
-                # skip closed day as it would be invalid form
+                # skip closed day as it would be invalid form due to no data
                 if prefix not in present_prefixes:
                     continue
                 day_forms[prefix] = (day_no, Slot(request.POST, prefix=prefix))
