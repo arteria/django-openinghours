@@ -1,6 +1,9 @@
 Django Opening Hours
 ====================
 
+.. image:: https://travis-ci.org/arteria/django-openinghours.svg?branch=master
+    :target: https://travis-ci.org/arteria/django-openinghours
+
 A reusable Django app to work with opening hours.
 
 Comes with the following features:
