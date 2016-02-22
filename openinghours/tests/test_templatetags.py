@@ -16,11 +16,11 @@ class TemplatetagsTestCase(OpeningHoursTestCase):
 
     def test_iso_day_to_weekday(self):
         with freeze_time("2016-02-22"):  # Monday
-            self.assertEqual(iso_day_to_weekday(1).encode('utf-8'), 'today')
-            self.assertNotEqual(iso_day_to_weekday(2).encode('utf-8'), 'today')
+            self.assertEqual(iso_day_to_weekday(1).encode('utf-8'), str('today'))
+            self.assertNotEqual(iso_day_to_weekday(2).encode('utf-8'), str('today'))
         with freeze_time("2016-02-23"):  # Tuesday
-            self.assertNotEqual(iso_day_to_weekday(1).encode('utf-8'), 'today')
-            self.assertEqual(iso_day_to_weekday(2).encode('utf-8'), 'today')
+            self.assertNotEqual(iso_day_to_weekday(1).encode('utf-8'), str('today'))
+            self.assertEqual(iso_day_to_weekday(2).encode('utf-8'), str('today'))
 
     def test_to_weekday(self):
         pass
