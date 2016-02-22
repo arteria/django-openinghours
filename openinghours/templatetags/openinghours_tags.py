@@ -1,8 +1,5 @@
-import datetime
-
-from django.template import Library
-from django.template.loader import get_template, render_to_string
-from django.utils.safestring import mark_safe
+from django.template import Library, Context
+from django.template.loader import get_template
 from django.utils.translation import ugettext_lazy as _
 
 from openinghours.models import *
@@ -144,4 +141,4 @@ def opening_hours(location=None, concise=False):
         days = concise_days
 
     template = get_template(template_name)
-    return template.render({'days': days})
+    return template.render(Context({'days': days}))
