@@ -11,7 +11,7 @@ register = Library()
 
 @register.filter(expects_localtime=True)
 def iso_day_to_weekday(d):
-    if int(d) == get_now().isoweekday():
+    if int(d) == utils.get_now().isoweekday():
         return _("today")
     for w in WEEKDAYS:
         if w[0] == int(d):

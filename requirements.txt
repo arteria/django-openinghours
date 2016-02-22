@@ -1,4 +1,3 @@
 django
 django-threadlocals
-coverage
 django-compat
