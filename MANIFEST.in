@@ -2,7 +2,7 @@ include AUTHORS
 include LICENSE
 include DESCRIPTION
 include CHANGELOG.txt
-include README.md
+include README.rst
 graft openinghours
 global-exclude *.orig *.pyc *.log *.swp
 prune openinghours/tests/coverage

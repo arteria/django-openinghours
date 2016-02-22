@@ -1,53 +1,49 @@
+{% extends "openinghours/base.html" %}
 {% load i18n %}
 {% load openinghours_tags %}
 
+{% block content %}
 
-<h1>django-openinghours</h1>
-<p>
-	Covered use cases and examples for django-openinghours.
-</p>	
-
-<h2>Test is a company is currently open or not.</h2>
+<h2>Check current situation</h2>
 
 {% verbatim %}
-<pre style="background-color: whiteSmoke; padding: 10px;">
-{% isCompanyCurrentlyOpen 'company-ltd' as company_open %}
-{% if company_open %}
-	Yes we're open!
+<pre>
+{% is_open location as open %}
+{% if open %}
+    Come in, we're open!
 {% else %}
-	Sorry we're closed!
-{% endif %}
-</pre>
-<p>In version 0.0.27 and earlier, it was done like this:</p>
-<pre style="background-color: whiteSmoke; padding: 10px;">
-{% if 'company-ltd'|isCompanyCurrentlyOpen %}
-	Yes we're open!
-{% else %}
-	Sorry we're closed!
+    Sorry, we're closed.
+    Reopening
+    {% next_time_open location as next %}
+    {{ next.get_weekday_display }} {{ next.from_hour }}
 {% endif %}
 </pre>
 {% endverbatim %}
 
-{% isCompanyCurrentlyOpen 'company-ltd' as company_open %}
-{% if company_open %}
-	Yes we're open!
+{% is_open location as open %}
+{% if open %}
+	<div class="alert alert-success">Come in, we're open!</div>
 {% else %}
-	Sorry we're closed!
+	<div class="alert alert-warning">Sorry, we're closed.
+        Reopening
+        {% next_time_open location as next %}
+        {{ next.get_weekday_display }} {{ next.from_hour }}
+    </div>
 {% endif %}
 
-
-<h2>List a company's opening hours</h2>
+<h2>Display opening hours</h2>
 
 {% verbatim %}
-<pre style="background-color: whiteSmoke; padding: 10px;">
-{% companyOpeningHoursList 'company-ltd' %}
-</pre>
-<p>In version 0.0.27 and earlier, it was done like this:</p>
-<pre style="background-color: whiteSmoke; padding: 10px;">
-{{ 'company-ltd'|companyOpeningHoursList }}
-</pre>
+<pre>{% opening_hours location %}</pre>
 {% endverbatim %}
 
-{% companyOpeningHoursList 'company-ltd' %}
+{% opening_hours location %}
+<hr>
+<p>Concise opening hours:</p>
+{% verbatim %}
+<pre>{% opening_hours location concise=1 %}</pre>
+{% endverbatim %}
 
+{% opening_hours location concise=1 %}
 
+{% endblock %}

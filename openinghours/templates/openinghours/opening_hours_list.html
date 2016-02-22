@@ -1,0 +1,10 @@
+<table>
+{% for day in days %}
+	<tr>
+        <th>{% ifchanged %}{{ day.name }}{% endifchanged %}</th>
+        <td>{{ day.hours }}</td>
+    </tr>
+{% empty %}
+	Sorry, we're closed.
+{% endfor %}
+</table>
