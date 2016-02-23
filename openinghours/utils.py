@@ -46,7 +46,7 @@ def get_now():
 
 def get_closing_rule_for_now(location):
     """
-    Access all the closing rules for a company
+    Returns QuerySet of ClosingRules that are currently valid
     """
     now = get_now()
 
@@ -105,7 +105,8 @@ def is_open(location, now=None):
 
 def next_time_open(location):
     """
-    Returns the next possible opening hours object.
+    Returns the next possible opening hours object, or (False, None) if location is currently open or there is no
+    such object
     I.e. when is the company open for the next time?
     """
     if not is_open(location):

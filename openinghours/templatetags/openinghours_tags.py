@@ -2,7 +2,7 @@ from django.template import Library, Context
 from django.template.loader import get_template
 from django.utils.translation import ugettext_lazy as _
 
-from openinghours.models import *
+from openinghours.models import WEEKDAYS, OpeningHours
 from openinghours import utils
 
 
@@ -11,6 +11,9 @@ register = Library()
 
 @register.filter(expects_localtime=True)
 def iso_day_to_weekday(d):
+    """
+    Returns the weekday's name given a ISO weekday number; "today" if today is the same weekday
+    """
     if int(d) == utils.get_now().isoweekday():
         return _("today")
     for w in WEEKDAYS:
@@ -32,6 +35,9 @@ def to_weekday(date_obj_tpl):
 
 @register.assignment_tag
 def is_open(location=None, attr=None):
+    """
+    Returns False if the location is closed, or the OpeningHours object specifying that the location is currently open
+    """
     obj = utils.is_open(location)
     if obj is False:
         return False
@@ -42,6 +48,10 @@ def is_open(location=None, attr=None):
 
 @register.assignment_tag
 def next_time_open(location):
+    """
+    Returns the next possible OpeningHours object, or False if the location is currently open or if there is no such
+    object
+    """
     obj, ts = utils.next_time_open(location)
     return obj
 
@@ -58,7 +68,6 @@ def has_closing_rule_for_now(location, attr=None):
 
 @register.filter(expects_localtime=True)
 def get_closing_rule_for_now(location, attr=None):
-    """Only accesses the *first* closing rule, because closed means closed."""
     obj = utils.get_closing_rule_for_now(location)
     if obj is False:
         return False
@@ -69,7 +78,9 @@ def get_closing_rule_for_now(location, attr=None):
 
 @register.simple_tag
 def opening_hours(location=None, concise=False):
-    """Creates a rendered listing of hours."""
+    """
+    Creates a rendered listing of hours.
+    """
     template_name = 'openinghours/opening_hours_list.html'
     days = []  # [{'hours': '9:00am to 5:00pm', 'name': u'Monday'}, {'hours...
 

@@ -22,7 +22,7 @@ class OpeningHoursTestCase(TestCase):
             6: ['10:00 13:00'],
             7: None,
         }
-        company, created = Company.objects.get_or_create(name="Company Ltd.",
+        self.company, created = Company.objects.get_or_create(name="Company Ltd.",
                                                          slug="company-ltd")
         for day, hours in test_data.items():
             if not hours:
@@ -30,19 +30,16 @@ class OpeningHoursTestCase(TestCase):
             for slot in hours:
                 from_hour, to_hour = slot.split()
                 OpeningHours.objects.get_or_create(
-                    company=company,
+                    company=self.company,
                     weekday=day,
                     from_hour=str_to_time(from_hour),
                     to_hour=str_to_time(to_hour)
                 )
 
-        def days_ahead(d): return datetime.today() + timedelta(days=d)
-
-        # setup some holidays
         holiday = ClosingRules.objects.create(
-            company=company,
-            start=days_ahead(2),
-            end=days_ahead(4),
+            company=self.company,
+            start=datetime(2015, 12, 25) - timedelta(days=2),
+            end=datetime(2015, 12, 25) + timedelta(days=4),
             reason="Public holiday"
         )
 
