@@ -3,7 +3,7 @@ from freezegun import freeze_time
 
 from openinghours.models import OpeningHours, ClosingRules
 from openinghours.templatetags.openinghours_tags import iso_day_to_weekday, is_open, next_time_open, \
-    has_closing_rule_for_now, get_closing_rule_for_now
+    has_closing_rule_for_now, get_closing_rule_for_now, opening_hours
 from openinghours.tests.tests import OpeningHoursTestCase
 
 
@@ -57,13 +57,13 @@ class TemplatetagsTestCase(OpeningHoursTestCase):
             self.assertFalse(next_time_open(self.company))
 
     def test_has_closing_rule_for_now(self):
-        with freeze_time("2015-12-26 10:00:00"):
+        with freeze_time("2015-12-26 10:00:00"):  # Holiday
             self.assertTrue(has_closing_rule_for_now(self.company))
         with freeze_time("2016-02-22 10:00:00"):
             self.assertFalse(has_closing_rule_for_now(self.company))
 
     def test_get_closing_rule_for_now(self):
-        with freeze_time("2015-12-26 10:00:00"):
+        with freeze_time("2015-12-26 10:00:00"):  # Holiday
             self.assertEqual(
                     get_closing_rule_for_now(self.company).first(),
                     ClosingRules.objects.filter(company=self.company).first()
@@ -72,5 +72,19 @@ class TemplatetagsTestCase(OpeningHoursTestCase):
             self.assertFalse(get_closing_rule_for_now(self.company))
 
     def opening_hours(self):
-        pass # TODO: Write test
-
+        with freeze_time("2016-02-22 08:00:00"):  # Monday
+            opening_hours_str = opening_hours(self.company)
+            self.assertIn(u'Monday:', opening_hours_str)
+            self.assertIn(u'Tuesday:', opening_hours_str)
+            self.assertIn(u'Wednesday:', opening_hours_str)
+            self.assertIn(u'Thursday:', opening_hours_str)
+            self.assertIn(u'Friday:', opening_hours_str)
+            self.assertIn(u'Saturday:', opening_hours_str)
+            self.assertIn(u'Sunday:', opening_hours_str)
+            self.assertIn(u'8:30am to 12:00pm', opening_hours_str)
+            self.assertIn(u'9:00am to 17:00pm', opening_hours_str)
+            self.assertIn(u'10:00am to 13:00pm', opening_hours_str)
+            self.assertIn(u'12:30am to 22:00pm', opening_hours_str)
+            self.assertIn(u'12:30am to 18:00pm', opening_hours_str)
+            self.assertIn(u'18:30am to 22:00pm', opening_hours_str)
+            self.assertNotIn(u'2:30am to 4:00am', opening_hours_str)
