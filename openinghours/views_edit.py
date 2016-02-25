@@ -93,5 +93,6 @@ class OpeningHoursEditView(DetailView):
             })
         return render(request, self.template_name, {
             'days': days,
-            'two_sets': two_sets
+            'two_sets': two_sets,
+            'location': location,
         })
