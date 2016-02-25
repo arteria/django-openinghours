@@ -12,7 +12,8 @@ register = Library()
 @register.filter(expects_localtime=True)
 def iso_day_to_weekday(d):
     """
-    Returns the weekday's name given a ISO weekday number; "today" if today is the same weekday
+    Returns the weekday's name given a ISO weekday number;
+    "today" if today is the same weekday.
     """
     if int(d) == utils.get_now().isoweekday():
         return _("today")
@@ -36,7 +37,8 @@ def to_weekday(date_obj_tpl):
 @register.assignment_tag
 def is_open(location=None, attr=None):
     """
-    Returns False if the location is closed, or the OpeningHours object specifying that the location is currently open
+    Returns False if the location is closed, or the OpeningHours object
+    to show the location is currently open.
     """
     obj = utils.is_open(location)
     if obj is False:
@@ -49,8 +51,8 @@ def is_open(location=None, attr=None):
 @register.assignment_tag
 def next_time_open(location):
     """
-    Returns the next possible OpeningHours object, or False if the location is currently open or if there is no such
-    object
+    Returns the next possible OpeningHours object, or False
+    if the location is currently open or if there is no such object.
     """
     obj, ts = utils.next_time_open(location)
     return obj
