@@ -3,7 +3,7 @@ See `README`_ and `CHANGELOG`_.
 Upgrading
 =========
 To upgrade from version prior to 0.1, please rename your template tag names and
-make sure to pass the company or premisses object to the tag instead of a slug.
+make sure to pass the company or premises object to the tag instead of a slug.
 
 ===============================  ============================
 <= 0.0.27                        > 0.1

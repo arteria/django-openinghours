@@ -46,7 +46,7 @@ settings.py:
 
 ::
 
-    OPENINGHOURS_PREMISES_MODEL = 'yourcastleapp.models.Castle'
+    OPENINGHOURS_PREMISES_MODEL = 'yourcastleapp.Castle'
 
 Add the ``openinghours`` URLs to your ``urls.py``
 
