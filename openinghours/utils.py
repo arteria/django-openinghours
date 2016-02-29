@@ -68,8 +68,8 @@ def has_closing_rule_for_now(location):
 
 def is_open(location, now=None):
     """
-    Is the company currently open? Pass "now" to test with a specific timestamp.
-    This method is used as stand alone and helper.
+    Is the company currently open? Pass "now" to test with a specific
+    timestamp. Can be used stand-alone or as a helper.
     """
     if now is None:
         now = get_now()
@@ -86,15 +86,23 @@ def is_open(location, now=None):
     for oh in ohs:
         is_open = False
         # start and end is on the same day
-        if oh.weekday == now.isoweekday() and oh.from_hour <= now_time and now_time <= oh.to_hour:
+        if (oh.weekday == now.isoweekday() and
+                oh.from_hour <= now_time and
+                now_time <= oh.to_hour):
             is_open = oh
 
         # start and end are not on the same day and we test on the start day
-        if oh.weekday == now.isoweekday() and oh.from_hour <= now_time and ((oh.to_hour < oh.from_hour) and (now_time < datetime.time(23, 59, 59))):
+        if (oh.weekday == now.isoweekday() and
+                oh.from_hour <= now_time and
+                ((oh.to_hour < oh.from_hour) and
+                    (now_time < datetime.time(23, 59, 59)))):
             is_open = oh
 
         # start and end are not on the same day and we test on the end day
-        if (oh.weekday == (now.isoweekday() - 1) % 7 and oh.from_hour >= now_time and oh.to_hour >= now_time and oh.to_hour < oh.from_hour):
+        if (oh.weekday == (now.isoweekday() - 1) % 7 and
+                oh.from_hour >= now_time and
+                oh.to_hour >= now_time and
+                oh.to_hour < oh.from_hour):
             is_open = oh
             # print " 'Special' case after midnight", oh
 
@@ -105,8 +113,8 @@ def is_open(location, now=None):
 
 def next_time_open(location):
     """
-    Returns the next possible opening hours object, or (False, None) if location is currently open or there is no
-    such object
+    Returns the next possible opening hours object, or (False, None)
+    if location is currently open or there is no such object
     I.e. when is the company open for the next time?
     """
     if not is_open(location):
@@ -115,13 +123,21 @@ def next_time_open(location):
         found_opening_hours = False
         for i in range(8):
             l_weekday = (now.isoweekday() + i) % 8
-            ohs = OpeningHours.objects.filter(company=location, weekday=l_weekday).order_by('weekday', 'from_hour')
+            ohs = OpeningHours.objects.filter(company=location,
+                                              weekday=l_weekday
+                                              ).order_by('weekday',
+                                                         'from_hour')
 
             if ohs.count():
                 for oh in ohs:
                     future_now = now + datetime.timedelta(days=i)
                     # same day issue
-                    tmp_now = datetime.datetime(future_now.year, future_now.month, future_now.day, oh.from_hour.hour, oh.from_hour.minute, oh.from_hour.second)
+                    tmp_now = datetime.datetime(future_now.year,
+                                                future_now.month,
+                                                future_now.day,
+                                                oh.from_hour.hour,
+                                                oh.from_hour.minute,
+                                                oh.from_hour.second)
                     if tmp_now < now:
                         tmp_now = now  # be sure to set the bound correctly...
                     if is_open(location, now=tmp_now):

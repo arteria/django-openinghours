@@ -11,7 +11,7 @@ class OpeningHoursEditView(DetailView):
 
     Models still support more slots via shell or admin UI.
     This UI will delete and not recreate anything above 2 daily slots.
-    
+
     Inspired by Google local opening hours UI and earlier works.
     """
     model = get_premises_model()
@@ -19,7 +19,7 @@ class OpeningHoursEditView(DetailView):
 
     def form_prefix(self, day_n, slot_n):
         """Form prefix made up of day number and slot number.
-        
+
         - day number 1-7 for Monday to Sunday
         - slot 1-2 typically morning and afternoon
         """
@@ -93,5 +93,6 @@ class OpeningHoursEditView(DetailView):
             })
         return render(request, self.template_name, {
             'days': days,
-            'two_sets': two_sets
+            'two_sets': two_sets,
+            'location': location,
         })
