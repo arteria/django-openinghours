@@ -12,7 +12,7 @@ setup(
     keywords='django, app, openinghours, shop, store',
     author='arteria GmbH, fmalina',
     author_email='admin@arteria.ch, fmalina@gmail.com',
-    url="https://github.com/arteria.ch/django-openinghours",
+    url="https://github.com/arteria/django-openinghours",
     packages=find_packages(),
     include_package_data=True,
     install_requires=open('requirements.txt').read().split(),
