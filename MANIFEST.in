@@ -3,6 +3,7 @@ include LICENSE
 include DESCRIPTION
 include CHANGELOG.txt
 include README.rst
+include requirements.txt
 graft openinghours
 global-exclude *.orig *.pyc *.log *.swp
 prune openinghours/tests/coverage
