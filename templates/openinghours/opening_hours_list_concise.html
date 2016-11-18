@@ -1,6 +1,0 @@
-<dl>
-{% for set in days %}
-	{% ifchanged %}<dt>{{ set.day_names }}:</dt>{% endifchanged %}
-		<dd>{{ set.hours }}</dd>
-{% endfor %}
-</dl>

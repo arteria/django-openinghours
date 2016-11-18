@@ -1,4 +1,4 @@
-<table>
+<table class="table table-striped table-hover">
 {% for day in days %}
 	<tr>
         <th>{% ifchanged %}{{ day.name }}{% endifchanged %}</th>
@@ -7,4 +7,5 @@
 {% empty %}
 	Sorry, we're closed.
 {% endfor %}
+
 </table>

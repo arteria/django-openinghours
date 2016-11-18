@@ -1,6 +1,7 @@
 from django.template import Library, Context
 from django.template.loader import get_template
 from django.utils.translation import ugettext_lazy as _
+from django.conf import settings
 
 from openinghours.models import WEEKDAYS, OpeningHours
 from openinghours import utils
@@ -100,18 +101,26 @@ def opening_hours(location=None, concise=False):
     ohrs.order_by('weekday', 'from_hour')
 
     for o in ohrs:
-        days.append({
+        time = {
             'day_number': o.weekday,
             'name': o.get_weekday_display(),
             'from_hour': o.from_hour,
             'to_hour': o.to_hour,
-            'hours': '%s%s to %s%s' % (
+        }        
+        if settings.TIME_ZONE.split('/')[0] == 'Europe':
+            time.update({'hours': '%s - %s' % (
+                o.from_hour.strftime('%H:%M'),
+                o.to_hour.strftime('%H:%M'),
+            )})
+        else:
+            time.update({'hours': '%s%s - %s%s' % (
                 o.from_hour.strftime('%I:%M').lstrip('0'),
                 o.from_hour.strftime('%p').lower(),
                 o.to_hour.strftime('%I:%M').lstrip('0'),
                 o.to_hour.strftime('%p').lower()
-            )
-        })
+            )})
+
+        days.append(time)
 
     open_days = [o.weekday for o in ohrs]
     for day_number, day_name in WEEKDAYS:
@@ -119,7 +128,7 @@ def opening_hours(location=None, concise=False):
             days.append({
                 'day_number': day_number,
                 'name': day_name,
-                'hours': 'Closed'
+                'hours': _('closed')
             })
     days = sorted(days, key=lambda k: k['day_number'])
 
