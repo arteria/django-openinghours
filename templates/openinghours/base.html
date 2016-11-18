@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>{% block title %}{% endblock %}</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+{% block js %}
+{% endblock %}
+</head>
+<body>
+<div class="container">
+<h1><i class="glyphicon glyphicon-time"></i> Opening hours</h1>
+<p>Use cases and examples for django-openinghours.
+<ul class="nav nav-tabs">
+<li{% if not days %} class="active"{% endif %}>
+    <a href="/">template tags</a></li>
+<li{% if days %} class="active"{% endif %}>
+    <a href="/edit/1">editing form</a></li>
+</ul>
+{% block content %}
+{% endblock %}
+</div>
+</body>
+</html>

@@ -1,0 +1,49 @@
+{% extends "openinghours/base.html" %}
+{% load i18n %}
+{% load openinghours_tags %}
+
+{% block content %}
+
+<h2>Check current situation</h2>
+
+{% verbatim %}
+<pre>
+{% is_open location as open %}
+{% if open %}
+    Come in, we're open!
+{% else %}
+    Sorry, we're closed.
+    Reopening
+    {% next_time_open location as next %}
+    {{ next.get_weekday_display }} {{ next.from_hour }}
+{% endif %}
+</pre>
+{% endverbatim %}
+
+{% is_open location as open %}
+{% if open %}
+	<div class="alert alert-success">Come in, we're open!</div>
+{% else %}
+	<div class="alert alert-warning">Sorry, we're closed.
+        Reopening
+        {% next_time_open location as next %}
+        {{ next.get_weekday_display }} {{ next.from_hour }}
+    </div>
+{% endif %}
+
+<h2>Display opening hours</h2>
+
+{% verbatim %}
+<pre>{% opening_hours location %}</pre>
+{% endverbatim %}
+
+{% opening_hours location %}
+<hr>
+<p>Concise opening hours:</p>
+{% verbatim %}
+<pre>{% opening_hours location concise=1 %}</pre>
+{% endverbatim %}
+
+{% opening_hours location concise=1 %}
+
+{% endblock %}
