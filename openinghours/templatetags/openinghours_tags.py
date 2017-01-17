@@ -152,10 +152,10 @@ def opening_hours(location=None, concise=False):
 
         for day_set in concise_days:
             if len(day_set['day_names']) > 2:
-                day_set['day_names'] = '%s to %s' % (day_set['day_names'][0],
+                day_set['day_names'] = '%s - %s' % (day_set['day_names'][0],
                                                      day_set['day_names'][-1])
             elif len(day_set['day_names']) > 1:
-                day_set['day_names'] = '%s and %s' % (day_set['day_names'][0],
+                day_set['day_names'] = '%s & %s' % (day_set['day_names'][0],
                                                       day_set['day_names'][-1])
             else:
                 day_set['day_names'] = '%s' % day_set['day_names'][0]
