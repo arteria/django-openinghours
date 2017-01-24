@@ -1,4 +1,4 @@
-import datetime
+import datetime, pytz
 from django.conf import settings
 try:
     from threadlocals.threadlocals import get_current_request
