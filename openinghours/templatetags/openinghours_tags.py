@@ -1,4 +1,4 @@
-from django.template import Library, Context
+from django.template import Library
 from django.template.loader import get_template
 from django.utils.translation import ugettext_lazy as _
 
@@ -154,4 +154,4 @@ def opening_hours(location=None, concise=False):
         days = concise_days
 
     template = get_template(template_name)
-    return template.render(Context({'days': days}))
+    return template.render({'days': days})
