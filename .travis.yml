@@ -38,4 +38,5 @@ matrix:
     allow_failures:
         - env: DJANGO=django==1.4.*
         - env: DJANGO=django==1.6.*
+        - env: DJANGO=django==1.7.*
     fast_finish: true
