@@ -1,4 +1,4 @@
-import datetime
+import datetime, pytz
 from django.conf import settings
 try:
     from threadlocals.threadlocals import get_current_request
@@ -35,13 +35,13 @@ def get_now():
     Allows to access global request and read a timestamp from query.
     """
     if not get_current_request:
-        return datetime.datetime.now()
+        return datetime.datetime.now(pytz.timezone(settings.TIME_ZONE))
     request = get_current_request()
     if request:
         openinghours_now = request.GET.get('openinghours-now')
         if openinghours_now:
             return datetime.datetime.strptime(openinghours_now, '%Y%m%d%H%M%S')
-    return datetime.datetime.now()
+    return datetime.datetime.now(pytz.timezone(settings.TIME_ZONE))
 
 
 def get_closing_rule_for_now(location):
