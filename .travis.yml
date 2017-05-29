@@ -18,6 +18,7 @@ install:
     - pip install -r requirements-test.txt
     - pip install $DJANGO
     - pip install coveralls
+    - pip install pytz
 
 script:
     coverage run manage.py test
