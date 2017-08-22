@@ -120,9 +120,13 @@ Contribute
 ----------
 
 Just send us your pull request. File and issue. Use it. Talk about
-`it`_. Thank you
+`it`_.  
 
 .. _templates: openinghours/templates/openinghours/index.html
 .. _CHANGELOG: CHANGELOG.txt
 .. _UPGRADING: docs/UPGRADING.rst
 .. _it: https://github.com/arteria/django-openinghours
+
+
+
+django-openinghours is free software. If you find it useful and would like to give back, please consider to make a donation using Bitcoin https://blockchain.info/payment_request?address=1AJkbQdcNkrHzxi91mB1kkPxh4t4BJ4hu4 or  PayPal https://www.paypal.me/arteriagmbh. Thank you! 
