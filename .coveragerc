@@ -1,0 +1,8 @@
+[run]
+source = openinghours
+omit =
+  openinghours/migrations/*
+  openinghours/tests/*
+
+[report]
+fail_under = 50
