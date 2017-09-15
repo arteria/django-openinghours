@@ -1,42 +1,30 @@
 language: python
 
-python:
-    - "2.7"
-    - "3.4"
-    - "3.5"
+# this list can be easily generated py running `tox -l`
 env:
-    - DJANGO=django==1.4.*
-    - DJANGO=django==1.6.*
-    - DJANGO=django==1.7.*
-    - DJANGO=django==1.8.*
-    - DJANGO=django==1.9.*
+    - TOX_ENV=py27-django18
+    - TOX_ENV=py27-django111
 
-sudo: false
+# Currently, Python 3.5 Interpreter is only available when it is specified
+# in the travis python section. So we have to work around this with this include
+# GitHub issue: https://github.com/travis-ci/travis-ci/issues/4794
+matrix:
+  include:
+  - python: "3.6"
+    env:
+      - TOX_ENV=py36-django18
+  - python: "3.6"
+    env:
+      - TOX_ENV=py36-django111
 
 install:
-    - pip install -r requirements.txt
-    - pip install -r requirements-test.txt
-    - pip install $DJANGO
+    - pip install tox-travis
     - pip install coveralls
 
 script:
-    coverage run manage.py test
+    - tox -e $TOX_ENV
+
+sudo: false
 
 after_success:
     coveralls
-
-matrix:
-    exclude:
-        - python: "3.4"
-          env: DJANGO=django==1.4.*
-        - python: "3.5"
-          env: DJANGO=django==1.4.*
-        - python: "3.5"
-          env: DJANGO=django==1.6.*
-        - python: "3.5"
-          env: DJANGO=django==1.7.*
-    allow_failures:
-        - env: DJANGO=django==1.4.*
-        - env: DJANGO=django==1.6.*
-        - env: DJANGO=django==1.7.*
-    fast_finish: true
