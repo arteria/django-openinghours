@@ -3,6 +3,10 @@ Django Opening Hours
 
 .. image:: https://travis-ci.org/arteria/django-openinghours.svg?branch=master
     :target: https://travis-ci.org/arteria/django-openinghours
+.. image:: https://coveralls.io/repos/github/arteria/django-openinghours/badge.svg?branch=master
+    :target: https://coveralls.io/github/arteria/django-openinghours?branch=master
+.. image:: https://img.shields.io/pypi/v/django-openinghours.svg
+    :target: https://pypi.python.org/pypi/django-openinghours
 
 A reusable Django app to work with opening hours.
 
@@ -120,7 +124,7 @@ Contribute
 ----------
 
 Just send us your pull request. File and issue. Use it. Talk about
-`it`_.  
+`it`_.
 
 .. _templates: openinghours/templates/openinghours/index.html
 .. _CHANGELOG: CHANGELOG.txt
@@ -129,4 +133,4 @@ Just send us your pull request. File and issue. Use it. Talk about
 
 
 
-django-openinghours is free software. If you find it useful and would like to give back, please consider to make a donation using Bitcoin https://blockchain.info/payment_request?address=1AJkbQdcNkrHzxi91mB1kkPxh4t4BJ4hu4 or  PayPal https://www.paypal.me/arteriagmbh. Thank you! 
+django-openinghours is free software. If you find it useful and would like to give back, please consider to make a donation using Bitcoin https://blockchain.info/payment_request?address=1AJkbQdcNkrHzxi91mB1kkPxh4t4BJ4hu4 or  PayPal https://www.paypal.me/arteriagmbh. Thank you!
