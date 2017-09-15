@@ -88,4 +88,3 @@ class TemplatetagsTestCase(OpeningHoursTestCase):
             self.assertIn(u'12:30pm to 6:00pm', opening_hours_str)
             self.assertIn(u'6:30pm to 10:00pm', opening_hours_str)
             self.assertNotIn(u'2:30am to 4:00am', opening_hours_str)
-            print(opening_hours_str)
