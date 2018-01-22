@@ -4,9 +4,10 @@ from __future__ import unicode_literals
 from django.db import migrations, models
 from openinghours.app_settings import PREMISES_MODEL
 
-initial_operations = []
-if PREMISES_MODEL == 'openinghours.Company':
-    initial_operations = [
+
+class Migration(migrations.Migration):
+    dependencies = []
+    operations = [
         migrations.CreateModel(
             name='Company',
             fields=[
@@ -16,15 +17,11 @@ if PREMISES_MODEL == 'openinghours.Company':
                 ('logo', models.FileField(null=True, upload_to=b'logo', blank=True)),
             ],
             options={
+                'swappable': 'OPENINGHOURS_PREMISES_MODEL',
                 'verbose_name': 'Company',
                 'verbose_name_plural': 'Companies',
             },
         ),
-    ]
-
-class Migration(migrations.Migration):
-    dependencies = []
-    operations = initial_operations + [
         migrations.CreateModel(
             name='ClosingRules',
             fields=[
