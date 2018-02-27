@@ -90,8 +90,8 @@ def nextTimeOpen(companySlug):
         now = getnow()
         nowTime = datetime.time(now.hour, now.minute, now.second)
         foundOpeningHours = False
-        for i in range(8):
-            lWeekday = (now.isoweekday()+i)%8
+        for i in range(0, 7):
+            lWeekday = (now.isoweekday()+i)%7
             ohs = OpeningHours.objects.filter(company__slug=companySlug, weekday=lWeekday).order_by('weekday','fromHour')
             
             if ohs.count():
