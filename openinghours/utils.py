@@ -122,7 +122,7 @@ def next_time_open(location):
         now_time = datetime.time(now.hour, now.minute, now.second)
         found_opening_hours = False
         for i in range(8):
-            l_weekday = (now.isoweekday() + i) % 8
+            l_weekday = (now.isoweekday() + i) % 7
             ohs = OpeningHours.objects.filter(company=location,
                                               weekday=l_weekday
                                               ).order_by('weekday',

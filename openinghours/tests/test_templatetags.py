@@ -56,6 +56,19 @@ class TemplatetagsTestCase(OpeningHoursTestCase):
         with freeze_time("2016-02-22 09:00:00"):  # Monday
             self.assertFalse(next_time_open(self.company))
 
+    def test_next_time_open_on_sunday(self):
+        with freeze_time("2018-02-25 08:00:00"):  # Sunday
+            oh = OpeningHours.objects.create(
+                company=self.company,
+                weekday=1,
+                from_hour='00:00:00',
+                to_hour='23:00:00',
+            )
+            self.assertEqual(
+                next_time_open(self.company),
+                oh,
+            )
+
     def test_has_closing_rule_for_now(self):
         with freeze_time("2015-12-26 10:00:00"):  # Holiday
             self.assertTrue(has_closing_rule_for_now(self.company))
