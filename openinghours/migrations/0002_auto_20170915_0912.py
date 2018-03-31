@@ -22,7 +22,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='closingrules',
             name='company',
-            field=models.ForeignKey(to='openinghours.Company', verbose_name='Company'),
+            field=models.ForeignKey(to='openinghours.Company', verbose_name='Company', on_delete=models.CASCADE),
         ),
         migrations.AlterField(
             model_name='closingrules',
@@ -57,7 +57,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='openinghours',
             name='company',
-            field=models.ForeignKey(to='openinghours.Company', verbose_name='Company'),
+            field=models.ForeignKey(to='openinghours.Company', verbose_name='Company', on_delete=models.CASCADE),
         ),
         migrations.AlterField(
             model_name='openinghours',
