@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
+from openinghours.app_settings import PREMISES_MODEL
 from django.db import migrations, models
 
 
@@ -22,7 +22,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='closingrules',
             name='company',
-            field=models.ForeignKey(to='openinghours.Company', verbose_name='Company', on_delete=models.CASCADE),
+            field=models.ForeignKey(to=PREMISES_MODEL, verbose_name='Company', on_delete=models.CASCADE),
         ),
         migrations.AlterField(
             model_name='closingrules',
@@ -57,7 +57,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='openinghours',
             name='company',
-            field=models.ForeignKey(to='openinghours.Company', verbose_name='Company', on_delete=models.CASCADE),
+            field=models.ForeignKey(to=PREMISES_MODEL, verbose_name='Company', on_delete=models.CASCADE),
         ),
         migrations.AlterField(
             model_name='openinghours',
