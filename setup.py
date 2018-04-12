@@ -52,7 +52,7 @@ def read(fname):
 setup(
     name="django-openinghours",
     #version=app.__version__,
-    version="0.0.31-transmeta-2",
+    version="0.0.31-transmeta-3",
     description=read('DESCRIPTION'),
     long_description=read('README.rst'),
     license='The MIT License',
