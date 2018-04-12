@@ -94,7 +94,8 @@ def nextTimeOpen(companySlug):
             lWeekday = i % 7
             if lWeekday == 0:
                 lWeekday = 7
-            
+            ohs = OpeningHours.objects.filter(company__slug=companySlug, weekday=lWeekday).order_by('weekday','fromHour')
+
             if ohs.count():
                 for oh in ohs:
                     futureNow = now + datetime.timedelta(days=i)
