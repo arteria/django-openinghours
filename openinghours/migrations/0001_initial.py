@@ -42,7 +42,7 @@ class Migration(migrations.Migration):
                 ('weekday', models.IntegerField(choices=[(1, 'Monday'), (2, 'Tuesday'), (3, 'Wednesday'), (4, 'Thursday'), (5, 'Friday'), (6, 'Saturday'), (7, 'Sunday')])),
                 ('from_hour', models.TimeField()),
                 ('to_hour', models.TimeField()),
-                ('company', models.ForeignKey(to=PREMISES_MODEL)),
+                ('company', models.ForeignKey(to=PREMISES_MODEL, on_delete=models.CASCADE)),
             ],
             options={
                 'verbose_name': 'Opening Hours',
@@ -52,6 +52,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='closingrules',
             name='company',
-            field=models.ForeignKey(to=PREMISES_MODEL),
+            field=models.ForeignKey(to=PREMISES_MODEL, on_delete=models.CASCADE),
         ),
     ]
