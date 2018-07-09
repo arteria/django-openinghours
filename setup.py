@@ -5,7 +5,7 @@ import openinghours as app
 setup(
     name="django-openinghours",
     version=app.__version__,
-    description=open('DESCRIPTION', 'rb').read(),
+    description=open('DESCRIPTION', 'rb').read().decode('utf-8'),
     long_description=open('README.rst', 'rb').read().decode('utf-8'),
     license='The MIT License',
     platforms=['OS Independent'],
