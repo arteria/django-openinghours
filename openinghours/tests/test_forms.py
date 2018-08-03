@@ -1,5 +1,3 @@
-from freezegun import freeze_time
-
 from openinghours.tests.tests import OpeningHoursTestCase
 
 
