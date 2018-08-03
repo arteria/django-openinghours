@@ -1,4 +1,4 @@
-from django.test import TestCase, Client
+from django.test import TestCase
 from openinghours.models import Company, OpeningHours, ClosingRules
 from openinghours.forms import str_to_time
 from datetime import datetime, timedelta
@@ -23,7 +23,8 @@ class OpeningHoursTestCase(TestCase):
             7: None,
         }
         self.company, created = Company.objects.get_or_create(name="Company Ltd.",
-                                                         slug="company-ltd")
+                                                              slug="company-ltd",
+                                                              timezone='America/Chicago')
         for day, hours in test_data.items():
             if not hours:
                 continue
@@ -36,7 +37,7 @@ class OpeningHoursTestCase(TestCase):
                     to_hour=str_to_time(to_hour)
                 )
 
-        holiday = ClosingRules.objects.create(
+        ClosingRules.objects.create(
             company=self.company,
             start=datetime(2015, 12, 25) - timedelta(days=2),
             end=datetime(2015, 12, 25) + timedelta(days=4),
