@@ -3,6 +3,8 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
+from django.utils.timezone import utc
+
 from openinghours.app_settings import PREMISES_MODEL
 
 # isoweekday
@@ -23,14 +25,18 @@ class Company(models.Model):
     Default model for company premises, which can be
     replaced using OPENINGHOURS_PREMISES_MODEL.
     """
-    class Meta:
-        verbose_name = _('Company')
-        verbose_name_plural = _('Companies')
-        swappable = 'OPENINGHOURS_PREMISES_MODEL'
 
-    name = models.CharField(_('Name'), max_length=100)
-    slug = models.SlugField(_('Slug'), unique=True)
-    logo = models.FileField(_('Logo'), upload_to='logo', null=True, blank=True)
+    class Meta:
+        verbose_name = _("Company")
+        verbose_name_plural = _("Companies")
+        swappable = "OPENINGHOURS_PREMISES_MODEL"
+
+    name = models.CharField(_("Name"), max_length=100)
+    slug = models.SlugField(_("Slug"), unique=True)
+    logo = models.FileField(_("Logo"), upload_to="logo", null=True, blank=True)
+    timezone = models.CharField(
+        max_length=40, default=str(utc), null=False, blank=False
+    )
 
     def __str__(self):
         return self.name

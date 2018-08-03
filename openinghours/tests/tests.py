@@ -23,7 +23,8 @@ class OpeningHoursTestCase(TestCase):
             7: None,
         }
         self.company, created = Company.objects.get_or_create(name="Company Ltd.",
-                                                         slug="company-ltd")
+                                                              slug="company-ltd",
+                                                              timezone='America/Chicago')
         for day, hours in test_data.items():
             if not hours:
                 continue
