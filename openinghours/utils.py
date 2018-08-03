@@ -46,6 +46,17 @@ def get_location_timezone(location):
     return getattr(location, TIMEZONE_FIELD)
 
 
+def activate_location_timezone(location=None):
+    if location is None:
+        timezone.deactivate()
+
+    try:
+        timezone.activate(get_location_timezone(location))
+    except ValueError:
+        import pytz
+        timezone.activate(pytz.timezone(get_location_timezone(location)))
+
+
 def get_now():
     """
     Allows to access global request and read a timestamp from query.
@@ -71,7 +82,7 @@ def get_closing_rule_for_now(location):
     """
 
     if location:
-        timezone.activate(get_location_timezone(location))
+        activate_location_timezone(location)
         now = get_now()
 
         return ClosingRules.objects.filter(
@@ -96,7 +107,7 @@ def is_open(location, now=None):
     timestamp. Can be used stand-alone or as a helper.
     """
     if location:
-        timezone.activate(get_location_timezone(location))
+        activate_location_timezone(location)
 
     if now is None:
         now = get_now()
