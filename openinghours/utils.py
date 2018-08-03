@@ -1,13 +1,16 @@
+from compat import get_model
 import datetime
+
 from django.conf import settings
+from django.core.exceptions import ImproperlyConfigured
+from django.utils import timezone
+
 try:
     from threadlocals.threadlocals import get_current_request
 except ImportError:
     get_current_request = None
-from openinghours.models import OpeningHours, ClosingRules, PREMISES_MODEL
-from django.core.exceptions import ImproperlyConfigured
 
-from compat import get_model
+from openinghours.models import OpeningHours, ClosingRules, PREMISES_MODEL
 
 
 def get_premises_model():
@@ -20,6 +23,7 @@ def get_premises_model():
     except ValueError:
         raise ImproperlyConfigured("OPENINGHOURS_PREMISES_MODEL must be of the"
                                    " form 'app_label.model_name'")
+
     premises_model = get_model(app_label=app_label, model_name=model_name)
     if premises_model is None:
         raise ImproperlyConfigured("OPENINGHOURS_PREMISES_MODEL refers to"
@@ -35,13 +39,16 @@ def get_now():
     Allows to access global request and read a timestamp from query.
     """
     if not get_current_request:
-        return datetime.datetime.now()
+        return timezone.localtime(timezone.now())
+
     request = get_current_request()
     if request:
         openinghours_now = request.GET.get('openinghours-now')
+
         if openinghours_now:
             return datetime.datetime.strptime(openinghours_now, '%Y%m%d%H%M%S')
-    return datetime.datetime.now()
+
+    return timezone.localtime(timezone.now())
 
 
 def get_closing_rule_for_now(location):
@@ -83,6 +90,7 @@ def is_open(location, now=None):
         ohs = OpeningHours.objects.filter(company=location)
     else:
         ohs = Company.objects.first().openinghours_set.all()
+
     for oh in ohs:
         is_open = False
         # start and end is on the same day
@@ -108,6 +116,7 @@ def is_open(location, now=None):
 
         if is_open is not False:
             return oh
+
     return False
 
 
@@ -121,6 +130,7 @@ def next_time_open(location):
         now = get_now()
         now_time = datetime.time(now.hour, now.minute, now.second)
         found_opening_hours = False
+
         for i in range(8):
             l_weekday = (now.isoweekday() + i) % 7
             ohs = OpeningHours.objects.filter(company=location,
@@ -138,11 +148,14 @@ def next_time_open(location):
                                                 oh.from_hour.hour,
                                                 oh.from_hour.minute,
                                                 oh.from_hour.second)
+
                     if tmp_now < now:
                         tmp_now = now  # be sure to set the bound correctly...
                     if is_open(location, now=tmp_now):
                         found_opening_hours = oh
                         break
+
                 if found_opening_hours is not False:
                     return found_opening_hours, tmp_now
+
     return False, None
