@@ -2,7 +2,27 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
+from openinghours.app_settings import PREMISES_MODEL
 
+initial_operations = []
+if PREMISES_MODEL == 'openinghours.Company':
+    initial_operations = [
+        migrations.AlterField(
+            model_name='company',
+            name='logo',
+            field=models.FileField(null=True, upload_to=b'logo', verbose_name='Logo', blank=True),
+        ),
+        migrations.AlterField(
+            model_name='company',
+            name='name',
+            field=models.CharField(max_length=100, verbose_name='Name'),
+        ),
+        migrations.AlterField(
+            model_name='company',
+            name='slug',
+            field=models.SlugField(verbose_name='Slug', unique=True),
+        ),
+    ]
 
 class Migration(migrations.Migration):
 
@@ -10,7 +30,7 @@ class Migration(migrations.Migration):
         ('openinghours', '0001_initial'),
     ]
 
-    operations = [
+    operations = initial_operations + [
         migrations.AlterModelOptions(
             name='closingrules',
             options={'ordering': ['start'], 'verbose_name_plural': 'Closing Rules', 'verbose_name': 'Closing Rule'},
@@ -22,7 +42,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='closingrules',
             name='company',
-            field=models.ForeignKey(to='openinghours.Company', verbose_name='Company'),
+            field=models.ForeignKey(to=PREMISES_MODEL, verbose_name='Company'),
         ),
         migrations.AlterField(
             model_name='closingrules',
@@ -40,24 +60,9 @@ class Migration(migrations.Migration):
             field=models.DateTimeField(verbose_name='Start'),
         ),
         migrations.AlterField(
-            model_name='company',
-            name='logo',
-            field=models.FileField(null=True, upload_to=b'logo', verbose_name='Logo', blank=True),
-        ),
-        migrations.AlterField(
-            model_name='company',
-            name='name',
-            field=models.CharField(max_length=100, verbose_name='Name'),
-        ),
-        migrations.AlterField(
-            model_name='company',
-            name='slug',
-            field=models.SlugField(verbose_name='Slug', unique=True),
-        ),
-        migrations.AlterField(
             model_name='openinghours',
             name='company',
-            field=models.ForeignKey(to='openinghours.Company', verbose_name='Company'),
+            field=models.ForeignKey(to=PREMISES_MODEL, verbose_name='Company'),
         ),
         migrations.AlterField(
             model_name='openinghours',
