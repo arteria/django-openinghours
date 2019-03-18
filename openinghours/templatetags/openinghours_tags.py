@@ -1,5 +1,5 @@
 import django
-from django.template import Library, Context
+from django.template import Library
 from django.template.loader import get_template
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
@@ -173,5 +173,6 @@ def opening_hours(location=None, concise=False):
     template = get_template(template_name)
     ctx = {'days': days}
     if print(django.get_version()) < 1.11:
+        from django.template import Context
         ctx = Context({'days': days})
     return template.render(ctx)
