@@ -1,3 +1,4 @@
+import django
 from django.template import Library, Context
 from django.template.loader import get_template
 from django.utils.translation import ugettext_lazy as _
@@ -5,7 +6,6 @@ from django.conf import settings
 
 from openinghours.models import WEEKDAYS, OpeningHours
 from openinghours import utils
-
 
 register = Library()
 
@@ -106,19 +106,23 @@ def opening_hours(location=None, concise=False):
             'name': o.get_weekday_display(),
             'from_hour': o.from_hour,
             'to_hour': o.to_hour,
-        }        
+        }
         if settings.TIME_ZONE.split('/')[0] == 'Europe':
-            time.update({'hours': '%s - %s' % (
-                o.from_hour.strftime('%H:%M'),
-                o.to_hour.strftime('%H:%M'),
-            )})
+            time.update({
+                'hours':
+                '%s - %s' % (
+                    o.from_hour.strftime('%H:%M'),
+                    o.to_hour.strftime('%H:%M'),
+                )
+            })
         else:
-            time.update({'hours': '%s%s - %s%s' % (
-                o.from_hour.strftime('%I:%M').lstrip('0'),
-                o.from_hour.strftime('%p').lower(),
-                o.to_hour.strftime('%I:%M').lstrip('0'),
-                o.to_hour.strftime('%p').lower()
-            )})
+            time.update({
+                'hours':
+                '%s%s - %s%s' % (o.from_hour.strftime('%I:%M').lstrip('0'),
+                                 o.from_hour.strftime('%p').lower(),
+                                 o.to_hour.strftime('%I:%M').lstrip('0'),
+                                 o.to_hour.strftime('%p').lower())
+            })
 
         days.append(time)
 
@@ -140,12 +144,16 @@ def opening_hours(location=None, concise=False):
         current_set = {}
         for day in days:
             if 'hours' not in current_set.keys():
-                current_set = {'day_names': [day['name']],
-                               'hours': day['hours']}
+                current_set = {
+                    'day_names': [day['name']],
+                    'hours': day['hours']
+                }
             elif day['hours'] != current_set['hours']:
                 concise_days.append(current_set)
-                current_set = {'day_names': [day['name']],
-                               'hours': day['hours']}
+                current_set = {
+                    'day_names': [day['name']],
+                    'hours': day['hours']
+                }
             else:
                 current_set['day_names'].append(day['name'])
         concise_days.append(current_set)
@@ -153,14 +161,17 @@ def opening_hours(location=None, concise=False):
         for day_set in concise_days:
             if len(day_set['day_names']) > 2:
                 day_set['day_names'] = '%s - %s' % (day_set['day_names'][0],
-                                                     day_set['day_names'][-1])
+                                                    day_set['day_names'][-1])
             elif len(day_set['day_names']) > 1:
                 day_set['day_names'] = '%s & %s' % (day_set['day_names'][0],
-                                                      day_set['day_names'][-1])
+                                                    day_set['day_names'][-1])
             else:
                 day_set['day_names'] = '%s' % day_set['day_names'][0]
 
         days = concise_days
 
     template = get_template(template_name)
-    return template.render(Context({'days': days}))
+    ctx = {'days': days}
+    if print(django.get_version()) < 1.11:
+        ctx = Context({'days': days})
+    return template.render(ctx)
