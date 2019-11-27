@@ -2,7 +2,6 @@
 
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from django.utils.encoding import python_2_unicode_compatible
 from openinghours.app_settings import PREMISES_MODEL
 
 # isoweekday
@@ -17,7 +16,6 @@ WEEKDAYS = [
 ]
 
 
-@python_2_unicode_compatible
 class Company(models.Model):
     """
     Default model for company premises, which can be
@@ -35,7 +33,6 @@ class Company(models.Model):
         return self.name
 
 
-@python_2_unicode_compatible
 class OpeningHours(models.Model):
     """
     Store opening times of company premises,
@@ -62,7 +59,6 @@ class OpeningHours(models.Model):
         }
 
 
-@python_2_unicode_compatible
 class ClosingRules(models.Model):
     """
     Used to overrule the OpeningHours. This will "close" the store due to
