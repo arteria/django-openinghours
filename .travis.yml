@@ -6,6 +6,18 @@ env:
     - TOX_ENV=py37-django22
     - TOX_ENV=py37-django30
 
+# Currently, Python 3.7 Interpreter is only available when it is specified
+# in the travis python section. So we have to work around this with this include
+# GitHub issue: https://github.com/travis-ci/travis-ci/issues/9815
+matrix:
+  include:
+  - python: "3.7"
+    env:
+      - TOX_ENV=py37-django22
+  - python: "3.7"
+    env:
+      - TOX_ENV=py37-django30
+
 install:
     - pip install tox-travis
     - pip install coveralls
