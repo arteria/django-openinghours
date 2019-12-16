@@ -1,6 +1,6 @@
 from django.template import Library
 from django.template.loader import get_template
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 import datetime
 
 from openinghours.models import WEEKDAYS, OpeningHours
@@ -100,7 +100,7 @@ def opening_hours(location=None, concise=False):
     Creates a rendered listing of hours.
     """
     template_name = 'openinghours/opening_hours_list.html'
-    days = []  # [{'hours': '9:00am to 5:00pm', 'name': u'Monday'}, {'hours...
+    days = []  # [{'hours': '9:00am to 5:00pm', 'name': 'Monday'}, {'hours...
 
     # Without `location`, choose the first company.
     if location:
@@ -121,7 +121,7 @@ def opening_hours(location=None, concise=False):
             'name': o.get_weekday_display(),
             'from_hour': o.from_hour,
             'to_hour': o.to_hour,
-            'hours': '%s%s to %s%s' % (
+            'hours': '%s%s - %s%s' % (
                 o.from_hour.strftime('%I:%M').lstrip('0'),
                 o.from_hour.strftime('%p').lower(),
                 o.to_hour.strftime('%I:%M').lstrip('0'),
@@ -135,12 +135,12 @@ def opening_hours(location=None, concise=False):
             days.append({
                 'day_number': day_number,
                 'name': day_name,
-                'hours': 'Closed'
+                'hours': _('Closed')
             })
     days = sorted(days, key=lambda k: k['day_number'])
 
     if concise:
-        # [{'hours': '9:00am to 5:00pm', 'day_names': u'Monday to Friday'},
+        # [{'hours': '9:00am to 5:00pm', 'day_names': 'Monday to Friday'},
         #  {'hours':...
         template_name = 'openinghours/opening_hours_list_concise.html'
         concise_days = []
@@ -159,11 +159,11 @@ def opening_hours(location=None, concise=False):
 
         for day_set in concise_days:
             if len(day_set['day_names']) > 2:
-                day_set['day_names'] = '%s to %s' % (day_set['day_names'][0],
-                                                     day_set['day_names'][-1])
+                day_set['day_names'] = '%s - %s' % (day_set['day_names'][0],
+                                                    day_set['day_names'][-1])
             elif len(day_set['day_names']) > 1:
-                day_set['day_names'] = '%s and %s' % (day_set['day_names'][0],
-                                                      day_set['day_names'][-1])
+                day_set['day_names'] = '%s & %s' % (day_set['day_names'][0],
+                                                    day_set['day_names'][-1])
             else:
                 day_set['day_names'] = '%s' % day_set['day_names'][0]
 

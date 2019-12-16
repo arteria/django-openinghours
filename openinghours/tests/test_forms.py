@@ -13,8 +13,8 @@ class FormsTestCase(OpeningHoursTestCase):
 
     def test_hours_are_published(self):
         response = self.client.get('/')
-        self.assertContains(response, '8:30am to 12:00pm')
-        self.assertContains(response, '10:00am to 1:00pm')
+        self.assertContains(response, '8:30am - 12:00pm')
+        self.assertContains(response, '10:00am - 1:00pm')
 
     def test_edit_form(self):
         self.tearDown()

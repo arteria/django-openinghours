@@ -17,11 +17,11 @@ class TemplatetagsTestCase(OpeningHoursTestCase):
 
     def test_iso_day_to_weekday(self):
         with freeze_time("2016-02-22"):  # Monday
-            self.assertEqual(force_text(iso_day_to_weekday(1)), u'today')
-            self.assertNotEqual(force_text(iso_day_to_weekday(2)), u'today')
+            self.assertEqual(force_text(iso_day_to_weekday(1)), 'today')
+            self.assertNotEqual(force_text(iso_day_to_weekday(2)), 'today')
         with freeze_time("2016-02-23"):  # Tuesday
-            self.assertNotEqual(force_text(iso_day_to_weekday(1)), u'today')
-            self.assertEqual(force_text(iso_day_to_weekday(2)), u'today')
+            self.assertNotEqual(force_text(iso_day_to_weekday(1)), 'today')
+            self.assertEqual(force_text(iso_day_to_weekday(2)), 'today')
 
     def test_to_weekday(self):
         pass  # TODO: Write test
@@ -87,17 +87,17 @@ class TemplatetagsTestCase(OpeningHoursTestCase):
     def test_opening_hours(self):
         with freeze_time("2016-02-22 08:00:00"):  # Monday
             opening_hours_str = opening_hours(self.company)
-            self.assertIn(u'Monday', opening_hours_str)
-            self.assertIn(u'Tuesday', opening_hours_str)
-            self.assertIn(u'Wednesday', opening_hours_str)
-            self.assertIn(u'Thursday', opening_hours_str)
-            self.assertIn(u'Friday', opening_hours_str)
-            self.assertIn(u'Saturday', opening_hours_str)
-            self.assertIn(u'Sunday', opening_hours_str)
-            self.assertIn(u'8:30am to 12:00pm', opening_hours_str)
-            self.assertIn(u'9:00am to 5:00pm', opening_hours_str)
-            self.assertIn(u'10:00am to 1:00pm', opening_hours_str)
-            self.assertIn(u'12:30pm to 10:00pm', opening_hours_str)
-            self.assertIn(u'12:30pm to 6:00pm', opening_hours_str)
-            self.assertIn(u'6:30pm to 10:00pm', opening_hours_str)
-            self.assertNotIn(u'2:30am to 4:00am', opening_hours_str)
+            self.assertIn('Monday', opening_hours_str)
+            self.assertIn('Tuesday', opening_hours_str)
+            self.assertIn('Wednesday', opening_hours_str)
+            self.assertIn('Thursday', opening_hours_str)
+            self.assertIn('Friday', opening_hours_str)
+            self.assertIn('Saturday', opening_hours_str)
+            self.assertIn('Sunday', opening_hours_str)
+            self.assertIn('8:30am - 12:00pm', opening_hours_str)
+            self.assertIn('9:00am - 5:00pm', opening_hours_str)
+            self.assertIn('10:00am - 1:00pm', opening_hours_str)
+            self.assertIn('12:30pm - 10:00pm', opening_hours_str)
+            self.assertIn('12:30pm - 6:00pm', opening_hours_str)
+            self.assertIn('6:30pm - 10:00pm', opening_hours_str)
+            self.assertNotIn('2:30am - 4:00am', opening_hours_str)
