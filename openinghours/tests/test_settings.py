@@ -2,8 +2,8 @@
 import os
 
 DEBUG = True
-
 SITE_ID = 1
+TIME_ZONE = 'Europe/London'
 
 APP_ROOT = os.path.abspath(
     os.path.join(os.path.dirname(__file__), '..'))
@@ -23,6 +23,11 @@ MEDIA_ROOT = os.path.join(APP_ROOT, '../app_media')
 STATICFILES_DIRS = (
     os.path.join(APP_ROOT, 'static'),
 )
+MIDDLEWARE = [
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+]
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

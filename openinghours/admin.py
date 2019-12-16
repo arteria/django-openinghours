@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from django.contrib import admin
 from openinghours.models import OpeningHours, ClosingRules, Company
 from openinghours.app_settings import PREMISES_MODEL
