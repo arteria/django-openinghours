@@ -3,8 +3,6 @@ language: python
 env:
     - TOX_ENV=py36-django22
     - TOX_ENV=py36-django30
-    - TOX_ENV=py37-django22
-    - TOX_ENV=py37-django30
 
 # Currently, Python 3.7 Interpreter is only available when it is specified
 # in the travis python section. So we have to work around this with this include
