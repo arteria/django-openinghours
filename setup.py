@@ -31,6 +31,6 @@ setup(
         'Framework :: Django :: 2.2',
         'Framework :: Django :: 3.0',
     ],
-    install_requires=['Django >= 2.2', 'django-threadlocals'],
+    install_requires=['django', 'django-threadlocals'],
     tests_require=['coverage', 'freezegun'],
 )
