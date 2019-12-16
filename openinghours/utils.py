@@ -1,5 +1,4 @@
 import datetime
-from django.conf import settings
 try:
     from threadlocals.threadlocals import get_current_request
 except ImportError:
@@ -26,6 +25,7 @@ def get_premises_model():
                                    " model '%s' that has not been installed"
                                    % PREMISES_MODEL)
     return premises_model
+
 
 Company = get_premises_model()
 
@@ -119,7 +119,6 @@ def next_time_open(location):
     """
     if not is_open(location):
         now = get_now()
-        now_time = datetime.time(now.hour, now.minute, now.second)
         found_opening_hours = False
         for i in range(8):
             l_weekday = (now.isoweekday() + i) % 7

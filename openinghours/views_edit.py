@@ -1,7 +1,7 @@
 from openinghours.models import OpeningHours, WEEKDAYS
 from openinghours.forms import Slot, time_to_str, str_to_time
 from openinghours.utils import get_premises_model
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.views.generic import DetailView
 from collections import OrderedDict
 
