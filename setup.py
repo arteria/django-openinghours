@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 import openinghours as app
 
 setup(
-    name="openinghours",
+    name="django-openinghours",
     version=app.__version__,
     description=open('DESCRIPTION').read(),
     long_description=open('README.rst').read(),
