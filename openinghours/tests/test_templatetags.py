@@ -1,4 +1,4 @@
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 from freezegun import freeze_time
 
 from openinghours.models import OpeningHours, ClosingRules
@@ -17,11 +17,11 @@ class TemplatetagsTestCase(OpeningHoursTestCase):
 
     def test_iso_day_to_weekday(self):
         with freeze_time("2016-02-22"):  # Monday
-            self.assertEqual(force_text(iso_day_to_weekday(1)), 'today')
-            self.assertNotEqual(force_text(iso_day_to_weekday(2)), 'today')
+            self.assertEqual(force_str(iso_day_to_weekday(1)), 'today')
+            self.assertNotEqual(force_str(iso_day_to_weekday(2)), 'today')
         with freeze_time("2016-02-23"):  # Tuesday
-            self.assertNotEqual(force_text(iso_day_to_weekday(1)), 'today')
-            self.assertEqual(force_text(iso_day_to_weekday(2)), 'today')
+            self.assertNotEqual(force_str(iso_day_to_weekday(1)), 'today')
+            self.assertEqual(force_str(iso_day_to_weekday(2)), 'today')
 
     def test_to_weekday(self):
         pass  # TODO: Write test
