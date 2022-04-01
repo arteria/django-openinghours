@@ -1,12 +1,14 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from django.db import migrations, models
-from openinghours.app_settings import PREMISES_MODEL
+from openinghours.app_settings import PREMISES_MODEL, COMPANY_MODEL
+
+DEPS = []
+if PREMISES_MODEL != COMPANY_MODEL:
+    app_name = PREMISES_MODEL.split('.')[0]
+    DEPS = [(app_name, '0001_initial')]
 
 
 class Migration(migrations.Migration):
-    dependencies = []
+    dependencies = DEPS
     operations = [
         migrations.CreateModel(
             name='Company',
@@ -14,7 +16,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(verbose_name='Name', max_length=100)),
                 ('slug', models.SlugField(verbose_name='Slug', unique=True)),
-                ('logo', models.FileField(verbose_name='Logo', null=True, blank=True, upload_to=b'logo')),
+                ('logo', models.FileField(verbose_name='Logo', null=True, blank=True, upload_to='logo')),
             ],
             options={
                 'swappable': 'OPENINGHOURS_PREMISES_MODEL',
