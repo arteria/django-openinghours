@@ -1,9 +1,8 @@
-from freezegun import freeze_time
-
 from openinghours.tests.tests import OpeningHoursTestCase
 
 
 class FormsTestCase(OpeningHoursTestCase):
+    base_url = '/openinghours/'
 
     def setUp(self):
         super(FormsTestCase, self).setUp()
@@ -12,7 +11,7 @@ class FormsTestCase(OpeningHoursTestCase):
         super(FormsTestCase, self).tearDown()
 
     def test_hours_are_published(self):
-        response = self.client.get('/')
+        response = self.client.get(self.base_url)
         self.assertContains(response, '8:30am - 12:00pm')
         self.assertContains(response, '10:00am - 1:00pm')
 
@@ -34,11 +33,11 @@ class FormsTestCase(OpeningHoursTestCase):
             'day6_2-opens': '00:00', 'day6_2-shuts': '00:00',
             'day7_2-opens': '00:00', 'day7_2-shuts': '00:00',
         }
-        post = self.client.post('/edit/1', post_data)
-        resp = self.client.get('/edit/1')
+        post = self.client.post(f'{self.base_url}edit/1', post_data)
+        resp = self.client.get(f'{self.base_url}edit/1')
         self.assertContains(resp, '<option value="11:30" selected', count=6)
         self.assertContains(resp, '<option value="17:30" selected', count=5)
         self.assertContains(resp, '<option value="00:00">', count=7*2*2)
-        resp2 = self.client.get('/')
+        resp2 = self.client.get(self.base_url)
         self.assertContains(resp2, '11:30am')
         self.assertContains(resp2, '5:30pm')

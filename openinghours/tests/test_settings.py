@@ -15,7 +15,7 @@ DATABASES = {
     }
 }
 
-ROOT_URLCONF = 'openinghours.urls'
+ROOT_URLCONF = 'openinghours.tests.test_urls'
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(APP_ROOT, '../app_static')
