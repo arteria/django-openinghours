@@ -20,6 +20,8 @@
 </pre>
 {% endverbatim %}
 
+<p><b>{{ location.name }}</b><br>
+    In {{ timezone }} it is now {% now "SHORT_DATETIME_FORMAT" %}
 {% is_open location as open %}
 {% if open %}
 	<div class="alert alert-success">Come in, we're open!</div>

@@ -2,8 +2,8 @@
 import os
 
 DEBUG = True
-
 SITE_ID = 1
+TIME_ZONE = 'Europe/London'
 
 APP_ROOT = os.path.abspath(
     os.path.join(os.path.dirname(__file__), '..'))
@@ -15,7 +15,7 @@ DATABASES = {
     }
 }
 
-ROOT_URLCONF = 'openinghours.urls'
+ROOT_URLCONF = 'openinghours.tests.test_urls'
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(APP_ROOT, '../app_static')
@@ -23,6 +23,12 @@ MEDIA_ROOT = os.path.join(APP_ROOT, '../app_media')
 STATICFILES_DIRS = (
     os.path.join(APP_ROOT, 'static'),
 )
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+MIDDLEWARE = [
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+]
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -41,6 +47,7 @@ TEMPLATES = [
                 'django.template.context_processors.static',
                 'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request'
             ],
         },
     },

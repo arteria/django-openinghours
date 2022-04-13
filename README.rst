@@ -76,6 +76,21 @@ Create your tables
 
 Set ``'TIME_ZONE'`` in your project settings.
 
+Quick dev preview setup
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Clone the repo and cd into it.
+
+Then migrate into SQLite, load some test data and run the dev server like so.
+
+::
+
+    $ ./manage.py migrate
+    $ ./manage.py shell
+    >>> from openinghours.tests.tests import OpeningHoursTestCase as Data
+    >>> Data.setUp(Data())
+    $ ./manage.py runserver
+
 Usage
 -----
 

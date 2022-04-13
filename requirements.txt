@@ -1,2 +1,1 @@
 django-threadlocals
-django-compat

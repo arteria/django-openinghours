@@ -1,3 +1,5 @@
+{% load i18n %}
+
 <script>
 $(function(){
     // Toggle display for 2nd set of hours
@@ -54,22 +56,22 @@ form{padding-top:2em}
             <span class="weekday text-muted text-right">
             {{ day.name }}</span>
             {{ day.slot1.opens }} - {{ day.slot1.shuts }}</span>
-        <span class="set2"><span class="small text-muted">and</span>  
+        <span class="set2"><span class="small text-muted">{% trans 'and' %}</span>
             {{ day.slot2.opens }} - {{ day.slot2.shuts }}</span>
         <label><input type="checkbox" class="closed"
             id="closed{{ day.number }}"
-            {% if day.closed %}checked{% endif %}> Closed</label>
+            {% if day.closed %}checked{% endif %}> {% trans 'Closed' %}</label>
         {% if forloop.first %}
             <button class="btn btn-default btn-xs" id="repeat">
-                Apply to all days</button>
+                {% trans 'Apply to all days' %}</button>
         {% endif %}
     </div>
     {% endfor %}
     <p><label><input type="checkbox" id="two_sets"
         {% if two_sets %}checked{% endif %}>
-        There are 2 sets of hours for 1 day.</label>
+        {% trans 'There are 2 sets of hours for 1 day.' %}</label>
     <p>
-        <button class="btn btn-primary">Apply</button>
-        <a href="../" class="btn btn-default">Cancel</a>
+        <button class="btn btn-primary">{% trans 'Apply' %}</button>
+        <a href="../" class="btn btn-default">{% trans 'Cancel' %}</a>
     {% csrf_token %}
 </form>

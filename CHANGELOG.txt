@@ -1,6 +1,10 @@
 === (ongoing) ===
 Please check the latest commits for development version.
 
+=== 0.2.0 ==
+- Drop Django 1 and Python 2 support
+- Fixed migration errors
+
 === 0.1.3 ==
 - Drop Django 1.7 support
 - Fix a TypeError in templatetags (#24)

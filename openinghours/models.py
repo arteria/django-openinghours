@@ -1,8 +1,5 @@
-# -*- coding: utf-8 -*-
-
 from django.db import models
-from django.utils.translation import ugettext_lazy as _
-from django.utils.encoding import python_2_unicode_compatible
+from django.utils.translation import gettext_lazy as _
 from openinghours.app_settings import PREMISES_MODEL
 
 # isoweekday
@@ -17,7 +14,6 @@ WEEKDAYS = [
 ]
 
 
-@python_2_unicode_compatible
 class Company(models.Model):
     """
     Default model for company premises, which can be
@@ -36,7 +32,6 @@ class Company(models.Model):
         return self.name
 
 
-@python_2_unicode_compatible
 class OpeningHours(models.Model):
     """
     Store opening times of company premises,
@@ -48,7 +43,8 @@ class OpeningHours(models.Model):
         verbose_name_plural = _('Opening Hours')
         ordering = ['company', 'weekday', 'from_hour']
 
-    company = models.ForeignKey(PREMISES_MODEL, verbose_name=_('Company'))
+    company = models.ForeignKey(PREMISES_MODEL, verbose_name=_('Company'),
+                                on_delete=models.CASCADE)
     weekday = models.IntegerField(_('Weekday'), choices=WEEKDAYS)
     from_hour = models.TimeField(_('Opening'))
     to_hour = models.TimeField(_('Closing'))
@@ -62,7 +58,6 @@ class OpeningHours(models.Model):
         }
 
 
-@python_2_unicode_compatible
 class ClosingRules(models.Model):
     """
     Used to overrule the OpeningHours. This will "close" the store due to
@@ -73,7 +68,8 @@ class ClosingRules(models.Model):
         verbose_name_plural = _('Closing Rules')
         ordering = ['start']
 
-    company = models.ForeignKey(PREMISES_MODEL, verbose_name=_('Company'))
+    company = models.ForeignKey(PREMISES_MODEL, verbose_name=_('Company'),
+                                on_delete=models.CASCADE)
     start = models.DateTimeField(_('Start'))
     end = models.DateTimeField(_('End'))
     reason = models.TextField(_('Reason'), null=True, blank=True)

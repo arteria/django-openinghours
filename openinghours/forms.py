@@ -30,6 +30,7 @@ def time_choices():
         times.append(hour+':30')
     return list(zip(times, times))
 
+
 TIME_CHOICES = time_choices()
 
 
